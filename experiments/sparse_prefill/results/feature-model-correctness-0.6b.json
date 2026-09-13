@@ -1,0 +1,158 @@
+{
+  "status": "complete",
+  "config": {
+    "model": "Qwen3-0.6B",
+    "load_format": "auto",
+    "lengths": [
+      1024
+    ],
+    "modes": [
+      "full",
+      "actions"
+    ],
+    "runs": 1,
+    "chunk_size": 256,
+    "eager": true,
+    "gpu_memory_utilization": 0.35,
+    "output": "feature-model-correctness-0.6b.json"
+  },
+  "environment": {
+    "benchmark_sha256": "c981074da420163fe1c1801fe2e42d63d541b8d9bd82decb40eb5ef91298f092",
+    "weights_kind": "downloaded model weights",
+    "vllm": "0.29.1.dev2+g5f7b949fa",
+    "torch": "2.13.0+cu130",
+    "torch_cuda": "13.0",
+    "python": "3.12.14",
+    "gpu": "NVIDIA GeForce RTX 4090 D",
+    "v2_runner": "1",
+    "flashinfer_sampler": "0",
+    "source_sha256": {
+      "sampling_params.py": "75c41ab2e086f199dabbc530c8d10294958e57b1b14a0443b05c9783bc30f052",
+      "v1/engine/input_processor.py": "7998859041aa0dde2e5fe92e29fabcdee508874e6f525628ae6e64bc4104871d",
+      "v1/engine/logprobs.py": "37a928c8c9064027253c10989990562f94fe5525ec1fe0cc5e59cab6e5ef1d79",
+      "v1/worker/gpu/sample/prompt_logprob.py": "646df8ce7f0003b4e3205e9b771ad7840ff212e5656174f817ecbcb896760e0e"
+    },
+    "model_config_sha256": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "tokenizer_sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+  },
+  "measurements": [
+    {
+      "length": 1024,
+      "mode": "full",
+      "repetition": 0,
+      "seconds": 0.060877611860632896
+    },
+    {
+      "length": 1024,
+      "mode": "actions",
+      "repetition": 0,
+      "seconds": 0.06001442298293114
+    }
+  ],
+  "diagnostics": [
+    {
+      "length": 1024,
+      "mode": "full",
+      "trace_sha256": "8d8f17f6a58d125ab11b3854909c979d2b4903bbe2443892469f5997598868f9",
+      "action_count": 28,
+      "max_abs_logprob_error": 0.0,
+      "mean_abs_logprob_error": 0.0,
+      "action_logprobs": [
+        -22.140682220458984,
+        -8.797516822814941,
+        -0.6222952008247375,
+        -16.440771102905273,
+        -7.614252090454102,
+        -4.960610389709473,
+        -5.343442916870117,
+        -22.125036239624023,
+        -4.5426926612854,
+        -0.16237366199493408,
+        -3.6808714866638184,
+        -0.07304579019546509,
+        -0.03291264548897743,
+        -0.04752831533551216,
+        -3.1780242919921875,
+        -0.027245407924056053,
+        -0.03345003351569176,
+        -0.04616919159889221,
+        -0.006494724191725254,
+        -0.0039983815513551235,
+        -0.008549753576517105,
+        -16.063072204589844,
+        -0.05345585569739342,
+        -0.01831863820552826,
+        -0.03944737836718559,
+        -0.006101552397012711,
+        -0.0028318562544882298,
+        -0.009697825647890568
+      ],
+      "score_json_bytes": 43069,
+      "input_tokens_processed": 1024,
+      "generated_tail_tokens": 1,
+      "worker_pid": 1313324,
+      "projected_prompt_rows": 1024,
+      "torch_peak_bytes": 8736397312,
+      "torch_allocated_bytes": 8658056192,
+      "torch_reserved_bytes": 8814329856
+    },
+    {
+      "length": 1024,
+      "mode": "actions",
+      "trace_sha256": "8d8f17f6a58d125ab11b3854909c979d2b4903bbe2443892469f5997598868f9",
+      "action_count": 28,
+      "max_abs_logprob_error": 0.0,
+      "mean_abs_logprob_error": 0.0,
+      "action_logprobs": [
+        -22.140682220458984,
+        -8.797516822814941,
+        -0.6222952008247375,
+        -16.440771102905273,
+        -7.614252090454102,
+        -4.960610389709473,
+        -5.343442916870117,
+        -22.125036239624023,
+        -4.5426926612854,
+        -0.16237366199493408,
+        -3.6808714866638184,
+        -0.07304579019546509,
+        -0.03291264548897743,
+        -0.04752831533551216,
+        -3.1780242919921875,
+        -0.027245407924056053,
+        -0.03345003351569176,
+        -0.04616919159889221,
+        -0.006494724191725254,
+        -0.0039983815513551235,
+        -0.008549753576517105,
+        -16.063072204589844,
+        -0.05345585569739342,
+        -0.01831863820552826,
+        -0.03944737836718559,
+        -0.006101552397012711,
+        -0.0028318562544882298,
+        -0.009697825647890568
+      ],
+      "score_json_bytes": 6118,
+      "input_tokens_processed": 1024,
+      "generated_tail_tokens": 1,
+      "worker_pid": 1313324,
+      "projected_prompt_rows": 28,
+      "torch_peak_bytes": 8665404416,
+      "torch_allocated_bytes": 8658056192,
+      "torch_reserved_bytes": 8814329856
+    }
+  ],
+  "summary": [
+    {
+      "length": 1024,
+      "mode": "full",
+      "median_seconds": 0.060877611860632896
+    },
+    {
+      "length": 1024,
+      "mode": "actions",
+      "median_seconds": 0.06001442298293114
+    }
+  ]
+}

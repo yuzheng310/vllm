@@ -1,0 +1,42 @@
+Verified cached config.json
+Verified cached generation_config.json
+Verified cached LICENSE
+Verified cached merges.txt
+Traceback (most recent call last):
+  File "<WORKSPACE>/experiments/download_model.py", line 120, in <module>
+    main()
+  File "<WORKSPACE>/experiments/download_model.py", line 94, in main
+    parts = list(pool.map(fetch, range(count)))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/experiments/download_model.py", line 86, in fetch
+    shutil.copyfileobj(response, stream, length=1024 * 1024)
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/shutil.py", line 203, in copyfileobj
+    while buf := fsrc_read(length):
+                 ^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/http/client.py", line 494, in read
+    s = self.fp.read(amt)
+        ^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/socket.py", line 720, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/ssl.py", line 1263, in recv_into
+    return self.read(nbytes, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/ssl.py", line 1115, in read
+    return self._sslobj.read(len, buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TimeoutError: The read operation timed out

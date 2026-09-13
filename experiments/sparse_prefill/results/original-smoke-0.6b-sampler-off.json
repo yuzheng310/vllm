@@ -1,0 +1,38 @@
+{
+  "status": "running",
+  "config": {
+    "model": "Qwen3-0.6B",
+    "load_format": "auto",
+    "lengths": [
+      128
+    ],
+    "modes": [
+      "full"
+    ],
+    "runs": 1,
+    "chunk_size": 512,
+    "eager": true,
+    "gpu_memory_utilization": 0.35,
+    "output": "original-smoke-0.6b-sampler-off.json"
+  },
+  "environment": {
+    "weights_kind": "downloaded model weights",
+    "vllm": "0.29.0",
+    "torch": "2.13.0+cu130",
+    "torch_cuda": "13.0",
+    "python": "3.12.14",
+    "gpu": "NVIDIA GeForce RTX 4090 D",
+    "v2_runner": "1",
+    "flashinfer_sampler": "0",
+    "source_sha256": {
+      "sampling_params.py": "2aba9ebd1c3921d601dcf94ac6a1f726e5172fe991e313cd5a69d3eaa02013fa",
+      "v1/engine/input_processor.py": "91dde56a548c09613ee9aaef8c43631481d12dc1bd439fddc12c6569f5e2e799",
+      "v1/engine/logprobs.py": "14bbe78d92a2c451d79b3d9dd9d5268bc57e16bad5079e44ce9ed2cd805e873e",
+      "v1/worker/gpu/sample/prompt_logprob.py": "4cf22d390e7bf59e44c458cff7180268db63e95d06af2f1e14d720a2d77c9663"
+    },
+    "model_config_sha256": "660db3b73d788119c04535e48cf9be5f55bc3100841a718637ae695b442f27dd",
+    "tokenizer_sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+  },
+  "measurements": [],
+  "diagnostics": []
+}

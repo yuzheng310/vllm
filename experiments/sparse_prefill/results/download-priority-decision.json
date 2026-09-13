@@ -1,0 +1,5 @@
+{
+  "decision": "Pause own 4B download to prioritize dependencies and 0.6B correctness gate",
+  "complete_range_bytes_retained": 805306368,
+  "time_utc": "2026-09-13T16:24:12Z"
+}

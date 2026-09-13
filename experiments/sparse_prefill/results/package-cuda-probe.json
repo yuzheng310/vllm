@@ -1,0 +1,8 @@
+{
+  "torch": "2.13.0+cu130",
+  "torch_cuda": "13.0",
+  "vllm": "0.29.0",
+  "vllm_file": "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/__init__.py",
+  "gpu": "NVIDIA GeForce RTX 4090 D",
+  "torch_compute": "PASS"
+}

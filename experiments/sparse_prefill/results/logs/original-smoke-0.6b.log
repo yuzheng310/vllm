@@ -1,0 +1,261 @@
+INFO 09-14 00:35:44 [api_utils.py:286] non-default args: {'dtype': 'bfloat16', 'seed': 17, 'max_model_len': 129, 'enable_prefix_caching': False, 'gpu_memory_utilization': 0.35, 'max_num_batched_tokens': 512, 'max_num_seqs': 1, 'disable_log_stats': True, 'enforce_eager': True, 'enable_chunked_prefill': True, 'attention_backend': 'FLASH_ATTN', 'model': 'models/Qwen3-0.6B'}
+INFO 09-14 00:35:57 [model.py:684] Resolved architecture: Qwen3ForCausalLM
+INFO 09-14 00:35:57 [model.py:2021] Using max model len 129
+INFO 09-14 00:35:57 [scheduler.py:277] Chunked prefill is enabled with max_num_batched_tokens=512.
+WARNING 09-14 00:35:57 [scheduler.py:306] max_num_batched_tokens (512) exceeds max_num_seqs * max_model_len (129). This may lead to unexpected behavior.
+WARNING 09-14 00:35:57 [vllm.py:1371] Enforce eager set, disabling torch.compile and CUDAGraphs. This is equivalent to setting -cc.mode=none -cc.cudagraph_mode=none
+WARNING 09-14 00:35:57 [vllm.py:1406] Inductor compilation was disabled by user settings, optimizations settings that are only active during inductor compilation will be ignored.
+INFO 09-14 00:35:57 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native'])
+INFO 09-14 00:35:57 [vllm.py:1585] Cudagraph is disabled under eager mode
+INFO 09-14 00:35:57 [compilation.py:329] Enabled custom fusions: norm_quant, act_quant
+(EngineCore pid=1309251) INFO 09-14 00:35:58 [core.py:123] Initializing a V1 LLM engine (v0.29.0) with config: model='models/Qwen3-0.6B', speculative_config=None, tokenizer='models/Qwen3-0.6B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=129, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=True, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=17, served_model_name=models/Qwen3-0.6B, enable_prefix_caching=False, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.NONE: 0>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['all'], 'ir_enable_torch_wrap': False, 'splitting_ops': [], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [512], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 0, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': True, 'fuse_act_quant': True, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['vllm_c', 'native'], fused_add_rms_norm=['vllm_c', 'native']), enable_flashinfer_autotune=True, enable_cutedsl_warmup=True, enable_jit_warmup=True, enable_bf16x3_router_gemm=False, moe_backend='auto', linear_backend='auto')
+(EngineCore pid=1309251) INFO 09-14 00:35:59 [parallel_state.py:1775] world_size=1 rank=0 local_rank=0 distributed_init_method=file://<WORKSPACE>/tmp/vllm_dist_fde438b1977645338d4abb66fe231fbe backend=nccl
+(EngineCore pid=1309251) INFO 09-14 00:35:59 [parallel_state.py:2119] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+(EngineCore pid=1309251) INFO 09-14 00:35:59 [gpu_worker.py:429] Using V2 Model Runner
+(EngineCore pid=1309251) INFO 09-14 00:36:00 [model_runner.py:382] Loading model from scratch...
+(EngineCore pid=1309251) INFO 09-14 00:36:00 [cuda.py:432] Using AttentionBackendEnum.FLASH_ATTN backend.
+(EngineCore pid=1309251) INFO 09-14 00:36:00 [flash_attn.py:897] Using FlashAttention version 2
+(EngineCore pid=1309251) INFO 09-14 00:36:00 [weight_utils.py:863] Filesystem type for checkpoints: EXT4. Checkpoint size: 1.40 GiB. Available RAM: 22.78 GiB.
+(EngineCore pid=1309251) INFO 09-14 00:36:00 [weight_utils.py:886] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(EngineCore pid=1309251) 
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(EngineCore pid=1309251) 
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.47it/s]
+(EngineCore pid=1309251) 
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:00<00:00,  2.46it/s]
+(EngineCore pid=1309251) 
+(EngineCore pid=1309251) INFO 09-14 00:36:00 [default_loader.py:430] Loading weights took 0.44 seconds
+(EngineCore pid=1309251) INFO 09-14 00:36:01 [model_runner.py:404] Model loading took 1.12 GiB memory and 1.625616 seconds
+(EngineCore pid=1309251) INFO 09-14 00:36:03 [topk_topp_sampler.py:62] Using FlashInfer for top-p & top-k sampling.
+(EngineCore pid=1309251) INFO 09-14 00:36:03 [utils.py:306] Using LBNHC KV cache layout.
+(EngineCore pid=1309251) INFO 09-14 00:36:05 [gpu_worker.py:625] Available KV cache memory: 6.93 GiB
+(EngineCore pid=1309251) INFO 09-14 00:36:05 [kv_cache_utils.py:2032] GPU KV cache size: 58,093 tokens, Maximum concurrency for 129 tokens per request: 450.33x
+(EngineCore pid=1309251) INFO 09-14 00:36:05 [kernel_warmup.py:124] JIT kernel warmup starting.
+(EngineCore pid=1309251) INFO 09-14 00:36:05 [kernel_warmup.py:134] JIT kernel warmup finished in 0.00s.
+(EngineCore pid=1309251) INFO 09-14 00:36:06 [gpu_worker.py:860] Free memory on device (22.88/23.51 GiB) on startup. Desired GPU memory utilization is (0.35, 8.23 GiB). Actual usage is 1.29 GiB for consumed memory (weights + non-torch), 0.01 GiB for peak activation, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=7280424960` (6.78 GiB) to fit into requested memory, or `--kv-cache-memory=23009097728` (21.43 GiB) to fully utilize gpu memory. Current kv cache memory in use is 6.93 GiB.
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374] EngineCore failed to start.
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374] Traceback (most recent call last):
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 1336, in run_engine_core
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return func(*args, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 1093, in __init__
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     super().__init__(
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 145, in __init__
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     kv_cache_config = self._initialize_kv_caches(vllm_config)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return func(*args, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 345, in _initialize_kv_caches
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     self.model_executor.compile_or_warm_up_model()
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/executor/abstract.py", line 126, in compile_or_warm_up_model
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     compilation_times: list[CompilationTimes] = self.collective_rpc(
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]                                                 ^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/executor/uniproc_executor.py", line 103, in collective_rpc
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     result = run_method(self.driver_worker, method, args, kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/serial_utils.py", line 510, in run_method
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return func(*args, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return func(*args, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu_worker.py", line 866, in compile_or_warm_up_model
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     warmup_kernels(self.model_runner, self.execute_model, self.sample_tokens)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return func(*args, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/warmup.py", line 348, in warmup_kernels
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     worker_sample_tokens(grammar_output)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return func(*args, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu_worker.py", line 1105, in sample_tokens
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return self.model_runner.sample_tokens(grammar_output)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return func(*args, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/eplb_utils.py", line 27, in wrapper
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     result = fn(self, *args, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]              ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1861, in sample_tokens
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     sampler_output, num_sampled, num_rejected = self.sample(
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]                                                 ^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1440, in sample
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     sampler_output = self.sampler(logits, input_batch)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/sample/sampler.py", line 141, in __call__
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     sampled, processed_logits = self.sample(
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]                                 ^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/sample/sampler.py", line 310, in sample
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     sampled = flashinfer_sample(processed_logits, top_k, top_p).to(torch.int64)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/sample/ops/topk_topp_sampler.py", line 508, in flashinfer_sample
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     next_token_ids = flashinfer.sampling.top_k_top_p_sampling_from_logits(
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/api_logging.py", line 2333, in _auto_dump_wrapper
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return _inner(*args, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/sampling.py", line 1547, in top_k_top_p_sampling_from_logits
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     masked_logits = top_k_mask_logits(logits, top_k)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/api_logging.py", line 2333, in _auto_dump_wrapper
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return _inner(*args, **kwargs)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/sampling.py", line 1974, in top_k_mask_logits
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     return get_sampling_module().top_k_mask_logits(
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/sampling.py", line 68, in get_sampling_module
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     module = gen_sampling_module().build_and_load()
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/jit/core.py", line 320, in build_and_load
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     self.build()
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/jit/core.py", line 427, in build
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     run_ninja(self.build_dir, self.ninja_path, verbose)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/jit/cpp_ext.py", line 370, in run_ninja
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     subprocess.run(
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 548, in run
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     with Popen(*popenargs, **kwargs) as process:
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 1026, in __init__
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     self._execute_child(args, executable, preexec_fn, close_fds,
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]   File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 1955, in _execute_child
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374]     raise child_exception_type(errno_num, err_msg, err_filename)
+(EngineCore pid=1309251) ERROR 09-14 00:36:07 [core.py:1374] FileNotFoundError: [Errno 2] No such file or directory: 'ninja'
+(EngineCore pid=1309251) Process EngineCore:
+(EngineCore pid=1309251) Traceback (most recent call last):
+(EngineCore pid=1309251)   File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+(EngineCore pid=1309251)     self.run()
+(EngineCore pid=1309251)   File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/multiprocessing/process.py", line 108, in run
+(EngineCore pid=1309251)     self._target(*self._args, **self._kwargs)
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 1378, in run_engine_core
+(EngineCore pid=1309251)     raise e
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 1336, in run_engine_core
+(EngineCore pid=1309251)     engine_core = EngineCoreProc(*args, engine_index=dp_rank, **kwargs)
+(EngineCore pid=1309251)                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1309251)     return func(*args, **kwargs)
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 1093, in __init__
+(EngineCore pid=1309251)     super().__init__(
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 145, in __init__
+(EngineCore pid=1309251)     kv_cache_config = self._initialize_kv_caches(vllm_config)
+(EngineCore pid=1309251)                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1309251)     return func(*args, **kwargs)
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core.py", line 345, in _initialize_kv_caches
+(EngineCore pid=1309251)     self.model_executor.compile_or_warm_up_model()
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/executor/abstract.py", line 126, in compile_or_warm_up_model
+(EngineCore pid=1309251)     compilation_times: list[CompilationTimes] = self.collective_rpc(
+(EngineCore pid=1309251)                                                 ^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/executor/uniproc_executor.py", line 103, in collective_rpc
+(EngineCore pid=1309251)     result = run_method(self.driver_worker, method, args, kwargs)
+(EngineCore pid=1309251)              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/serial_utils.py", line 510, in run_method
+(EngineCore pid=1309251)     return func(*args, **kwargs)
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+(EngineCore pid=1309251)     return func(*args, **kwargs)
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu_worker.py", line 866, in compile_or_warm_up_model
+(EngineCore pid=1309251)     warmup_kernels(self.model_runner, self.execute_model, self.sample_tokens)
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(EngineCore pid=1309251)     return func(*args, **kwargs)
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/warmup.py", line 348, in warmup_kernels
+(EngineCore pid=1309251)     worker_sample_tokens(grammar_output)
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(EngineCore pid=1309251)     return func(*args, **kwargs)
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu_worker.py", line 1105, in sample_tokens
+(EngineCore pid=1309251)     return self.model_runner.sample_tokens(grammar_output)
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+(EngineCore pid=1309251)     return func(*args, **kwargs)
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/eplb_utils.py", line 27, in wrapper
+(EngineCore pid=1309251)     result = fn(self, *args, **kwargs)
+(EngineCore pid=1309251)              ^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1861, in sample_tokens
+(EngineCore pid=1309251)     sampler_output, num_sampled, num_rejected = self.sample(
+(EngineCore pid=1309251)                                                 ^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/model_runner.py", line 1440, in sample
+(EngineCore pid=1309251)     sampler_output = self.sampler(logits, input_batch)
+(EngineCore pid=1309251)                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/sample/sampler.py", line 141, in __call__
+(EngineCore pid=1309251)     sampled, processed_logits = self.sample(
+(EngineCore pid=1309251)                                 ^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/worker/gpu/sample/sampler.py", line 310, in sample
+(EngineCore pid=1309251)     sampled = flashinfer_sample(processed_logits, top_k, top_p).to(torch.int64)
+(EngineCore pid=1309251)               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/sample/ops/topk_topp_sampler.py", line 508, in flashinfer_sample
+(EngineCore pid=1309251)     next_token_ids = flashinfer.sampling.top_k_top_p_sampling_from_logits(
+(EngineCore pid=1309251)                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/api_logging.py", line 2333, in _auto_dump_wrapper
+(EngineCore pid=1309251)     return _inner(*args, **kwargs)
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/sampling.py", line 1547, in top_k_top_p_sampling_from_logits
+(EngineCore pid=1309251)     masked_logits = top_k_mask_logits(logits, top_k)
+(EngineCore pid=1309251)                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/api_logging.py", line 2333, in _auto_dump_wrapper
+(EngineCore pid=1309251)     return _inner(*args, **kwargs)
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/sampling.py", line 1974, in top_k_mask_logits
+(EngineCore pid=1309251)     return get_sampling_module().top_k_mask_logits(
+(EngineCore pid=1309251)            ^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/sampling.py", line 68, in get_sampling_module
+(EngineCore pid=1309251)     module = gen_sampling_module().build_and_load()
+(EngineCore pid=1309251)              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/jit/core.py", line 320, in build_and_load
+(EngineCore pid=1309251)     self.build()
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/jit/core.py", line 427, in build
+(EngineCore pid=1309251)     run_ninja(self.build_dir, self.ninja_path, verbose)
+(EngineCore pid=1309251)   File "<WORKSPACE>/.venv/lib/python3.12/site-packages/flashinfer/jit/cpp_ext.py", line 370, in run_ninja
+(EngineCore pid=1309251)     subprocess.run(
+(EngineCore pid=1309251)   File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 548, in run
+(EngineCore pid=1309251)     with Popen(*popenargs, **kwargs) as process:
+(EngineCore pid=1309251)          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+(EngineCore pid=1309251)   File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 1026, in __init__
+(EngineCore pid=1309251)     self._execute_child(args, executable, preexec_fn, close_fds,
+(EngineCore pid=1309251)   File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py", line 1955, in _execute_child
+(EngineCore pid=1309251)     raise child_exception_type(errno_num, err_msg, err_filename)
+(EngineCore pid=1309251) FileNotFoundError: [Errno 2] No such file or directory: 'ninja'
+INFO 09-14 00:36:07 [utils.py:620] [shutdown] Process manager: send sigterm to process EngineCore
+Traceback (most recent call last):
+  File "<WORKSPACE>/experiments/sparse_prefill/benchmark.py", line 354, in <module>
+    main()
+  File "<WORKSPACE>/experiments/sparse_prefill/benchmark.py", line 246, in main
+    llm = LLM(
+          ^^^^
+  File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/entrypoints/llm.py", line 343, in __init__
+    self.llm_engine = LLMEngine.from_engine_args(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/llm_engine.py", line 179, in from_engine_args
+    return cls(
+           ^^^^
+  File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/llm_engine.py", line 105, in __init__
+    self.engine_core = EngineCoreClient.make_client(
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core_client.py", line 110, in make_client
+    return SyncMPClient(vllm_config, executor_class, log_stats)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/tracing/otel.py", line 178, in sync_wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core_client.py", line 813, in __init__
+    super().__init__(
+  File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/core_client.py", line 609, in __init__
+    with launch_core_engines(
+         ^^^^^^^^^^^^^^^^^^^^
+  File "<WORKSPACE>/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/contextlib.py", line 144, in __exit__
+    next(self.gen)
+  File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/utils.py", line 1240, in launch_core_engines
+    wait_for_engine_startup(
+  File "<WORKSPACE>/.venv/lib/python3.12/site-packages/vllm/v1/engine/utils.py", line 1320, in wait_for_engine_startup
+    raise RuntimeError(
+RuntimeError: Engine core initialization failed. See root cause above. Failed core proc(s): {}

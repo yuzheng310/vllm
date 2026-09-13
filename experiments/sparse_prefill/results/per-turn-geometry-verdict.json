@@ -1,0 +1,5 @@
+{
+  "same_prefix_selected_vs_full_max_abs": 0.0,
+  "split_vs_whole_trace_max_abs": 0.4764927625656128,
+  "interpretation": "Split-execution discrepancy also exists with full scoring; precise numerical cause not further localized"
+}

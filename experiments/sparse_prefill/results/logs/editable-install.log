@@ -1,0 +1,8 @@
+Resolved 1 package in 3.40s
+   Building vllm @ file://<WORKSPACE>/src/vllm
+      Built vllm @ file://<WORKSPACE>/src/vllm
+Prepared 1 package in 5.08s
+Uninstalled 1 package in 45ms
+Installed 1 package in 1ms
+ - vllm==0.29.0
+ + vllm==0.29.1.dev2+g5f7b949fa.precompiled (from file://<WORKSPACE>/src/vllm)

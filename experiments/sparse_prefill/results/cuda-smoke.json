@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "elements_verified": 1024,
+  "device_buffer_bytes": 4096,
+  "checks": [
+    "CUDA context",
+    "device allocation and memset",
+    "PTX JIT",
+    "kernel launch",
+    "synchronize",
+    "device-to-host copy",
+    "exact integer results"
+  ]
+}
