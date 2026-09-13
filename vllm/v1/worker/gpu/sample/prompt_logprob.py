@@ -206,9 +206,6 @@ class PromptLogprobsWorker:
 
         scores = None
         if selected_rows:
-            rows = torch.tensor(
-                selected_rows, dtype=torch.long, device=hidden_states.device
-            )
             targets = get_prompt_logprobs_token_ids(
                 input_batch.num_tokens,
                 input_batch.query_start_loc,
@@ -216,9 +213,19 @@ class PromptLogprobsWorker:
                 num_computed_tokens,
                 all_token_ids,
             )
+            first, stop = selected_rows[0], selected_rows[-1] + 1
+            if stop - first == len(selected_rows):
+                selected_hidden = hidden_states[first:stop]
+                selected_targets = targets[first:stop]
+            else:
+                rows = torch.tensor(
+                    selected_rows, dtype=torch.long, device=hidden_states.device
+                )
+                selected_hidden = hidden_states.index_select(0, rows)
+                selected_targets = targets.index_select(0, rows)
             scores = compute_prompt_logprobs_with_chunking(
-                targets.index_select(0, rows),
-                hidden_states.index_select(0, rows),
+                selected_targets,
+                selected_hidden,
                 logits_fn,
                 max_num_prompt_logprobs,
                 self.logprobs_mode,

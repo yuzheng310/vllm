@@ -202,12 +202,14 @@ def test_selected_prompt_cancel_clears_partial_scores_and_resume_does_not_reemit
 
 @pytest.mark.skipif(not current_platform.is_cuda(), reason="CUDA V2 feature")
 @pytest.mark.parametrize("num_logprobs", [0, 2, -1])
-def test_selected_prompt_gpu_scores_keep_full_vocabulary_normalization(num_logprobs):
+@pytest.mark.parametrize("positions", [[1, 32, 64], [31, 32, 33]])
+def test_selected_prompt_gpu_scores_keep_full_vocabulary_normalization(
+    num_logprobs, positions
+):
     """Hold logits fixed to separate row routing from GEMM shape rounding."""
     from vllm.v1.worker.gpu.sample.prompt_logprob import PromptLogprobsWorker
 
     size, vocab = 65, 2048
-    positions = [1, 32, 64]
     rows = torch.tensor(positions, device="cuda") - 1
     generator = torch.Generator(device="cuda").manual_seed(17)
     logits = torch.randn(
@@ -247,8 +249,13 @@ def test_selected_prompt_gpu_scores_keep_full_vocabulary_normalization(num_logpr
             )["a"]
         )
     dense, sparse = outputs
+    # BF16 ties may change Top-K token order across batch shapes.
     torch.testing.assert_close(
-        sparse.logprob_token_ids, dense.logprob_token_ids.index_select(0, rows)
+        sparse.logprob_token_ids[:, 0],
+        dense.logprob_token_ids.index_select(0, rows)[:, 0],
+    )
+    torch.testing.assert_close(
+        sparse.logprobs, dense.logprobs.index_select(0, rows), atol=1e-5, rtol=1e-6
     )
     torch.testing.assert_close(
         sparse.selected_token_ranks, dense.selected_token_ranks.index_select(0, rows)

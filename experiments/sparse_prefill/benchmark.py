@@ -73,9 +73,10 @@ def scoring_calls(trace, mode):
         return [(tokens, list(range(trace["action_spans"][0][0], len(tokens))))]
     if mode == "actions":
         return [(tokens, trace["action_positions"])]
-    assert mode == "per_turn"
+    assert mode in ("per_turn", "per_turn_full")
     return [
-        (tokens[:end], list(range(start, end))) for start, end in trace["action_spans"]
+        (tokens[:end], None if mode == "per_turn_full" else list(range(start, end)))
+        for start, end in trace["action_spans"]
     ]
 
 
@@ -107,6 +108,16 @@ def stop_diagnostics(worker):
         "torch_allocated_bytes": snapshot.torch_allocated,
         "torch_reserved_bytes": snapshot.torch_memory,
     }
+
+
+class PromptDiagnostics:
+    """Expose named local-worker methods without serializing Python callables."""
+
+    def start_sparse_diagnostics(self):
+        start_diagnostics(self)
+
+    def stop_sparse_diagnostics(self):
+        return stop_diagnostics(self)
 
 
 def active_compute_pids():
@@ -145,7 +156,7 @@ def action_scores(trace, mode, outputs):
     for i, output in enumerate(outputs):
         targets = (
             range(*trace["action_spans"][i])
-            if mode == "per_turn"
+            if mode in ("per_turn", "per_turn_full")
             else trace["action_positions"]
         )
         assert len(output.prompt_logprobs) == len(output.prompt_token_ids)
@@ -172,10 +183,11 @@ def main():
     parser.add_argument("--model", required=True)
     parser.add_argument("--load-format", choices=["auto", "dummy"], default="auto")
     parser.add_argument("--lengths", type=int, nargs="+", default=[4096, 8192, 16384])
+    parser.add_argument("--max-model-len", type=int)
     parser.add_argument(
         "--modes",
         nargs="+",
-        choices=["full", "suffix", "actions", "per_turn"],
+        choices=["full", "suffix", "actions", "per_turn", "per_turn_full"],
         default=["full", "suffix", "actions", "per_turn"],
     )
     parser.add_argument("--runs", type=int, default=10)
@@ -186,6 +198,9 @@ def main():
     args = parser.parse_args()
     if args.runs < 1 or min(args.lengths) < 64:
         parser.error("Use positive repetitions and lengths >= 64")
+    args.max_model_len = args.max_model_len or max(args.lengths) + 1
+    if args.max_model_len <= max(args.lengths):
+        parser.error("max-model-len must leave space for one generated token")
     if args.output.exists():
         parser.error("Refusing to overwrite existing results")
     if args.modes[0] != "full":
@@ -196,9 +211,9 @@ def main():
         )
     if active_compute_pids() - {os.getpid()}:
         parser.error("Another GPU compute process is active; do not start a benchmark")
-    if any(mode != "full" for mode in args.modes) and not hasattr(
-        SamplingParams(), "prompt_logprob_positions"
-    ):
+    if any(
+        mode in ("suffix", "actions", "per_turn") for mode in args.modes
+    ) and not hasattr(SamplingParams(), "prompt_logprob_positions"):
         parser.error("This installation does not contain the sparse scoring feature")
     args.output.parent.mkdir(parents=True, exist_ok=True)
     report = {
@@ -206,6 +221,7 @@ def main():
         "config": vars(args)
         | {"model": Path(args.model).name, "output": args.output.name},
         "environment": {
+            "benchmark_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             "weights_kind": (
                 "random weights; architecture performance proxy"
                 if args.load_format == "dummy"
@@ -217,6 +233,7 @@ def main():
             "python": platform.python_version(),
             "gpu": current_platform.get_device_name(),
             "v2_runner": os.environ.get("VLLM_USE_V2_MODEL_RUNNER"),
+            "flashinfer_sampler": os.environ.get("VLLM_USE_FLASHINFER_SAMPLER"),
             "source_sha256": {
                 name: hashlib.sha256(
                     (Path(vllm.__file__).parent / name).read_bytes()
@@ -246,8 +263,9 @@ def main():
     llm = LLM(
         model=args.model,
         load_format=args.load_format,
+        worker_extension_cls=f"{Path(__file__).stem}.PromptDiagnostics",
         dtype="bfloat16",
-        max_model_len=max(args.lengths) + 1,
+        max_model_len=args.max_model_len,
         max_num_batched_tokens=args.chunk_size,
         max_num_seqs=1,
         enable_chunked_prefill=True,
@@ -268,16 +286,15 @@ def main():
         for mode in args.modes:
             for _ in range(2):
                 execute(llm, calls[mode], flat=True)
-            llm.collective_rpc(start_diagnostics)
+            llm.collective_rpc("start_sparse_diagnostics")
             try:
                 outputs = execute(llm, calls[mode], flat=True)
             finally:
-                diagnostics = llm.collective_rpc(stop_diagnostics)[0]
+                diagnostics = llm.collective_rpc("stop_sparse_diagnostics")[0]
             own_pids.add(diagnostics["worker_pid"])
-            expected_rows = (
-                length
-                if mode == "full"
-                else sum(len(positions) for _, positions in calls[mode])
+            expected_rows = sum(
+                len(tokens) if positions is None else len(positions)
+                for tokens, positions in calls[mode]
             )
             assert diagnostics["projected_prompt_rows"] == expected_rows
             values = action_scores(trace, mode, outputs)
