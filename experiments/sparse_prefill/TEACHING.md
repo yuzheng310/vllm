@@ -1,5 +1,35 @@
 # 学习与复现路线
 
+当前性能成果以 [CACHE_RESULTS.md](CACHE_RESULTS.md) 为准。
+第一阶段 LM-head 选行与第二阶段安全 KV 复用应连起来理解。
+
+## 第二阶段必须能解释的三个问题
+
+1. 为什么缓存只能命中到首个评分位置 j 的前 j−1 个 Token？
+   KV 不保存最终 hidden[j−1]，评分必须重新计算这一行。
+2. 为什么不能只设置 skip_reading_prefix_cache=False？
+   它在首次递增请求里可能工作，但缓存覆盖动作后会漏掉必需分数；
+   新功能约束命中上界，使评分完整性与复用同时成立。
+3. 为什么正式实验统一用 VLLM_BATCH_INVARIANT=1？
+   缓存改变剩余前向的形状，默认 BF16 路径出现了实际数值差异。
+   使用已有批次不变模式约束所有对照，未放宽 1e-4 验收门槛，最终误差为 0。
+
+逐轮回放复现命令：
+
+```bash
+VLLM_BATCH_INVARIANT=1 VLLM_USE_V2_MODEL_RUNNER=1 \
+VLLM_USE_FLASHINFER_SAMPLER=0 \
+./run-in-workspace.sh .venv/bin/python -B \
+  experiments/sparse_prefill/cache_benchmark.py \
+  --model models/Qwen3-0.6B \
+  --workload src/vllm/experiments/sparse_prefill/cache_results/recorded-code-workload.json \
+  --runs 10 --output reports/my-cache-scoring-run.json
+```
+
+阅读顺序：CACHE_PROTOCOL.md 的因果推导 → KVCacheManager 命中上界 →
+SamplingParams 缓存策略 → CACHE_RESULTS.md 的四种对照。
+收益指标是累计请求耗时，测试数量和代码量不进入简历成果。
+
 ## 先回答这个项目解决什么问题
 
 给定已经生成的多轮 Agent 轨迹，reference/teacher scorer 可能只需要动作

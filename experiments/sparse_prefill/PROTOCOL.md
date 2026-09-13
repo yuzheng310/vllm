@@ -1,5 +1,8 @@
 # 实验协议：先定义可证伪的问题
 
+本文件冻结第一阶段实验；第二阶段新增安全前缀复用，
+见 [CACHE_PROTOCOL.md](CACHE_PROTOCOL.md) 与 [CACHE_RESULTS.md](CACHE_RESULTS.md)。
+
 ## 目标与范围
 
 让多轮 Agent 的轨迹打分只为指定动作位置执行词表投影，

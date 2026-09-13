@@ -39,11 +39,6 @@ def tokenize(tokenizer, trace):
 def execute(llm, calls, mode):
     outputs, times = [], []
     for call in calls:
-        selected = (
-            {"prompt_logprob_positions": call["positions"]}
-            if mode in ("sparse", "cache")
-            else {}
-        )
         params = SamplingParams(
             temperature=0,
             max_tokens=1,
@@ -51,8 +46,10 @@ def execute(llm, calls, mode):
             detokenize=False,
             prompt_logprobs=0,
             flat_logprobs=True,
+            prompt_logprob_positions=(
+                call["positions"] if mode in ("sparse", "cache") else None
+            ),
             skip_reading_prefix_cache=mode in ("full", "sparse"),
-            **selected,
         )
         start = time.perf_counter()
         output = llm.generate(
@@ -90,20 +87,12 @@ def main():
     parser.add_argument("--workload", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--runs", type=int, default=10)
-    parser.add_argument(
-        "--modes",
-        nargs="+",
-        choices=["full", "sparse", "cache", "unsafe"],
-        default=["full", "sparse", "cache", "unsafe"],
-    )
     args = parser.parse_args()
     if args.output.exists():
         parser.error("Refusing to overwrite results")
     if active_compute_pids():
         parser.error("GPU compute is busy")
-    modes = args.modes
-    if modes[0] != "full":
-        parser.error("The full numerical reference must be first")
+    modes = ["full", "sparse", "cache", "unsafe"]
     source_root = Path(vllm.__file__).parent
     report = {
         "status": "running",

@@ -1,0 +1,87 @@
+{
+  "note": "Publication copy; private paths/hosts redacted; numerical data unmodified. Failure run remains incomplete, excluded from statistics. Markdown blank lines normalized by repository hook; export_sha256 retains pre-format hashes where changed.",
+  "files": [
+    {
+      "path": "cache-benchmark-main.py.txt",
+      "sha256": "75c54b47a72eef7c3db70353f23f3c3741c030f5d09428278060a358282533bb",
+      "bytes": 9331
+    },
+    {
+      "path": "cache-score-correctness.json",
+      "sha256": "78065e8340c2844544932d486a8cc35dac1de88fc03e9d5b24273a6b59c50798",
+      "bytes": 505250
+    },
+    {
+      "path": "logs/cache-score-correctness.log",
+      "sha256": "93a2e1e5b4689e29bf3bbd688e179db859ec40504aa2d601cbfccb12d1835bc4",
+      "bytes": 14051
+    },
+    {
+      "path": "cache-score-final-analysis.md",
+      "sha256": "78d9d281f64e53a0ef9bd8de8a53eca6414373c457e434877f6118d89a403159",
+      "bytes": 5275,
+      "export_sha256": "1e61e93342697f4cebd16e8d20447f2d797f6421cad5220831eb4fca7e37bb7c"
+    },
+    {
+      "path": "cache-score-invariant-correctness.json",
+      "sha256": "26ecbef4bca127cb35f1780ac7acaf2815a04b85c8ea177de236d54c7dea6a73",
+      "bytes": 620231
+    },
+    {
+      "path": "logs/cache-score-invariant-correctness.log",
+      "sha256": "6541f479d7371e77d128d49e5e783c679c98b7731846c2fcb72825ea08f1c3d2",
+      "bytes": 15634
+    },
+    {
+      "path": "cache-score-invariant-main.json",
+      "sha256": "ab32919165cd45357042a3f9e22600b68ade8a33e8f02547bfc98b6efce88417",
+      "bytes": 647716
+    },
+    {
+      "path": "logs/cache-score-invariant-main.log",
+      "sha256": "10a1efe402a8a2d64e0333549e8cb9cc692fa8dcd86672594514890217b36724",
+      "bytes": 23526
+    },
+    {
+      "path": "cache-score-invariant-replication.json",
+      "sha256": "4c114bd886774e03b858c358bcaa52e71c80559b5e32afb016136188c42744bc",
+      "bytes": 647738
+    },
+    {
+      "path": "logs/cache-score-invariant-replication.log",
+      "sha256": "052993c6d3d568f1bbd71043c87d39de91e9f0c81b4429ace6d6d9c0d8b1a604",
+      "bytes": 23527
+    },
+    {
+      "path": "cache-score-original-baseline.json",
+      "sha256": "1bff592aa7a5bc480f205aa9f4f5a51c8cab0716861b6df015167e8efbbf762d",
+      "bytes": 502869
+    },
+    {
+      "path": "logs/cache-score-original-baseline.log",
+      "sha256": "efef423b85338441f3f036614a17040b112751dfc9991e06230933a5472fb286",
+      "bytes": 15577
+    },
+    {
+      "path": "cache-score-primary-analysis.md",
+      "sha256": "e57d4c1023c7b81854681fe99548c7814bb2a1b4659b5c14e6fdb8a8398a82f9",
+      "bytes": 3205,
+      "export_sha256": "cc9a300ac58603748d06e90e4d9d4742b95522c996521c2682a0a66d8a607138"
+    },
+    {
+      "path": "recorded-code-workload.json",
+      "sha256": "d08e33fad0b1e07d0e158e935abc58f7045efe7c59e96fe70dd53bd8ec6ad978",
+      "bytes": 33567
+    },
+    {
+      "path": "logs/tests-cache-score-regression.log",
+      "sha256": "e3878916ae1d86330f05cbe4fcc1ee59ac921144a3da924b8136f88854596baf",
+      "bytes": 628
+    },
+    {
+      "path": "logs/tests-cached-scoring.log",
+      "sha256": "7ea877103faa89e151fe837c1f8d9d6f9a1a3caaf8f8406b85db6508a3829022",
+      "bytes": 562
+    }
+  ]
+}
