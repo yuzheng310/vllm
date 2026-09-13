@@ -38,6 +38,8 @@ class LogprobsProcessor:
     cumulative_logprob: float | None
     num_logprobs: int | None
     num_prompt_logprobs: int | None
+    prompt_logprob_positions: list[int] | None = None
+    prompt_token_ids: list[int] | None = None
 
     @classmethod
     def from_new_request(
@@ -64,6 +66,12 @@ class LogprobsProcessor:
             ),
             num_prompt_logprobs=num_prompt_logprobs,
             num_logprobs=num_logprobs,
+            prompt_logprob_positions=sampling_params.prompt_logprob_positions,
+            prompt_token_ids=(
+                request.prompt_token_ids
+                if sampling_params.prompt_logprob_positions is not None
+                else None
+            ),
         )
 
     def _update_sample_logprobs(self, logprobs_lists: LogprobsLists) -> None:
@@ -138,6 +146,10 @@ class LogprobsProcessor:
 
         # Recover shapes.
         num_prompt_tokens, num_logprobs = logprobs.shape
+        positions = self.prompt_logprob_positions
+        if positions is not None:
+            assert num_prompt_tokens == len(positions)
+            assert self.prompt_token_ids is not None
 
         # Detokenize non-incrementally.
         # Output is flat: [num_tok, num_lps] -> [num_tok * num_lps]
@@ -156,6 +168,10 @@ class LogprobsProcessor:
 
         # Make Logprob for each position.
         for pos in range(num_prompt_tokens):
+            if positions is not None:
+                self.prompt_logprobs.extend(
+                    None for _ in range(positions[pos] - len(self.prompt_logprobs))
+                )
             # Handle flattening and UTF-8 correction per position
             offset = pos * num_logprobs
             offset_end = offset + num_logprobs
@@ -168,7 +184,16 @@ class LogprobsProcessor:
                 decoded_tokens_slice = all_decoded_tokens[offset:offset_end]
                 # Context: preceding prompt tokens accumulated in
                 # self.prompt_logprobs from previous loop iterations.
-                context_token_ids = self._get_sampled_context_ids(self.prompt_logprobs)
+                if positions is None:
+                    context_token_ids = self._get_sampled_context_ids(
+                        self.prompt_logprobs
+                    )
+                else:
+                    assert self.prompt_token_ids is not None
+                    target_pos = positions[pos]
+                    context_token_ids = self.prompt_token_ids[
+                        max(0, target_pos - 4) : target_pos
+                    ]
                 # Apply UTF-8 correction within this position's token boundaries
                 decoded_tokens_for_pos = self._verify_tokens(
                     decoded_tokens_list=decoded_tokens_slice,
@@ -184,6 +209,13 @@ class LogprobsProcessor:
                 decoded_tokens_for_pos,
                 prompt_token_ranks[pos],
                 self.num_prompt_logprobs,
+            )
+
+        if positions is not None:
+            assert self.prompt_token_ids is not None
+            self.prompt_logprobs.extend(
+                None
+                for _ in range(len(self.prompt_token_ids) - len(self.prompt_logprobs))
             )
 
     def pop_prompt_logprobs(self) -> PromptLogprobs | None:

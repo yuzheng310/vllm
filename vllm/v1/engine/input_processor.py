@@ -101,6 +101,18 @@ class InputProcessor:
                 self.tokenizer,
             )
 
+            if params.prompt_logprob_positions is not None and (
+                not self.vllm_config.use_v2_model_runner
+                or not current_platform.is_cuda()
+                or self.vllm_config.parallel_config.world_size_across_dp != 1
+                or self.speculative_config is not None
+                or self.model_config.is_diffusion
+            ):
+                raise VLLMValidationError(
+                    "prompt_logprob_positions requires the single-GPU CUDA "
+                    "V2 runner without speculative decoding."
+                )
+
             if self.model_config.return_sampling_mask:
                 if params.temperature <= 0:
                     raise ValueError(
@@ -354,6 +366,26 @@ class InputProcessor:
         if isinstance(params, SamplingParams):
             # TODO: can we avoid cloning here in multiproc case?
             sampling_params = params.clone()
+            if sampling_params.prompt_logprob_positions is not None:
+                if (
+                    prompt_token_ids is None
+                    or prompt_embeds is not None
+                    or decoder_input["type"] == "multimodal"
+                    or encoder_input is not None
+                    or lora_request is not None
+                    or resumable
+                ):
+                    raise VLLMValidationError(
+                        "prompt_logprob_positions supports complete decoder-only "
+                        "text requests without LoRA or streaming input."
+                    )
+                if sampling_params.prompt_logprob_positions[-1] >= len(
+                    prompt_token_ids
+                ):
+                    raise VLLMValidationError(
+                        "prompt_logprob_positions must be smaller than the "
+                        "tokenized prompt length."
+                    )
             # If unset max tokens, then generate up to the max_model_len.
             if sampling_params.max_tokens is None:
                 seq_len = length_from_prompt_token_ids_or_embeds(

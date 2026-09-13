@@ -1,5 +1,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+from bisect import bisect_left
 from collections.abc import Callable
 
 import numpy as np
@@ -22,6 +23,7 @@ class PromptLogprobsWorker:
         self.num_prompt_logprobs = np.zeros(self.max_num_reqs, dtype=np.int32)
         # req_idx -> list of in-progress LogprobsTensors
         self.in_progress_prompt_logprobs: dict[str, list[LogprobsTensors]] = {}
+        self.prompt_logprob_positions: dict[str, list[int]] = {}
 
     def add_request(self, req_id: str, req_idx: int, sampling_params: SamplingParams):
         uses_prompt_logprobs = sampling_params.prompt_logprobs is not None
@@ -29,9 +31,16 @@ class PromptLogprobsWorker:
         self.num_prompt_logprobs[req_idx] = sampling_params.prompt_logprobs or 0
         if uses_prompt_logprobs:
             self.in_progress_prompt_logprobs[req_id] = []
+        if sampling_params.prompt_logprob_positions is not None:
+            self.prompt_logprob_positions[req_id] = (
+                sampling_params.prompt_logprob_positions
+            )
+        else:
+            self.prompt_logprob_positions.pop(req_id, None)
 
     def remove_request(self, req_id: str) -> None:
         self.in_progress_prompt_logprobs.pop(req_id, None)
+        self.prompt_logprob_positions.pop(req_id, None)
 
     def compute_prompt_logprobs(
         self,
@@ -69,6 +78,21 @@ class PromptLogprobsWorker:
             if np.any(requested_num_prompt_logprobs == -1)
             else int(requested_num_prompt_logprobs.max())
         )
+
+        if any(
+            req_id in self.prompt_logprob_positions for req_id in input_batch.req_ids
+        ):
+            return self._compute_selected_prompt_logprobs(
+                logits_fn,
+                hidden_states,
+                input_batch,
+                all_token_ids,
+                num_computed_tokens,
+                prompt_lens,
+                needs_prompt_logprobs,
+                num_prompt_logprobs,
+                max_num_prompt_logprobs,
+            )
 
         # Get the prompt logprobs token_ids.
         prompt_logprobs_token_ids = get_prompt_logprobs_token_ids(
@@ -140,6 +164,86 @@ class PromptLogprobsWorker:
 
             prompt_logprobs_dict[req_id] = logprobs
         return prompt_logprobs_dict
+
+    def _compute_selected_prompt_logprobs(
+        self,
+        logits_fn: Callable[[torch.Tensor], torch.Tensor],
+        hidden_states: torch.Tensor,
+        input_batch: InputBatch,
+        all_token_ids: torch.Tensor,
+        num_computed_tokens: torch.Tensor,
+        prompt_lens: np.ndarray,
+        needs_prompt_logprobs: np.ndarray,
+        num_prompt_logprobs: np.ndarray,
+        max_num_prompt_logprobs: int,
+    ) -> dict[str, LogprobsTensors]:
+        selected_rows: list[int] = []
+        request_slices: dict[str, tuple[int, int, bool, int]] = {}
+        for i, req_id in enumerate(input_batch.req_ids):
+            if not needs_prompt_logprobs[i]:
+                continue
+            start = int(input_batch.num_computed_prefill_tokens_np[i])
+            step_end = start + int(input_batch.num_scheduled_tokens[i])
+            end = min(step_end, int(prompt_lens[i]) - 1)
+            packed_start = int(input_batch.query_start_loc_np[i])
+            result_start = len(selected_rows)
+            positions = self.prompt_logprob_positions.get(req_id)
+            if positions is None:
+                selected_rows.extend(range(packed_start, packed_start + end - start))
+            else:
+                lo = bisect_left(positions, start + 1)
+                hi = bisect_left(positions, end + 1)
+                selected_rows.extend(
+                    packed_start + target_pos - start - 1
+                    for target_pos in positions[lo:hi]
+                )
+            request_slices[req_id] = (
+                result_start,
+                len(selected_rows),
+                step_end < prompt_lens[i],
+                int(num_prompt_logprobs[i]),
+            )
+
+        scores = None
+        if selected_rows:
+            rows = torch.tensor(
+                selected_rows, dtype=torch.long, device=hidden_states.device
+            )
+            targets = get_prompt_logprobs_token_ids(
+                input_batch.num_tokens,
+                input_batch.query_start_loc,
+                input_batch.idx_mapping,
+                num_computed_tokens,
+                all_token_ids,
+            )
+            scores = compute_prompt_logprobs_with_chunking(
+                targets.index_select(0, rows),
+                hidden_states.index_select(0, rows),
+                logits_fn,
+                max_num_prompt_logprobs,
+                self.logprobs_mode,
+            )
+
+        outputs: dict[str, LogprobsTensors] = {}
+        for req_id, (start, end, chunked, requested) in request_slices.items():
+            parts = self.in_progress_prompt_logprobs[req_id]
+            if start < end:
+                assert scores is not None
+                token_ids, logprobs, ranks = scores
+                width = logprobs.shape[1] if requested == -1 else requested + 1
+                parts.append(
+                    LogprobsTensors(
+                        token_ids[start:end, :width],
+                        logprobs[start:end, :width],
+                        ranks[start:end],
+                    )
+                )
+            if not chunked and parts:
+                outputs[req_id] = (
+                    parts[0] if len(parts) == 1 else LogprobsTensors.cat(parts)
+                )
+                parts.clear()
+        return outputs
 
 
 @triton.jit

@@ -3,10 +3,12 @@
 
 import itertools
 import math
+import os
 from collections.abc import Generator
 from types import SimpleNamespace
 from typing import get_args
 
+import numpy as np
 import pytest
 import torch
 
@@ -88,6 +90,172 @@ def _model_config(vocab_size: int = 10):
         is_diffusion=False,
         get_vocab_size=lambda: vocab_size,
     )
+
+
+def _selected_prompt_worker(monkeypatch):
+    """Exercise row routing on CPU; actual probability kernels have GPU tests."""
+    import vllm.v1.worker.gpu.sample.prompt_logprob as module
+
+    worker = module.PromptLogprobsWorker(3)
+    projected = []
+
+    def targets(num_tokens, query_starts, mapping, computed, token_ids):
+        parts = []
+        for i, state_idx in enumerate(mapping.tolist()):
+            start = int(computed[state_idx])
+            size = int(query_starts[i + 1] - query_starts[i])
+            parts.append(token_ids[state_idx, start + 1 : start + size + 1])
+        return torch.cat(parts)
+
+    def score(token_ids, hidden, logits_fn, num_logprobs, mode):
+        projected.append(hidden[:, 0].tolist())
+        return (
+            token_ids[:, None],
+            hidden.clone(),
+            torch.ones(len(hidden), dtype=torch.int),
+        )
+
+    monkeypatch.setattr(module, "get_prompt_logprobs_token_ids", targets)
+    monkeypatch.setattr(module, "compute_prompt_logprobs_with_chunking", score)
+
+    def run(
+        req_ids, state_indices, starts, lengths, prompt_lengths, prefill_lengths=None
+    ):
+        query_starts = np.array([0, *np.cumsum(lengths)], dtype=np.int32)
+        batch = SimpleNamespace(
+            req_ids=req_ids,
+            idx_mapping_np=np.array(state_indices),
+            idx_mapping=torch.tensor(state_indices),
+            num_tokens=sum(lengths),
+            query_start_loc_np=query_starts,
+            query_start_loc=torch.from_numpy(query_starts),
+            num_computed_prefill_tokens_np=np.array(starts),
+            num_scheduled_tokens=np.array(lengths),
+            prefill_len_np=np.array(prefill_lengths or prompt_lengths),
+        )
+        computed = torch.zeros(3, dtype=torch.int)
+        full_prompt_lengths = np.zeros(3, dtype=np.int32)
+        hidden = []
+        for idx, start, size, prompt_len in zip(
+            state_indices, starts, lengths, prompt_lengths
+        ):
+            computed[idx] = start
+            full_prompt_lengths[idx] = prompt_len
+            hidden.append(torch.arange(start, start + size) + idx * 100)
+        all_tokens = torch.arange(64).repeat(3, 1) + torch.arange(3)[:, None] * 100
+        return worker.compute_prompt_logprobs(
+            lambda h: h,
+            torch.cat(hidden).float()[:, None],
+            batch,
+            all_tokens,
+            computed,
+            full_prompt_lengths,
+        )
+
+    return worker, run, projected
+
+
+def test_selected_prompt_rows_cross_chunk_edges_and_flush_empty_tail(monkeypatch):
+    worker, run, projected = _selected_prompt_worker(monkeypatch)
+    worker.add_request(
+        "a", 0, SamplingParams(prompt_logprobs=0, prompt_logprob_positions=[1, 4, 8])
+    )
+    assert run(["a"], [0], [0], [4], [10]) == {}
+    assert run(["a"], [0], [4], [4], [10]) == {}
+    output = run(["a"], [0], [8], [2], [10])
+    assert projected == [[0.0, 3.0], [7.0]]
+    assert output["a"].logprob_token_ids[:, 0].tolist() == [1, 4, 8]
+    assert output["a"].logprobs[:, 0].tolist() == [0.0, 3.0, 7.0]
+
+
+def test_selected_prompt_rows_isolate_reordered_mixed_requests(monkeypatch):
+    worker, run, projected = _selected_prompt_worker(monkeypatch)
+    worker.add_request(
+        "a", 2, SamplingParams(prompt_logprobs=0, prompt_logprob_positions=[2, 4])
+    )
+    worker.add_request("b", 0, SamplingParams(prompt_logprobs=0))
+    worker.add_request("c", 1, SamplingParams())
+    output = run(["a", "b", "c"], [2, 0, 1], [0, 0, 0], [6, 4, 4], [6, 4, 4])
+    assert projected == [[201.0, 203.0, 0.0, 1.0, 2.0]]
+    assert set(output) == {"a", "b"}
+    assert output["a"].logprob_token_ids[:, 0].tolist() == [202, 204]
+    assert output["b"].logprob_token_ids[:, 0].tolist() == [1, 2, 3]
+
+
+def test_selected_prompt_cancel_clears_partial_scores_and_resume_does_not_reemit(
+    monkeypatch,
+):
+    worker, run, projected = _selected_prompt_worker(monkeypatch)
+    worker.add_request(
+        "a", 0, SamplingParams(prompt_logprobs=0, prompt_logprob_positions=[1])
+    )
+    assert run(["a"], [0], [0], [2], [6]) == {}
+    worker.remove_request("a")
+    worker.add_request(
+        "a", 0, SamplingParams(prompt_logprobs=0, prompt_logprob_positions=[3])
+    )
+    output = run(["a"], [0], [0], [6], [6])
+    assert output["a"].logprob_token_ids[:, 0].tolist() == [3]
+    assert run(["a"], [0], [0], [8], [6], prefill_lengths=[8]) == {}
+    assert projected == [[0.0], [2.0]]
+
+
+@pytest.mark.skipif(not current_platform.is_cuda(), reason="CUDA V2 feature")
+@pytest.mark.parametrize("num_logprobs", [0, 2, -1])
+def test_selected_prompt_gpu_scores_keep_full_vocabulary_normalization(num_logprobs):
+    """Hold logits fixed to separate row routing from GEMM shape rounding."""
+    from vllm.v1.worker.gpu.sample.prompt_logprob import PromptLogprobsWorker
+
+    size, vocab = 65, 2048
+    positions = [1, 32, 64]
+    rows = torch.tensor(positions, device="cuda") - 1
+    generator = torch.Generator(device="cuda").manual_seed(17)
+    logits = torch.randn(
+        size, vocab, device="cuda", generator=generator, dtype=torch.bfloat16
+    )
+    hidden = torch.arange(size, device="cuda")[:, None]
+    tokens = torch.arange(size + 1, device="cuda", dtype=torch.int32)[None, :]
+    batch = SimpleNamespace(
+        req_ids=["a"],
+        idx_mapping_np=np.array([0]),
+        idx_mapping=torch.zeros(1, device="cuda", dtype=torch.int32),
+        num_tokens=size,
+        query_start_loc_np=np.array([0, size]),
+        query_start_loc=torch.tensor([0, size], device="cuda", dtype=torch.int32),
+        num_computed_prefill_tokens_np=np.array([0]),
+        num_scheduled_tokens=np.array([size]),
+        prefill_len_np=np.array([size]),
+    )
+    outputs = []
+    for selected in (None, positions):
+        worker = PromptLogprobsWorker(1)
+        worker.add_request(
+            "a",
+            0,
+            SamplingParams(
+                prompt_logprobs=num_logprobs, prompt_logprob_positions=selected
+            ),
+        )
+        outputs.append(
+            worker.compute_prompt_logprobs(
+                lambda h: logits.index_select(0, h[:, 0]),
+                hidden,
+                batch,
+                tokens,
+                torch.zeros(1, device="cuda", dtype=torch.int32),
+                np.array([size]),
+            )["a"]
+        )
+    dense, sparse = outputs
+    torch.testing.assert_close(
+        sparse.logprob_token_ids, dense.logprob_token_ids.index_select(0, rows)
+    )
+    torch.testing.assert_close(
+        sparse.selected_token_ranks, dense.selected_token_ranks.index_select(0, rows)
+    )
+    reference = torch.log_softmax(logits.index_select(0, rows).float(), dim=-1)
+    expected = reference.gather(1, sparse.logprob_token_ids.long())
+    torch.testing.assert_close(sparse.logprobs, expected, atol=1e-5, rtol=1e-6)
 
 
 def _repeat_logprob_config(
@@ -1217,7 +1385,8 @@ def test_spec_decode_logprobs(
         assert ref_logprob.decoded_token == spec_logprob.decoded_token
 
 
-def test_prompt_logprobs_with_chunking_and_preemption():
+@pytest.mark.parametrize("selected", [False, True])
+def test_prompt_logprobs_with_chunking_and_preemption(selected, monkeypatch):
     """Test that prompt logprobs are correctly returned when using
     both chunked prefill and preemption.
 
@@ -1233,15 +1402,21 @@ def test_prompt_logprobs_with_chunking_and_preemption():
         "In one word, the capital of France is ",
     ] + [f"Tell me about the number {i}: " for i in range(32)]
 
+    if selected:
+        if not current_platform.is_cuda():
+            pytest.skip("Selected prompt positions require the CUDA V2 runner")
+        monkeypatch.setenv("VLLM_USE_V2_MODEL_RUNNER", "1")
+    positions = [1, 3, 7] if selected else None
     sampling_params = SamplingParams(
         temperature=0.0,
         max_tokens=40,
         min_tokens=20,
         prompt_logprobs=2,  # Request prompt logprobs
+        prompt_logprob_positions=positions,
     )
 
     with VllmRunner(
-        "Qwen/Qwen3-0.6B",
+        os.environ.get("VLLM_TEST_QWEN3_MODEL", "Qwen/Qwen3-0.6B"),
         max_model_len=512,
         enable_chunked_prefill=True,
         max_num_batched_tokens=48,  # Force prefill chunking
@@ -1269,6 +1444,11 @@ def test_prompt_logprobs_with_chunking_and_preemption():
 
             # Each position should have the requested number of logprobs
             for pos, logprobs_dict in enumerate(prompt_logprobs):
+                if selected:
+                    assert positions is not None
+                    assert (logprobs_dict is not None) == (pos in positions)
+                    if logprobs_dict is not None:
+                        assert prompt_token_ids[pos] in logprobs_dict
                 if logprobs_dict is not None:  # First token may be None
                     assert (
                         sampling_params.prompt_logprobs

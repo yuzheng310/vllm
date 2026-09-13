@@ -8,6 +8,7 @@
 
 1. [实验协议](PROTOCOL.md)：问题、接口契约、对照与验收标准。
 2. [过程日志](WORK_LOG.md)：现象、证据、决策、修复与未解决问题。
+   [设计推导](DESIGN.md)解释因果偏移、分块映射和最小验证的选择。
 3. 代码入口：`vllm/sampling_params.py` →
    `vllm/v1/engine/input_processor.py` →
    `vllm/v1/worker/gpu/sample/prompt_logprob.py` →

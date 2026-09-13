@@ -291,6 +291,12 @@ class SamplingParams(
     prompt_logprobs: int | None = None
     """Number of log probabilities to return per prompt token.
     When set to -1, return all `vocab_size` log probabilities."""
+    prompt_logprob_positions: list[int] | None = None
+    """Sorted, unique target-token positions to score during prefill.
+    Requires prompt_logprobs and the V2 GPU runner. Position j is predicted
+    by hidden-state row j - 1; positions must be in [1, prompt_length).
+    The output keeps its original prompt indexing, with unselected slots
+    empty. Exposed through the native Python API only."""
     logprob_token_ids: list[int] | None = None
     """Specific token IDs to return logprobs for. More efficient than
     logprobs=-1 when you only need logprobs for a small set of tokens.
@@ -414,6 +420,7 @@ class SamplingParams(
         routed_experts_prompt_start: int = 0,
         # Debugging / RL-specific parameters.
         trace_decode_token_ids: list[int] | None = None,
+        prompt_logprob_positions: list[int] | None = None,
     ) -> "SamplingParams":
         if logit_bias is not None:
             # Fast path uses a dict comprehension; on failure we iterate once
@@ -464,6 +471,7 @@ class SamplingParams(
             min_tokens=min_tokens,
             logprobs=logprobs,
             prompt_logprobs=prompt_logprobs,
+            prompt_logprob_positions=prompt_logprob_positions,
             logprob_token_ids=logprob_token_ids,
             detokenize=detokenize,
             skip_special_tokens=skip_special_tokens,
@@ -544,6 +552,26 @@ class SamplingParams(
 
     def _verify_args(self) -> None:
         _verify_num_sequences(self.n, "n")
+        if self.prompt_logprob_positions is not None:
+            positions = self.prompt_logprob_positions
+            if (
+                not isinstance(positions, list)
+                or not positions
+                or any(type(pos) is not int or pos < 1 for pos in positions)
+                or any(left >= right for left, right in zip(positions, positions[1:]))
+            ):
+                raise VLLMValidationError(
+                    "prompt_logprob_positions must be a non-empty, strictly "
+                    "increasing list of positive integer target positions."
+                )
+            if self.prompt_logprobs is None:
+                raise VLLMValidationError(
+                    "prompt_logprob_positions requires prompt_logprobs."
+                )
+            if self.skip_reading_prefix_cache is False:
+                raise VLLMValidationError(
+                    "prompt_logprob_positions requires skipping prefix-cache reads."
+                )
         if not -2.0 <= self.presence_penalty <= 2.0:
             raise VLLMValidationError(
                 f"presence_penalty must be in [-2, 2], got {self.presence_penalty}."

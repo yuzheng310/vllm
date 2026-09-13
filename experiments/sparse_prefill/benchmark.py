@@ -1,0 +1,347 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: Copyright contributors to the vLLM project
+"""Paired native-API scoring measurements; synthetic inputs are saved verbatim."""
+
+import argparse
+import dataclasses
+import hashlib
+import json
+import os
+import platform
+import statistics
+import time
+from pathlib import Path
+
+import numpy as np
+import pynvml
+import torch
+
+import vllm
+from vllm import LLM, SamplingParams
+from vllm.platforms import current_platform
+
+
+def make_trace(tokenizer, length: int) -> dict:
+    """Create exact token geometry, not a claimed real training trajectory."""
+    prefix = tokenizer.encode(
+        "Locate the function responsible for resolving relative module paths.\n"
+        "Repository files: src/loader.py, src/parser.py, tests/test_loader.py.\n",
+        add_special_tokens=False,
+    )
+    action = tokenizer.encode(
+        '<assistant> rg -n "resolve|module_path" src/ tests/ </assistant>\n',
+        add_special_tokens=False,
+    )
+    tool = tokenizer.encode(
+        "<tool> src/loader.py:42:def resolve_module(name, base_path):\n"
+        "    candidate = base_path / name\n"
+        "    return candidate.resolve()\n"
+        "tests/test_loader.py:18:def test_relative_module_path():\n"
+        "    assert resolve_module('pkg', root).is_absolute()\n</tool>\n",
+        add_special_tokens=False,
+    )
+
+    def repeat(ids, count):
+        return (ids * ((count + len(ids) - 1) // len(ids)))[:count]
+
+    prefix_len = length // 4
+    action_len = max(2, int(length * 0.03) // 4)
+    tool_budget = length - prefix_len - 4 * action_len
+    tokens = repeat(prefix, prefix_len)
+    spans = []
+    for turn in range(4):
+        start = len(tokens)
+        tokens.extend(repeat(action, action_len))
+        spans.append([start, len(tokens)])
+        if turn < 3:
+            count = tool_budget // 3 + (turn < tool_budget % 3)
+            tokens.extend(repeat(tool, count))
+    assert len(tokens) == length
+    return {
+        "provenance": "synthetic code/tool token geometry; no tools executed",
+        "token_ids": tokens,
+        "action_spans": spans,
+        "action_positions": [pos for start, end in spans for pos in range(start, end)],
+    }
+
+
+def scoring_calls(trace, mode):
+    tokens = trace["token_ids"]
+    if mode == "full":
+        return [(tokens, None)]
+    if mode == "suffix":
+        return [(tokens, list(range(trace["action_spans"][0][0], len(tokens))))]
+    if mode == "actions":
+        return [(tokens, trace["action_positions"])]
+    assert mode == "per_turn"
+    return [
+        (tokens[:end], list(range(start, end))) for start, end in trace["action_spans"]
+    ]
+
+
+def start_diagnostics(worker):
+    import vllm.v1.worker.gpu.sample.prompt_logprob as module
+
+    original = module.compute_prompt_logprobs_with_chunking
+    worker._sparse_original_prompt_score = original
+    worker._sparse_projected_rows = 0
+
+    def counted(token_ids, hidden, *args, **kwargs):
+        worker._sparse_projected_rows += hidden.shape[0]
+        return original(token_ids, hidden, *args, **kwargs)
+
+    module.compute_prompt_logprobs_with_chunking = counted
+    torch.accelerator.reset_peak_memory_stats()
+
+
+def stop_diagnostics(worker):
+    import vllm.v1.worker.gpu.sample.prompt_logprob as module
+    from vllm.utils.mem_utils import MemorySnapshot
+
+    module.compute_prompt_logprobs_with_chunking = worker._sparse_original_prompt_score
+    snapshot = MemorySnapshot()
+    return {
+        "worker_pid": os.getpid(),
+        "projected_prompt_rows": worker._sparse_projected_rows,
+        "torch_peak_bytes": snapshot.torch_peak,
+        "torch_allocated_bytes": snapshot.torch_allocated,
+        "torch_reserved_bytes": snapshot.torch_memory,
+    }
+
+
+def active_compute_pids():
+    pynvml.nvmlInit()
+    try:
+        handle = pynvml.nvmlDeviceGetHandleByIndex(0)
+        return {
+            process.pid
+            for process in pynvml.nvmlDeviceGetComputeRunningProcesses(handle)
+        }
+    finally:
+        pynvml.nvmlShutdown()
+
+
+def execute(llm, calls, flat):
+    outputs = []
+    for tokens, positions in calls:
+        kwargs = {} if positions is None else {"prompt_logprob_positions": positions}
+        params = SamplingParams(
+            temperature=0,
+            max_tokens=1,
+            ignore_eos=True,
+            prompt_logprobs=0,
+            detokenize=False,
+            flat_logprobs=flat,
+            **kwargs,
+        )
+        outputs.extend(
+            llm.generate([{"prompt_token_ids": tokens}], params, use_tqdm=False)
+        )
+    return outputs
+
+
+def action_scores(trace, mode, outputs):
+    scores = {}
+    for i, output in enumerate(outputs):
+        targets = (
+            range(*trace["action_spans"][i])
+            if mode == "per_turn"
+            else trace["action_positions"]
+        )
+        assert len(output.prompt_logprobs) == len(output.prompt_token_ids)
+        for target in targets:
+            token = trace["token_ids"][target]
+            scores[target] = output.prompt_logprobs[target][token].logprob
+    return np.array([scores[pos] for pos in trace["action_positions"]])
+
+
+def output_json_size(outputs):
+    # This is a defined JSON representation of scores, not measured RPC traffic.
+    return sum(
+        len(
+            json.dumps(
+                dataclasses.asdict(output.prompt_logprobs), separators=(",", ":")
+            ).encode()
+        )
+        for output in outputs
+    )
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", required=True)
+    parser.add_argument("--lengths", type=int, nargs="+", default=[4096, 8192, 16384])
+    parser.add_argument(
+        "--modes",
+        nargs="+",
+        choices=["full", "suffix", "actions", "per_turn"],
+        default=["full", "suffix", "actions", "per_turn"],
+    )
+    parser.add_argument("--runs", type=int, default=10)
+    parser.add_argument("--chunk-size", type=int, default=512)
+    parser.add_argument("--eager", action="store_true")
+    parser.add_argument("--gpu-memory-utilization", type=float, default=0.65)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+    if args.runs < 1 or min(args.lengths) < 64:
+        parser.error("Use positive repetitions and lengths >= 64")
+    if args.output.exists():
+        parser.error("Refusing to overwrite existing results")
+    if args.modes[0] != "full":
+        parser.error("Put the full-scoring numerical reference first")
+    if os.environ.get("VLLM_USE_V2_MODEL_RUNNER") != "1":
+        parser.error(
+            "Set VLLM_USE_V2_MODEL_RUNNER=1 to fix the runner for all controls"
+        )
+    if active_compute_pids() - {os.getpid()}:
+        parser.error("Another GPU compute process is active; do not start a benchmark")
+    if any(mode != "full" for mode in args.modes) and not hasattr(
+        SamplingParams(), "prompt_logprob_positions"
+    ):
+        parser.error("This installation does not contain the sparse scoring feature")
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    report = {
+        "status": "running",
+        "config": vars(args)
+        | {"model": Path(args.model).name, "output": args.output.name},
+        "environment": {
+            "vllm": vllm.__version__,
+            "torch": torch.__version__,
+            "torch_cuda": torch.version.cuda,
+            "python": platform.python_version(),
+            "gpu": current_platform.get_device_name(),
+            "v2_runner": os.environ.get("VLLM_USE_V2_MODEL_RUNNER"),
+            "source_sha256": {
+                name: hashlib.sha256(
+                    (Path(vllm.__file__).parent / name).read_bytes()
+                ).hexdigest()
+                for name in (
+                    "sampling_params.py",
+                    "v1/engine/input_processor.py",
+                    "v1/engine/logprobs.py",
+                    "v1/worker/gpu/sample/prompt_logprob.py",
+                )
+            },
+            "model_config_sha256": hashlib.sha256(
+                (Path(args.model) / "config.json").read_bytes()
+            ).hexdigest(),
+            "tokenizer_sha256": hashlib.sha256(
+                (Path(args.model) / "tokenizer.json").read_bytes()
+            ).hexdigest(),
+        },
+        "measurements": [],
+        "diagnostics": [],
+    }
+
+    def save():
+        args.output.write_text(json.dumps(report, indent=2))
+
+    save()
+    llm = LLM(
+        model=args.model,
+        dtype="bfloat16",
+        max_model_len=max(args.lengths) + 1,
+        max_num_batched_tokens=args.chunk_size,
+        max_num_seqs=1,
+        enable_chunked_prefill=True,
+        enable_prefix_caching=False,
+        enforce_eager=args.eager,
+        attention_backend="FLASH_ATTN",
+        gpu_memory_utilization=args.gpu_memory_utilization,
+        seed=17,
+    )
+    for length in args.lengths:
+        trace = make_trace(llm.get_tokenizer(), length)
+        trace_json = json.dumps(trace, separators=(",", ":"))
+        trace_file = args.output.with_name(f"{args.output.stem}-trace-{length}.json")
+        trace_file.write_text(trace_json)
+        calls = {mode: scoring_calls(trace, mode) for mode in args.modes}
+        references = None
+        own_pids = {os.getpid()}
+        for mode in args.modes:
+            for _ in range(2):
+                execute(llm, calls[mode], flat=True)
+            llm.collective_rpc(start_diagnostics)
+            try:
+                outputs = execute(llm, calls[mode], flat=True)
+            finally:
+                diagnostics = llm.collective_rpc(stop_diagnostics)[0]
+            own_pids.add(diagnostics["worker_pid"])
+            expected_rows = (
+                length
+                if mode == "full"
+                else sum(len(positions) for _, positions in calls[mode])
+            )
+            assert diagnostics["projected_prompt_rows"] == expected_rows
+            values = action_scores(trace, mode, outputs)
+            if mode == "full":
+                references = values
+            assert references is not None, "Put full first in --modes"
+            assert np.isfinite(values).all()
+            diagnostic = {
+                "length": length,
+                "mode": mode,
+                "trace_sha256": hashlib.sha256(trace_json.encode()).hexdigest(),
+                "action_count": len(values),
+                "max_abs_logprob_error": float(np.max(np.abs(values - references))),
+                "mean_abs_logprob_error": float(np.mean(np.abs(values - references))),
+                "action_logprobs": values.tolist(),
+                "score_json_bytes": output_json_size(outputs),
+                "input_tokens_processed": sum(len(tokens) for tokens, _ in calls[mode]),
+                "generated_tail_tokens": sum(
+                    len(out.outputs[0].token_ids) for out in outputs
+                ),
+                **diagnostics,
+            }
+            report["diagnostics"].append(diagnostic)
+            print(
+                json.dumps(
+                    {
+                        key: value
+                        for key, value in diagnostic.items()
+                        if key != "action_logprobs"
+                    }
+                ),
+                flush=True,
+            )
+            save()
+        # Diagnostics are disabled for all timed requests.
+        for repetition in range(args.runs):
+            if active_compute_pids() - own_pids:
+                report["status"] = "interrupted_by_other_gpu_work"
+                save()
+                raise RuntimeError("Other GPU compute work appeared; timing stopped")
+            modes = args.modes if repetition % 2 == 0 else list(reversed(args.modes))
+            for mode in modes:
+                start = time.perf_counter()
+                execute(llm, calls[mode], flat=True)
+                duration = time.perf_counter() - start
+                report["measurements"].append(
+                    {
+                        "length": length,
+                        "mode": mode,
+                        "repetition": repetition,
+                        "seconds": duration,
+                    }
+                )
+                save()
+    report["summary"] = [
+        {
+            "length": length,
+            "mode": mode,
+            "median_seconds": statistics.median(
+                row["seconds"]
+                for row in report["measurements"]
+                if row["length"] == length and row["mode"] == mode
+            ),
+        }
+        for length in args.lengths
+        for mode in args.modes
+    ]
+    report["status"] = "complete"
+    save()
+    print(json.dumps(report["summary"], indent=2), flush=True)
+
+
+if __name__ == "__main__":
+    main()

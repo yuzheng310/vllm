@@ -49,3 +49,33 @@ def test_diffusion_accepts_top_k_top_p():
 def test_non_diffusion_models_unaffected():
     params = SamplingParams(temperature=0.7, top_k=10, seed=42)
     params.verify(MockModelConfig(), None, None, None)
+
+
+@pytest.mark.parametrize("positions", [[], [0], [-1], [True], [1.5], [2, 1], [1, 1]])
+def test_prompt_logprob_positions_reject_ambiguous_targets(positions):
+    with pytest.raises(VLLMValidationError, match="prompt_logprob_positions"):
+        SamplingParams(prompt_logprobs=0, prompt_logprob_positions=positions)
+
+
+def test_prompt_logprob_positions_require_scoring_and_uncached_prefill():
+    with pytest.raises(VLLMValidationError, match="requires prompt_logprobs"):
+        SamplingParams(prompt_logprob_positions=[1, 4])
+    with pytest.raises(VLLMValidationError, match="prefix-cache"):
+        SamplingParams(
+            prompt_logprobs=0,
+            prompt_logprob_positions=[1, 4],
+            skip_reading_prefix_cache=False,
+        )
+
+
+def test_prompt_logprob_positions_survive_request_serialization():
+    import msgspec
+
+    params = SamplingParams.from_optional(
+        prompt_logprobs=0, prompt_logprob_positions=[1, 4, 8]
+    )
+    restored = msgspec.msgpack.decode(
+        msgspec.msgpack.encode(params), type=SamplingParams
+    )
+    assert restored.prompt_logprob_positions == [1, 4, 8]
+    assert restored.skip_reading_prefix_cache is True
