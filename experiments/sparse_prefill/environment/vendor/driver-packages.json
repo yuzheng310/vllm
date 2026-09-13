@@ -1,0 +1,23 @@
+[
+  {
+    "Package": "libnvidia-compute-580",
+    "Version": "580.173.02-1ubuntu1",
+    "Filename": "./libnvidia-compute-580_580.173.02-1ubuntu1_amd64.deb",
+    "Size": "54645984",
+    "SHA256": "31714f52224f32ed1b33cccab5b023163d3504bb588b33decd341aa5a4b6052f"
+  },
+  {
+    "Package": "libnvidia-gpucomp-580",
+    "Version": "580.173.02-1ubuntu1",
+    "Filename": "./libnvidia-gpucomp-580_580.173.02-1ubuntu1_amd64.deb",
+    "Size": "18484684",
+    "SHA256": "dd3d6ab8d7de42243e0e84c4d215f6b71a558a55b4d3ae54d7aab112d7f2da05"
+  },
+  {
+    "Package": "nvidia-utils-580",
+    "Version": "580.173.02-1ubuntu1",
+    "Filename": "./nvidia-utils-580_580.173.02-1ubuntu1_amd64.deb",
+    "Size": "12152",
+    "SHA256": "29852c3dd0af54774767c6e0965753c564343ff95b00f7ccd6f7cdd3ff000d25"
+  }
+]

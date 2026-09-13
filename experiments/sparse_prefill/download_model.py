@@ -24,6 +24,7 @@ def main():
     parser.add_argument("--modelscope-manifest", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=4, choices=range(1, 5))
+    parser.add_argument("--metadata-only", action="store_true")
     args = parser.parse_args()
     hf = json.loads(args.hf_manifest.read_text())
     metadata = json.loads(args.modelscope_manifest.read_text())
@@ -44,6 +45,8 @@ def main():
         for entry in metadata["Data"]["Files"]
         if entry["Name"] in names or entry["Name"].endswith(".safetensors")
     ]
+    if args.metadata_only:
+        files = [entry for entry in files if not entry["Name"].endswith(".safetensors")]
     for entry in files:
         name = entry["Name"]
         assert Path(name).name == name and name in hf_files
@@ -102,7 +105,14 @@ def main():
         part_dir.rmdir()
         print("Verified", name, size, flush=True)
     (args.output / "download-manifest.json").write_text(
-        json.dumps({"hf_revision": hf["sha"], "files": files}, indent=2)
+        json.dumps(
+            {
+                "hf_revision": hf["sha"],
+                "metadata_only": args.metadata_only,
+                "files": files,
+            },
+            indent=2,
+        )
     )
 
 

@@ -170,6 +170,7 @@ def output_json_size(outputs):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", required=True)
+    parser.add_argument("--load-format", choices=["auto", "dummy"], default="auto")
     parser.add_argument("--lengths", type=int, nargs="+", default=[4096, 8192, 16384])
     parser.add_argument(
         "--modes",
@@ -205,6 +206,11 @@ def main():
         "config": vars(args)
         | {"model": Path(args.model).name, "output": args.output.name},
         "environment": {
+            "weights_kind": (
+                "random weights; architecture performance proxy"
+                if args.load_format == "dummy"
+                else "downloaded model weights"
+            ),
             "vllm": vllm.__version__,
             "torch": torch.__version__,
             "torch_cuda": torch.version.cuda,
@@ -239,6 +245,7 @@ def main():
     save()
     llm = LLM(
         model=args.model,
+        load_format=args.load_format,
         dtype="bfloat16",
         max_model_len=max(args.lengths) + 1,
         max_num_batched_tokens=args.chunk_size,
