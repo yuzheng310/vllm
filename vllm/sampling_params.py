@@ -548,7 +548,10 @@ class SamplingParams(
             # If prefix caching is enabled,
             # the output of prompt logprobs may less than n_prompt_tokens,
             # we need to skip reading cache at this request.
-            self.skip_reading_prefix_cache = self.prompt_logprobs is not None
+            self.skip_reading_prefix_cache = (
+                self.prompt_logprobs is not None
+                and self.prompt_logprob_positions is None
+            )
 
     def _verify_args(self) -> None:
         _verify_num_sequences(self.n, "n")
@@ -567,10 +570,6 @@ class SamplingParams(
             if self.prompt_logprobs is None:
                 raise VLLMValidationError(
                     "prompt_logprob_positions requires prompt_logprobs."
-                )
-            if self.skip_reading_prefix_cache is False:
-                raise VLLMValidationError(
-                    "prompt_logprob_positions requires skipping prefix-cache reads."
                 )
         if not -2.0 <= self.presence_penalty <= 2.0:
             raise VLLMValidationError(

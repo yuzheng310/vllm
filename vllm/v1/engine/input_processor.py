@@ -113,6 +113,15 @@ class InputProcessor:
                     "V2 runner without speculative decoding."
                 )
 
+            if (
+                params.prompt_logprob_positions is not None
+                and not params.skip_reading_prefix_cache
+                and self.vllm_config.kv_transfer_config is not None
+            ):
+                raise VLLMValidationError(
+                    "Cached prompt_logprob_positions does not support KV connectors."
+                )
+
             if self.model_config.return_sampling_mask:
                 if params.temperature <= 0:
                     raise ValueError(

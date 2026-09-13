@@ -256,6 +256,13 @@ class KVCacheManager:
         # num_computed_tokens to be block-size aligned. Removing this limitation
         # could slightly improve performance in the future.
         max_cache_hit_length = request.num_tokens - 1
+        params = request.sampling_params
+        if params is not None and params.prompt_logprob_positions is not None:
+            # Target j needs hidden state j-1, which KV cache does not retain.
+            # Reuse only tokens strictly before that causal predecessor.
+            max_cache_hit_length = min(
+                max_cache_hit_length, params.prompt_logprob_positions[0] - 1
+            )
         computed_blocks, num_new_computed_tokens, num_uncached = (
             self.coordinator.find_longest_cache_hit(
                 request.block_hashes, max_cache_hit_length

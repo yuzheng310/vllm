@@ -74,6 +74,8 @@ def make_request(
     prompt_logprobs: int | None = None,
     cache_salt: str | None = None,
     lora_request: LoRARequest | None = None,
+    prompt_logprob_positions: list[int] | None = None,
+    skip_reading_prefix_cache: bool | None = None,
 ):
     mm_features = []
     if mm_positions is not None:
@@ -87,7 +89,12 @@ def make_request(
             )
             mm_features.append(mm_feature)
 
-    sampling_params = SamplingParams(max_tokens=17, prompt_logprobs=prompt_logprobs)
+    sampling_params = SamplingParams(
+        max_tokens=17,
+        prompt_logprobs=prompt_logprobs,
+        prompt_logprob_positions=prompt_logprob_positions,
+        skip_reading_prefix_cache=skip_reading_prefix_cache,
+    )
     sampling_params.update_from_generation_config({}, eos_token_id=100)
 
     return Request(
@@ -1233,6 +1240,49 @@ def test_hybrid_model_mamba_align_with_dynamic_draft_tokens():
     assert blocks is not None and all(len(group) == 0 for group in blocks.blocks)
 
     manager.free(req0)
+
+
+@pytest.mark.parametrize("first_target", [1, 16, 17, 18, 47, 64, 65])
+@pytest.mark.parametrize("skip_cache", [False, True])
+def test_selected_prompt_cache_preserves_causal_predecessor(first_target, skip_cache):
+    """A fully cached trajectory must still produce every requested score."""
+    block_size = 16
+    manager = make_kv_cache_manager(
+        make_kv_cache_config(block_size, 32),
+        max_model_len=128,
+        enable_caching=True,
+        hash_block_size=block_size,
+    )
+    tokens = list(range(80))
+    warm = make_request("warm", tokens, block_size, sha256)
+    assert manager.allocate_slots(warm, len(tokens)) is not None
+    manager.free(warm)
+
+    request = make_request(
+        "selected",
+        tokens,
+        block_size,
+        sha256,
+        prompt_logprobs=0,
+        prompt_logprob_positions=[first_target, 79],
+        skip_reading_prefix_cache=skip_cache,
+    )
+    blocks, hit_tokens, _ = manager.get_computed_blocks(request)
+    expected = 0 if skip_cache else ((first_target - 1) // block_size) * block_size
+    assert hit_tokens == expected
+    assert len(blocks.blocks[0]) == expected // block_size
+    assert hit_tokens <= first_target - 1
+
+    isolated = make_request(
+        "isolated",
+        tokens,
+        block_size,
+        sha256,
+        prompt_logprobs=0,
+        prompt_logprob_positions=[first_target, 79],
+        cache_salt="different-tenant",
+    )
+    assert manager.get_computed_blocks(isolated)[1] == 0
 
 
 def test_prefill_plp():

@@ -57,15 +57,20 @@ def test_prompt_logprob_positions_reject_ambiguous_targets(positions):
         SamplingParams(prompt_logprobs=0, prompt_logprob_positions=positions)
 
 
-def test_prompt_logprob_positions_require_scoring_and_uncached_prefill():
+def test_prompt_logprob_positions_require_scoring():
     with pytest.raises(VLLMValidationError, match="requires prompt_logprobs"):
         SamplingParams(prompt_logprob_positions=[1, 4])
-    with pytest.raises(VLLMValidationError, match="prefix-cache"):
-        SamplingParams(
-            prompt_logprobs=0,
-            prompt_logprob_positions=[1, 4],
-            skip_reading_prefix_cache=False,
-        )
+
+
+@pytest.mark.parametrize("skip", [None, False, True])
+def test_prompt_logprob_positions_allow_bounded_cache_unless_disabled(skip):
+    params = SamplingParams(
+        prompt_logprobs=0,
+        prompt_logprob_positions=[1, 4],
+        skip_reading_prefix_cache=skip,
+    )
+    assert params.skip_reading_prefix_cache is (skip is True)
+    assert SamplingParams(prompt_logprobs=0).skip_reading_prefix_cache is True
 
 
 def test_prompt_logprob_positions_survive_request_serialization():
@@ -78,4 +83,4 @@ def test_prompt_logprob_positions_survive_request_serialization():
         msgspec.msgpack.encode(params), type=SamplingParams
     )
     assert restored.prompt_logprob_positions == [1, 4, 8]
-    assert restored.skip_reading_prefix_cache is True
+    assert restored.skip_reading_prefix_cache is False
