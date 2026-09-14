@@ -1,0 +1,229 @@
+{
+  "recorded_date": "2026-09-14",
+  "scope": "Historical public prompt replay, fixed decode lengths, simulated tool delay. No live RL or reward evaluation.",
+  "files": [
+    {
+      "path": "batch-invariant-summary.json",
+      "bytes": 1467,
+      "sha256": "f6454b19960973d3240ebd6831721e203c71b0d56054ba3674cc9f69224e34e7"
+    },
+    {
+      "path": "native-concurrency-8-summary.json",
+      "bytes": 1461,
+      "sha256": "1b48942ea8a75b7ef7acbb3ca53c064ba73c8d7a44c5f8a62eb8ce5fa15a62df"
+    },
+    {
+      "path": "release-a1-b1-summary.json",
+      "bytes": 1460,
+      "sha256": "015791c1263e545962fee585c4a773ed13af215242750d043056877d28950c6e"
+    },
+    {
+      "path": "release-a2-b2-summary.json",
+      "bytes": 1456,
+      "sha256": "2f9b7fe15cc22bb3f71fd2e1213a8d97336d5914d603508206b6fe55b433a442"
+    },
+    {
+      "path": "run-logs.tar.gz",
+      "bytes": 29608,
+      "sha256": "267fbc6974ab03abdd17988c4cd8653482ad75469fc5cd23517e780832f6a79b"
+    },
+    {
+      "path": "session-06b-omp1-affinity2-c16-a.json",
+      "bytes": 1445488,
+      "sha256": "44cbd336cbc6c25355c817f5a2b703eb9cf290b8d2d5818a8d0166873cdf147a"
+    },
+    {
+      "path": "session-06b-omp1-fcfs-c16-a.json",
+      "bytes": 1445120,
+      "sha256": "5a87a496ed255c12c552f3fb4cfe870d0b602ffa96470eca1ff8d5752cf80cf5"
+    },
+    {
+      "path": "session-affinity-smoke-candidate.json",
+      "bytes": 9410,
+      "sha256": "6eaa6694632e6e516efe195e765ba555e4e47dedeeb498fa35884401e8232834"
+    },
+    {
+      "path": "session-affinity-smoke-fcfs-retry.json",
+      "bytes": 9398,
+      "sha256": "3979e4398d57bb351534c5a7be428a049f89b36f71593aa101c67382ca6026e7"
+    },
+    {
+      "path": "session-invariant-06b-c16-affinity.json",
+      "bytes": 722431,
+      "sha256": "ce3f300d3bc5653d00823616d2913e347ca353ac94315f5587eb81330018a1f5"
+    },
+    {
+      "path": "session-invariant-06b-c16-fcfs.json",
+      "bytes": 722404,
+      "sha256": "111bc3f9a5016c2e22782d8fe28eeefb89cd118738a179599a0a63a84df5ef91"
+    },
+    {
+      "path": "session-release-06b-c16-a1.json",
+      "bytes": 722998,
+      "sha256": "8d548a85a4f95ef60cb389b6f83ff6e9c1c1ca7f5e8bd6e79907dc65647a0fee"
+    },
+    {
+      "path": "session-release-06b-c16-a2.json",
+      "bytes": 723012,
+      "sha256": "c5afe7755c6e6419a303f3291fad598f02b45c4cb54815f4dea03eedbe29bb06"
+    },
+    {
+      "path": "session-release-06b-c16-b1.json",
+      "bytes": 723189,
+      "sha256": "e72c8576f39a7916747a5a098186024a78b81a0cf2fc9c200b38ab5a7661aa5f"
+    },
+    {
+      "path": "session-release-06b-c16-b2.json",
+      "bytes": 723195,
+      "sha256": "9e5cfb5163d9c08dae8c9694b83be6d69b9050a1ec0836460849e639499fa3fd"
+    },
+    {
+      "path": "session-release-06b-c8-affinity.json",
+      "bytes": 723938,
+      "sha256": "f601d0e80bb60a536d5c38bb21e68be91c5da6f0e1838bb9636b8cd7689941df"
+    },
+    {
+      "path": "session-release-06b-c8-fcfs.json",
+      "bytes": 723914,
+      "sha256": "44262ad16217f68af6b14d597ad5a532ccd88e0bee14f0f9316257e7c997e054"
+    },
+    {
+      "path": "session-screen-06b-affinity05-c16.json",
+      "bytes": 472302,
+      "sha256": "d2b807229aed91287bdd565f623720a9f87ad6b60181c9b2522d27055237a5af"
+    },
+    {
+      "path": "session-screen-06b-affinity30-c16.json",
+      "bytes": 473166,
+      "sha256": "b4259d4b6d1a25f109683725340934bfbc395f01605f5daca7c231904f39bd07"
+    },
+    {
+      "path": "session-screen-06b-fcfs-c16.json",
+      "bytes": 472124,
+      "sha256": "ad416adffb67b4ae8a2e25377e9677069f92d93b4a5bdd65e9ac7a18f0ba1967"
+    }
+  ],
+  "log_archive_members": [
+    {
+      "path": "reports/session-06b-omp1-affinity2-c16-a.log",
+      "bytes": 12708
+    },
+    {
+      "path": "reports/session-06b-omp1-fcfs-c16-a.log",
+      "bytes": 12326
+    },
+    {
+      "path": "reports/session-affinity-capacity-tests.log",
+      "bytes": 575
+    },
+    {
+      "path": "reports/session-affinity-model-curl-ranges.log",
+      "bytes": 5707
+    },
+    {
+      "path": "reports/session-affinity-model-download.log",
+      "bytes": 1259
+    },
+    {
+      "path": "reports/session-affinity-model-resolve-retry.log",
+      "bytes": 5079
+    },
+    {
+      "path": "reports/session-affinity-model-resolve.log",
+      "bytes": 3927
+    },
+    {
+      "path": "reports/session-affinity-model-second-shard-isolated.log",
+      "bytes": 828
+    },
+    {
+      "path": "reports/session-affinity-model-second-shard.log",
+      "bytes": 0
+    },
+    {
+      "path": "reports/session-affinity-model-small-ranges.log",
+      "bytes": 7454
+    },
+    {
+      "path": "reports/session-affinity-smoke-candidate.log",
+      "bytes": 10073
+    },
+    {
+      "path": "reports/session-affinity-smoke-fcfs-retry.log",
+      "bytes": 9690
+    },
+    {
+      "path": "reports/session-affinity-smoke-fcfs.log",
+      "bytes": 25638
+    },
+    {
+      "path": "reports/session-affinity-targeted-final.log",
+      "bytes": 591
+    },
+    {
+      "path": "reports/session-affinity-unit-initial.log",
+      "bytes": 7214
+    },
+    {
+      "path": "reports/session-affinity-unit-offline.log",
+      "bytes": 657
+    },
+    {
+      "path": "reports/session-affinity-unit-with-extensions.log",
+      "bytes": 0
+    },
+    {
+      "path": "reports/session-invariant-06b-c16-affinity.log",
+      "bytes": 13625
+    },
+    {
+      "path": "reports/session-invariant-06b-c16-fcfs.log",
+      "bytes": 13245
+    },
+    {
+      "path": "reports/session-release-06b-c16-a1.log",
+      "bytes": 11995
+    },
+    {
+      "path": "reports/session-release-06b-c16-a2.log",
+      "bytes": 11993
+    },
+    {
+      "path": "reports/session-release-06b-c16-b1.log",
+      "bytes": 12179
+    },
+    {
+      "path": "reports/session-release-06b-c16-b2.log",
+      "bytes": 12375
+    },
+    {
+      "path": "reports/session-release-06b-c8-affinity.log",
+      "bytes": 12273
+    },
+    {
+      "path": "reports/session-release-06b-c8-fcfs.log",
+      "bytes": 11994
+    },
+    {
+      "path": "reports/session-screen-06b-affinity05-c16.log",
+      "bytes": 12970
+    },
+    {
+      "path": "reports/session-screen-06b-affinity30-c16.log",
+      "bytes": 12974
+    },
+    {
+      "path": "reports/session-screen-06b-fcfs-c16.log",
+      "bytes": 12994
+    },
+    {
+      "path": "reports/session-hardening-before-sync.patch",
+      "bytes": 3919
+    },
+    {
+      "path": "reports/session-replay-before-sync.patch",
+      "bytes": 2144
+    }
+  ],
+  "workload_sha256": "e5394db91afad03820a87f7b3ad6ec94339e57e1631951902e35ad7a859c0703"
+}

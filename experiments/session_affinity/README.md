@@ -1,6 +1,8 @@
 # 会话续跑调度：单卡验证
 
-状态：2026-09-14，已经移植并通过调度/缓存测试，性能结果尚待验证。
+状态：2026-09-14，移植、边界修正和 0.6B 单卡对照完成。
+固定 16 并发下墙钟下降约 11%，但原版降低活动轨迹并发后已追回大部分
+差距；当前不作为主要简历成果继续投入。完整结论见 [RESULTS.md](RESULTS.md)。
 来源是 [vLLM PR 51384](https://github.com/vllm-project/vllm/pull/51384)，
 固定 head `ffab744661e35e5dd5057155210adaaaaaeb75ab`。
 原始移植提交 `4c1bf31` 保留两位作者归属；`b82e9ef` 单独记录我们的
@@ -14,7 +16,8 @@
 
 - 先用已有真实 Qwen3-0.6B 权重做 2 条轨迹的功能检查，不把它当 4B 成绩。
 - 目标模型为真实 Qwen3-4B BF16，所有权重文件按官方固定清单验证 SHA256。
-  0.6B 与 4B 的结果分别标注，不用 dummy 权重替代。
+  0.6B 与 4B 的结果分别标注，不用 dummy 权重替代。最终因必要性证据
+  减弱停止扩展，4B 远程下载尚未完整，未运行 4B 实验。
 - 两侧都开启 APC、chunked prefill、async；max_num_seqs=8、
   max_num_batched_tokens=2048、gpu_memory_utilization=0.8、max_len=40960。
   正式对照保留默认编译/CUDA graph，不把 eager 功能检查当正式性能。

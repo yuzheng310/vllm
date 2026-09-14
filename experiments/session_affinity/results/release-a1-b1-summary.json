@@ -1,0 +1,65 @@
+{
+  "baseline": {
+    "runs": 1,
+    "wall_s": [
+      60.099758743774146
+    ],
+    "median_wall_s": 60.099758743774146,
+    "trajectories_per_min": [
+      47.92032547548862
+    ],
+    "trajectory_active_p95_s": [
+      26.985793132171963
+    ],
+    "batch_completion_p95_s": [
+      58.20806764939334
+    ],
+    "first_turn_p95_s": 7.5588660937733945,
+    "ttft_p95_s": 3.77700919304043,
+    "cached_fraction": 0.6769828738735828,
+    "preemptions": [
+      0
+    ],
+    "max_waiting": [
+      14
+    ],
+    "completed_tasks": [
+      48
+    ],
+    "corrupted_requests": 0
+  },
+  "candidate": {
+    "runs": 1,
+    "wall_s": [
+      53.50172374397516
+    ],
+    "median_wall_s": 53.50172374397516,
+    "trajectories_per_min": [
+      53.83004132318853
+    ],
+    "trajectory_active_p95_s": [
+      23.82984581899363
+    ],
+    "batch_completion_p95_s": [
+      51.26503448334988
+    ],
+    "first_turn_p95_s": 6.596754145948216,
+    "ttft_p95_s": 2.767395606357604,
+    "cached_fraction": 0.7455084217796172,
+    "preemptions": [
+      0
+    ],
+    "max_waiting": [
+      14
+    ],
+    "completed_tasks": [
+      48
+    ],
+    "corrupted_requests": 0
+  },
+  "median_wall_reduction_percent": 10.978471690591418,
+  "first_run_output_hash_matches": 96,
+  "first_run_requests_compared": 233,
+  "scope": "historical prompt replay; fixed decode lengths; simulated tool delay",
+  "note": "Replay completion and hash comparison are not an Agent reward evaluation"
+}
