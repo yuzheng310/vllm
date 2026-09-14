@@ -601,3 +601,21 @@
   计时前修正为匹配模块根名。该修复不更改 tokenizer 输出。
 - 首次提交 hooks 自动修复格式，剩余长字符串经拆行后通过全部检查，
   530244e 已推送个人 fork；未向上游开重复 PR。
+- 修复后的 HF 两次 cache 累计 689.09/632.14ms，native 为
+  1996.78/2171.94ms；逐 token 仍全部一致。随后按已提交的服务协议
+  建立远端干净 v0.29.0 工作树，仅应用本次三文件生产补丁。
+- 远端已有 transformers 5.17.0 / tokenizers 0.23.2，使用单独 target
+  安装 fastokens 0.3.1。新增测试的基础 TokenizersBackend 在该版本
+  自动注入 TemplateProcessing，导致 3 项测试都正确拒绝不支持的 fixture。
+  改为显式 ByteLevel postprocessor 后 3 项全部通过；真实 CodeScout
+  tokenizer 原本就符合支持条件，没有放宽生产保护或改动模型输入。
+- tar 解包忽略 macOS provenance 扩展头并警告，普通文件正常解包。
+  先前默认 uv 路径不存在，定位为专用目录 tools/uv/uv 后使用隔离缓存安装。
+- 发生一次目录边界操作错误：远端 git commit 没有放在 run-in-workspace.sh
+  包装内，自动 pre-commit hook 在 /home/aa205/.cache/pre-commit/repozwddx7_3
+  开始初始化 Ruff 仓库。通过其 PID/命令/工作目录确认属于本次提交后，
+  终止该提交和下载子进程（退出 143），并向用户明确告知。未继续访问或
+  清理该目录，没有声称所有写入都局限于专用目录。后续远端命令恢复通过
+  隔离包装执行；本地所有源代码已有带 hooks 的提交，无需远端重复提交。
+- 服务元数据同时记录干净 base SHA、完整差异 SHA 和三份生产文件 SHA，
+  不把远端未提交补丁冒充干净原版。此次错误未启动 GPU 或更改系统包。

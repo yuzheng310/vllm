@@ -53,6 +53,17 @@ def save():
                 commit=subprocess.check_output(
                     ["git", "rev-parse", "HEAD"], text=True
                 ).strip(),
+                diff_sha256=hashlib.sha256(
+                    subprocess.check_output(["git", "diff", "HEAD"])
+                ).hexdigest(),
+                code_sha256={
+                    name: hashlib.sha256(Path(name).read_bytes()).hexdigest()
+                    for name in (
+                        "vllm/envs.py",
+                        "vllm/renderers/base.py",
+                        "vllm/tokenizers/chatml_encoding_cache.py",
+                    )
+                },
                 platform=platform.platform(),
                 python=platform.python_version(),
                 versions={
