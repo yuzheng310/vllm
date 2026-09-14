@@ -2,13 +2,19 @@
 
 ## Material Passport
 
-- 状态：**已收到控制进程 PID；监控连接中断，尚未取得 GPU 端到端结果**。
+- 状态：**用户要求停止；已于 2026-09-14 17:24:07 确认本次所有进程退出**。
 - 日期：2026-09-14，Asia/Shanghai。
 - 事前协议：[E2E_PROTOCOL.md](E2E_PROTOCOL.md)，先提交于 `a7f9f00`。
 - 实施提交：`ad740e0`，已推送个人 fork；生产三文件未更改。
 - 所有远端实验文件限定于 `/home/aa205/vllm-sparse-prefill.JbyyBUjL`。
 
 ## 连接和启动记录
+
+最新状态：用户明确要求停止后，通过同一主机 IPv6 连接核对了本次控制器、
+子进程和实验专用工作目录，只停止本次五个进程。停止前 run.json 状态为
+running；停止后自建活跃进程列表为空，nvidia-smi 的计算进程列表也为空。
+证据见 [e2e_stop_status.json](e2e_stop_status.json)。远端已有日志保留，未继续
+运行、补测或取回部分数据冒充完整四轮结果。恢复入口仅供以后明确授权时使用。
 
 最初 SSH 控制连接未返回输出，独立重连与 Tailscale 探测超时。本机 VPN
 Running、无健康警告，但目标 Online=false。关闭已核实的本地控制进程后，

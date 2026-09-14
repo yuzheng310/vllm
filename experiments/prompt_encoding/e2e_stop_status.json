@@ -1,0 +1,9 @@
+{
+  "requested": "user stop",
+  "time_utc": "2026-09-14 09:24:07 UTC",
+  "controllers": [1444656],
+  "owned_pids": [1444656, 1444727, 1444845, 1444846, 1445153],
+  "owned_live_pids": [],
+  "gpu_compute_pids": "",
+  "previous_status": "running"
+}

@@ -715,3 +715,8 @@
 - 后续 IPv6 SSH 监控（允许 8 个 30 秒存活间隔）仍然超时，IPv4 SFTP
   只读拉取状态也在连接阶段超时。控制器已用 nohup 与 SSH 分离；尚未取回
   run.json，不能凭 PID 判断已通过资源预检或跑完 GPU。没有发起第二个模型。
+- 用户明确要求停止。2026-09-14 09:24:07 UTC，经同一主机 IPv6 成功执行
+  定向停止：核对控制器命令行、专用输出目录、子进程关系和服务工作目录，
+  暂停控制器防止继续派生，只终止本次五个进程。原 run.json 状态 running；
+  停止后 owned_live_pids 为空，GPU compute PID 列表为空。远端日志保留，
+  未继续运行或补测。停止证据已同步记录到 prompt_encoding/e2e_stop_status.json。
