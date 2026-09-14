@@ -10,13 +10,16 @@ import os
 import platform
 import subprocess
 import time
+from contextlib import asynccontextmanager
 from pathlib import Path
 
+from vllm.entrypoints.launchers.render import entry as render_entry
 from vllm.renderers.base import BaseRenderer
 
 records = []
 renderers = []
 original = BaseRenderer._tokenize_prompt
+original_build_app = render_entry.build_app
 
 
 def measured(self, prompt, params):
@@ -43,7 +46,7 @@ def measured(self, prompt, params):
 def save():
     output = Path(os.environ["REPOCOMPASS_RENDER_METRICS"])
     if output.exists():
-        raise FileExistsError(output)
+        return
     renderer = renderers[0] if renderers else None
     cache = None if renderer is None else renderer._chatml_encoding_cache
     output.write_text(
@@ -96,6 +99,25 @@ def save():
 
 BaseRenderer._tokenize_prompt = measured
 atexit.register(save)
+
+
+def instrumented_app(*args, **kwargs):
+    app = original_build_app(*args, **kwargs)
+    original_lifespan = app.router.lifespan_context
+
+    @asynccontextmanager
+    async def lifespan(app):
+        async with original_lifespan(app):
+            try:
+                yield
+            finally:
+                save()
+
+    app.router.lifespan_context = lifespan
+    return app
+
+
+render_entry.build_app = instrumented_app
 
 if __name__ == "__main__":
     from vllm.entrypoints.cli.main import main
