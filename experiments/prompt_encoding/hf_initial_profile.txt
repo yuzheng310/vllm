@@ -1,0 +1,26 @@
+         1331 function calls in 0.067 seconds
+
+   Ordered by: cumulative time
+   List reduced from 28 to 18 due to restriction <18>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+       10    0.000    0.000    0.067    0.007 /Users/xiaoyuzheng/面试/面试项目/codeDisc/vllm-rollout/vllm/tokenizers/chatml_encoding_cache.py:149(encode)
+       10    0.000    0.000    0.065    0.006 /Users/xiaoyuzheng/面试/面试项目/codeDisc/vllm-rollout/vllm/tokenizers/chatml_encoding_cache.py:130(_unchanged)
+       10    0.000    0.000    0.065    0.006 /Users/xiaoyuzheng/面试/面试项目/codeDisc/vllm-rollout/vllm/tokenizers/chatml_encoding_cache.py:28(_signature)
+       10    0.065    0.006    0.065    0.006 {method 'get_vocab_size' of 'tokenizers.Tokenizer' objects}
+      110    0.001    0.000    0.001    0.000 {method 'extend' of 'list' objects}
+       10    0.001    0.000    0.001    0.000 {method 'split' of 'str' objects}
+      110    0.000    0.000    0.000    0.000 {method 'get' of 'dict' objects}
+      270    0.000    0.000    0.000    0.000 /Users/xiaoyuzheng/面试/面试项目/codeDisc/vllm-rollout/vllm/tokenizers/chatml_encoding_cache.py:40(<genexpr>)
+      260    0.000    0.000    0.000    0.000 {method '__getstate__' of 'tokenizers.AddedToken' objects}
+       10    0.000    0.000    0.000    0.000 {method 'get_added_tokens_decoder' of 'tokenizers.Tokenizer' objects}
+       30    0.000    0.000    0.000    0.000 /Users/xiaoyuzheng/面试/面试项目/codeDisc/vllm-rollout/vllm/tokenizers/chatml_encoding_cache.py:22(_state)
+      110    0.000    0.000    0.000    0.000 {method 'frombytes' of 'array.array' objects}
+      110    0.000    0.000    0.000    0.000 {method 'move_to_end' of 'collections.OrderedDict' objects}
+       10    0.000    0.000    0.000    0.000 {method '__getstate__' of 'tokenizers.pre_tokenizers.PreTokenizer' objects}
+       10    0.000    0.000    0.000    0.000 {built-in method builtins.sorted}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+       10    0.000    0.000    0.000    0.000 /Users/xiaoyuzheng/.cache/uv/archive-v0/qODyY5eG0kWZ2xxzzhzzv/lib/python3.13/site-packages/transformers/tokenization_utils_fast.py:385(num_special_tokens_to_add)
+       10    0.000    0.000    0.000    0.000 {method '__getstate__' of 'tokenizers.normalizers.Normalizer' objects}
+
+

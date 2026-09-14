@@ -36,7 +36,9 @@ def _signature(backend: Any) -> tuple:
             backend.encode_special_tokens,
         )
     return (
-        backend.get_vocab_size(with_added_tokens=True),
+        # Added entries are checked separately. tokenizers 0.22.x can clone
+        # the full vocabulary when with_added_tokens=True, costing O(vocab).
+        backend.get_vocab_size(with_added_tokens=False),
         tuple(
             (index, token.__getstate__())
             for index, token in sorted(backend.get_added_tokens_decoder().items())
