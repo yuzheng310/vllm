@@ -143,6 +143,25 @@ def test_expired_session_is_not_promoted(monkeypatch: pytest.MonkeyPatch):
     assert "stale" not in scheduler._session_last_scheduled_at
 
 
+@pytest.mark.parametrize(
+    "barrier_status",
+    [RequestStatus.PREEMPTED, RequestStatus.WAITING_FOR_REMOTE_KVS],
+)
+def test_continuation_does_not_cross_recovery_barrier(monkeypatch, barrier_status):
+    scheduler = make_scheduler()
+    requests = add_requests(scheduler, ["cold", "recovery", "warm"])
+    now = time.time()
+    requests[1].status = barrier_status
+    scheduler._session_last_scheduled_at["warm"] = now - 1
+    monkeypatch.setattr(
+        scheduler.kv_cache_manager, "peek_num_cached_tokens", lambda request: 64
+    )
+
+    scheduler._promote_session_continuation(now)
+
+    assert waiting_ids(scheduler) == ["0", "1", "2"]
+
+
 def test_schedule_records_active_session():
     scheduler = make_scheduler(max_num_seqs=1)
     request = add_requests(scheduler, ["active"])[0]

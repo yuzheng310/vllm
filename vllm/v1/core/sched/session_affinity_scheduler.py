@@ -53,7 +53,7 @@ class SessionAffinityScheduler(AsyncScheduler):
 
         candidates = list(islice(self.waiting, self._affinity_window))
         head = candidates[0]
-        if head.status == RequestStatus.PREEMPTED:
+        if head.status != RequestStatus.WAITING:
             return None
         if now - head.arrival_time >= self._affinity_max_wait_s:
             return None
@@ -62,8 +62,10 @@ class SessionAffinityScheduler(AsyncScheduler):
         best_index: int | None = None
         best_key: tuple[int, float, float] | None = None
         for index, request in enumerate(candidates[1:], start=1):
+            if request.status != RequestStatus.WAITING:
+                break
             session_id = request.session_id
-            if request.status != RequestStatus.WAITING or session_id is None:
+            if session_id is None:
                 continue
             last_scheduled_at = self._session_last_scheduled_at.get(session_id)
             if last_scheduled_at is None:

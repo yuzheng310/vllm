@@ -305,6 +305,11 @@ class KVCacheManager:
         if not self.prefix_cache_lookup_enabled(request):
             return 0
         max_cache_hit_length = request.num_tokens - 1
+        params = request.sampling_params
+        if params is not None and params.prompt_logprob_positions is not None:
+            max_cache_hit_length = min(
+                max_cache_hit_length, params.prompt_logprob_positions[0] - 1
+            )
         _, num_cached_tokens, _ = self.coordinator.find_longest_cache_hit(
             request.block_hashes, max_cache_hit_length
         )

@@ -1308,6 +1308,7 @@ def test_selected_prompt_cache_preserves_causal_predecessor(first_target, skip_c
     blocks, hit_tokens, _ = manager.get_computed_blocks(request)
     expected = 0 if skip_cache else ((first_target - 1) // block_size) * block_size
     assert hit_tokens == expected
+    assert manager.peek_num_cached_tokens(request) == expected
     assert len(blocks.blocks[0]) == expected // block_size
     assert hit_tokens <= first_target - 1
 
