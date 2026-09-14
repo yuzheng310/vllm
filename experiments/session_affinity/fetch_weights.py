@@ -6,8 +6,9 @@ import argparse
 import hashlib
 import json
 import shutil
+import subprocess
 import time
-import urllib.request
+import urllib.parse
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -53,17 +54,50 @@ def fetch_file(entry, output, legacy_dirs):
             return part
         for attempt in range(3):
             try:
-                req = urllib.request.Request(
-                    url, headers={"Range": f"bytes={start}-{end}"}
+                endpoint = url
+                if attempt:
+                    query = urllib.parse.urlencode(
+                        {"Revision": entry["Revision"], "FilePath": name}
+                    )
+                    endpoint = (
+                        "https://modelscope.cn/api/v1/models/Qwen/Qwen3-4B/repo?"
+                        + query
+                    )
+                headers = parts / f"{index}.headers"
+                result = subprocess.run(
+                    [
+                        "curl",
+                        "-L",
+                        "--fail",
+                        "--silent",
+                        "--show-error",
+                        "--connect-timeout",
+                        "15",
+                        "--max-time",
+                        "90",
+                        "--max-filesize",
+                        str(end - start + 1),
+                        "--range",
+                        f"{start}-{end}",
+                        "--dump-header",
+                        str(headers),
+                        "--output",
+                        str(part),
+                        "--write-out",
+                        "%{http_code}",
+                        endpoint,
+                    ],
+                    capture_output=True,
+                    text=True,
                 )
-                with urllib.request.urlopen(req, timeout=30) as response:
-                    expected_range = f"bytes {start}-{end}/{size}"
-                    if response.headers.get("Content-Range") != expected_range:
-                        raise ValueError("Unexpected range response")
-                    with part.open("wb") as stream:
-                        shutil.copyfileobj(response, stream, length=256 * 1024)
+                if result.returncode or result.stdout.strip() != "206":
+                    raise OSError(f"curl failed: {result.returncode}, {result.stderr}")
+                expected_range = f"content-range: bytes {start}-{end}/{size}"
+                if expected_range not in headers.read_text().lower():
+                    raise ValueError("Unexpected range response")
                 if part.stat().st_size != end - start + 1:
                     raise ValueError("Incomplete range")
+                headers.unlink()
                 return part
             except (OSError, ValueError) as error:
                 print("Retry", name, index, attempt, repr(error), flush=True)
