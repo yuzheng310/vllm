@@ -27,6 +27,10 @@ def main():
         raise FileExistsError(args.output)
     workload_hash = digest(args.workload)
     workload = json.loads(args.workload.read_text())
+    capacity_path = args.directory / "capacity-audit.json"
+    capacities = {
+        entry["run"]: entry for entry in json.loads(capacity_path.read_text())
+    }
     previous = {}
     for task in workload["tasks"]:
         for turn, request in enumerate(task["requests"]):
@@ -44,6 +48,7 @@ def main():
             raise ValueError(f"Incomplete report: {path}")
         if report["workload_sha256"] != workload_hash:
             raise ValueError(f"Different workload: {path}")
+        capacity = capacities[path.stem]
         for run in report["runs"]:
             requests = [q for t in run["tasks"] for q in t["requests"]]
             shortfall = affected = 0
@@ -72,6 +77,8 @@ def main():
                     "script_sha256": report["script_sha256"],
                     "source_commit": report["source_commit"],
                     "engine_args": report["engine_args"],
+                    "kv_pool_tokens": capacity["kv_pool_tokens"],
+                    "allocation_log_sha256": capacity["log_sha256"],
                     "batch_invariant": report["batch_invariant"],
                     "omp_num_threads": report["omp_num_threads"],
                     "wall_s": run["elapsed_s"],
@@ -106,6 +113,7 @@ def main():
                     "weights_sha256",
                     "script_sha256",
                     "engine_args",
+                    "kv_pool_tokens",
                     "batch_invariant",
                     "omp_num_threads",
                 )
@@ -129,10 +137,15 @@ def main():
             {
                 "workload_sha256": workload_hash,
                 "analyzer_sha256": digest(Path(__file__)),
+                "capacity_audit_sha256": digest(capacity_path),
                 "rows": rows,
                 "comparable_output_checks": comparisons,
                 "scope": "Historical prompt replay, simulated tool delay, no live RL",
-                "note": "Do not pool cascade settings or batch-invariant modes",
+                "note": (
+                    "Do not pool cascade settings, batch-invariant modes, or actual "
+                    "KV capacities. Equal gpu_memory_utilization is insufficient. "
+                    "Request phase durations are not GPU operator time."
+                ),
             },
             indent=2,
         )

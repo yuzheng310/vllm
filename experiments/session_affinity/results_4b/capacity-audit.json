@@ -1,0 +1,65 @@
+[
+  {
+    "run": "affinity-c8-b1",
+    "kv_pool_tokens": 79424,
+    "log_sha256": "f2553fa593a7067561e7633f762b84bfe2fd310f7c80d91d7ff2d3578540a8a6",
+    "allocation_logs": [
+      "(EngineCore pid=1406642) INFO 09-14 12:41:44 [kv_cache_utils.py:2032] GPU KV cache size: 79,424 tokens, Maximum concurrency for 40,960 tokens per request: 1.94x",
+      "(EngineCore pid=1406642) INFO 09-14 12:41:46 [gpu_worker.py:860] Free memory on device (22.88/23.51 GiB) on startup. Desired GPU memory utilization is (0.8, 18.81 GiB). Actual usage is 7.69 GiB for consumed memory (weights + non-torch), 0.21 GiB for peak activation, and 0.03 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=11521226752` (10.73 GiB) to fit into requested memory, or `--kv-cache-memory=15891363840` (14.8 GiB) to fully utilize gpu memory. Current kv cache memory in use is 10.91 GiB."
+    ]
+  },
+  {
+    "run": "affinity-c8-b2",
+    "kv_pool_tokens": 79424,
+    "log_sha256": "02126e787b45d49a84c25690c44b22094d02ec09224ca60303d92a9c7a0bf422",
+    "allocation_logs": [
+      "(EngineCore pid=1407515) INFO 09-14 12:48:46 [kv_cache_utils.py:2032] GPU KV cache size: 79,424 tokens, Maximum concurrency for 40,960 tokens per request: 1.94x",
+      "(EngineCore pid=1407515) INFO 09-14 12:48:47 [gpu_worker.py:860] Free memory on device (22.88/23.51 GiB) on startup. Desired GPU memory utilization is (0.8, 18.81 GiB). Actual usage is 7.69 GiB for consumed memory (weights + non-torch), 0.21 GiB for peak activation, and 0.03 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=11521226752` (10.73 GiB) to fit into requested memory, or `--kv-cache-memory=15891363840` (14.8 GiB) to fully utilize gpu memory. Current kv cache memory in use is 10.91 GiB."
+    ]
+  },
+  {
+    "run": "affinity-c8-cascade",
+    "kv_pool_tokens": 79424,
+    "log_sha256": "25d36570d64ccd822daebb631a276323a5dee39abc8d0a6ce4b01de03d780da8",
+    "allocation_logs": [
+      "(EngineCore pid=1409004) INFO 09-14 13:00:05 [kv_cache_utils.py:2032] GPU KV cache size: 79,424 tokens, Maximum concurrency for 40,960 tokens per request: 1.94x",
+      "(EngineCore pid=1409004) INFO 09-14 13:00:06 [gpu_worker.py:860] Free memory on device (22.88/23.51 GiB) on startup. Desired GPU memory utilization is (0.8, 18.81 GiB). Actual usage is 7.69 GiB for consumed memory (weights + non-torch), 0.21 GiB for peak activation, and 0.03 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=11521226752` (10.73 GiB) to fit into requested memory, or `--kv-cache-memory=15891363840` (14.8 GiB) to fully utilize gpu memory. Current kv cache memory in use is 10.91 GiB."
+    ]
+  },
+  {
+    "run": "fcfs-c4-a1",
+    "kv_pool_tokens": 79424,
+    "log_sha256": "171341d0a08bb9d43b812dbc7e98e71a15f9e7777b5795986c88bc92bee33bd0",
+    "allocation_logs": [
+      "(EngineCore pid=1406186) INFO 09-14 12:38:14 [kv_cache_utils.py:2032] GPU KV cache size: 79,424 tokens, Maximum concurrency for 40,960 tokens per request: 1.94x",
+      "(EngineCore pid=1406186) INFO 09-14 12:38:16 [gpu_worker.py:860] Free memory on device (22.88/23.51 GiB) on startup. Desired GPU memory utilization is (0.8, 18.81 GiB). Actual usage is 7.69 GiB for consumed memory (weights + non-torch), 0.21 GiB for peak activation, and 0.03 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=11521226752` (10.73 GiB) to fit into requested memory, or `--kv-cache-memory=15891363840` (14.8 GiB) to fully utilize gpu memory. Current kv cache memory in use is 10.91 GiB."
+    ]
+  },
+  {
+    "run": "fcfs-c4-a2",
+    "kv_pool_tokens": 79424,
+    "log_sha256": "1e4d06d32414f0125838c9a0cf8cf5472b697eee48e0115580558b5f73e87e49",
+    "allocation_logs": [
+      "(EngineCore pid=1407931) INFO 09-14 12:51:57 [kv_cache_utils.py:2032] GPU KV cache size: 79,424 tokens, Maximum concurrency for 40,960 tokens per request: 1.94x",
+      "(EngineCore pid=1407931) INFO 09-14 12:51:58 [gpu_worker.py:860] Free memory on device (22.88/23.51 GiB) on startup. Desired GPU memory utilization is (0.8, 18.81 GiB). Actual usage is 7.69 GiB for consumed memory (weights + non-torch), 0.21 GiB for peak activation, and 0.03 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=11521226752` (10.73 GiB) to fit into requested memory, or `--kv-cache-memory=15891363840` (14.8 GiB) to fully utilize gpu memory. Current kv cache memory in use is 10.91 GiB."
+    ]
+  },
+  {
+    "run": "fcfs-c8-a1",
+    "kv_pool_tokens": 69984,
+    "log_sha256": "e268b915b15432fa9b83350aa17cb08f6eff2f756f7461fc63c1d228598b80bb",
+    "allocation_logs": [
+      "(EngineCore pid=1405650) INFO 09-14 12:34:44 [kv_cache_utils.py:2032] GPU KV cache size: 69,984 tokens, Maximum concurrency for 40,960 tokens per request: 1.71x",
+      "(EngineCore pid=1405650) INFO 09-14 12:34:45 [gpu_worker.py:860] Free memory on device (22.88/23.51 GiB) on startup. Desired GPU memory utilization is (0.8, 18.81 GiB). Actual usage is 8.39 GiB for consumed memory (weights + non-torch), 0.8 GiB for peak activation, and 0.03 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=10130932736` (9.44 GiB) to fit into requested memory, or `--kv-cache-memory=14501069824` (13.51 GiB) to fully utilize gpu memory. Current kv cache memory in use is 9.61 GiB."
+    ]
+  },
+  {
+    "run": "fcfs-c8-cascade",
+    "kv_pool_tokens": 79424,
+    "log_sha256": "9382f8d61358237bff5ef320c8f072ceef152e8c30e7d413f40a9b77a1e58b30",
+    "allocation_logs": [
+      "(EngineCore pid=1408575) INFO 09-14 12:56:48 [kv_cache_utils.py:2032] GPU KV cache size: 79,424 tokens, Maximum concurrency for 40,960 tokens per request: 1.94x",
+      "(EngineCore pid=1408575) INFO 09-14 12:56:50 [gpu_worker.py:860] Free memory on device (22.88/23.51 GiB) on startup. Desired GPU memory utilization is (0.8, 18.81 GiB). Actual usage is 7.69 GiB for consumed memory (weights + non-torch), 0.21 GiB for peak activation, and 0.03 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=11521226752` (10.73 GiB) to fit into requested memory, or `--kv-cache-memory=15891363840` (14.8 GiB) to fully utilize gpu memory. Current kv cache memory in use is 10.91 GiB."
+    ]
+  }
+]

@@ -1,0 +1,107 @@
+{
+  "status": "screen_complete",
+  "commands": [
+    {
+      "name": "fcfs-c8-a1",
+      "argv": [
+        ".venv/bin/python",
+        "src/vllm-session-affinity/experiments/session_affinity/replay.py",
+        "--model",
+        "models/Qwen3-4B",
+        "--workload",
+        "experiments/session-affinity-workload.json",
+        "--output",
+        "reports/session-4b-screen-20260914/fcfs-c8-a1.json",
+        "--policy",
+        "fcfs",
+        "--concurrency",
+        "8",
+        "--max-wait",
+        "0.5",
+        "--runs",
+        "1"
+      ],
+      "pythonpath": "src/vllm-session-baseline",
+      "omp_num_threads": 1,
+      "batch_invariant": 0
+    },
+    {
+      "name": "fcfs-c4-a1",
+      "argv": [
+        ".venv/bin/python",
+        "src/vllm-session-affinity/experiments/session_affinity/replay.py",
+        "--model",
+        "models/Qwen3-4B",
+        "--workload",
+        "experiments/session-affinity-workload.json",
+        "--output",
+        "reports/session-4b-screen-20260914/fcfs-c4-a1.json",
+        "--policy",
+        "fcfs",
+        "--concurrency",
+        "4",
+        "--max-wait",
+        "0.5",
+        "--runs",
+        "1"
+      ],
+      "pythonpath": "src/vllm-session-baseline",
+      "omp_num_threads": 1,
+      "batch_invariant": 0
+    },
+    {
+      "name": "affinity-c8-b1",
+      "argv": [
+        ".venv/bin/python",
+        "src/vllm-session-affinity/experiments/session_affinity/replay.py",
+        "--model",
+        "models/Qwen3-4B",
+        "--workload",
+        "experiments/session-affinity-workload.json",
+        "--output",
+        "reports/session-4b-screen-20260914/affinity-c8-b1.json",
+        "--policy",
+        "affinity",
+        "--concurrency",
+        "8",
+        "--max-wait",
+        "1",
+        "--runs",
+        "1"
+      ],
+      "pythonpath": "src/vllm-session-affinity",
+      "omp_num_threads": 1,
+      "batch_invariant": 0
+    }
+  ],
+  "results": {
+    "fcfs-c8-a1": {
+      "wall_s": 180.73144081281498,
+      "completed_tasks": 48,
+      "previous_input_token_shortfall": 275152,
+      "cache_hits": 1708864,
+      "cache_queries": 2661314,
+      "preemptions": 1
+    },
+    "fcfs-c4-a1": {
+      "wall_s": 180.07002568570897,
+      "completed_tasks": 48,
+      "previous_input_token_shortfall": 0,
+      "cache_hits": 1984016,
+      "cache_queries": 2661314,
+      "preemptions": 0
+    },
+    "affinity-c8-b1": {
+      "wall_s": 162.04507487127557,
+      "completed_tasks": 48,
+      "previous_input_token_shortfall": 109680,
+      "cache_hits": 1874352,
+      "cache_queries": 2661314,
+      "preemptions": 0
+    }
+  },
+  "queue_median_s": 5.163252353668213e-06,
+  "affinity_max_wait_s": 1,
+  "wall_reduction_vs_faster_native_percent": 10.009967370079586,
+  "repeat_candidate_if_tail_and_completion_pass": true
+}
