@@ -1,0 +1,41 @@
+{
+  "note": "PR 55771 is gzip-compressed to preserve the original source text without editing its spelling.",
+  "snapshots": [
+    {
+      "file": "pr_45514.json",
+      "number": 45514,
+      "head": "3a2d32d868ed7e8c72b016bf7ac4ba3cfd4fe22b",
+      "state": "OPEN",
+      "sha256": "9667f7ce9fcf6b3cff40505134d678dbdfc73e83170a741b9ed5f0bfb51959d8",
+      "uncompressed_sha256": "9667f7ce9fcf6b3cff40505134d678dbdfc73e83170a741b9ed5f0bfb51959d8",
+      "url": "https://github.com/vllm-project/vllm/pull/45514"
+    },
+    {
+      "file": "pr_47583.json",
+      "number": 47583,
+      "head": "aa18fc9f49991dbef134fd875c846987a88fc185",
+      "state": "OPEN",
+      "sha256": "5282efc029b678883d7bbe607dd8ad28ca24cc266622e86764e0bb425ad70111",
+      "uncompressed_sha256": "5282efc029b678883d7bbe607dd8ad28ca24cc266622e86764e0bb425ad70111",
+      "url": "https://github.com/vllm-project/vllm/pull/47583"
+    },
+    {
+      "file": "pr_51281.json",
+      "number": 51281,
+      "head": "5d1dc1b2b1a16ba13fece455a3c969d0fbcd7a7b",
+      "state": "OPEN",
+      "sha256": "c1e595ad55c55bdd58ae02468589c40b676867a7b1185f0c7161ab3ad630fb5a",
+      "uncompressed_sha256": "c1e595ad55c55bdd58ae02468589c40b676867a7b1185f0c7161ab3ad630fb5a",
+      "url": "https://github.com/vllm-project/vllm/pull/51281"
+    },
+    {
+      "file": "pr_55771.json.gz",
+      "number": 55771,
+      "head": "c16727d5a058408bffe91fc8aa8d4fbde28b5e12",
+      "state": "OPEN",
+      "sha256": "ce6c08f4bf46a06fb5a0f33adc3cc325823d2582314195a26b595f01fc956772",
+      "uncompressed_sha256": "3a33316a3e214cda78958678e8b68b4a91ee7582f9fc25210404fb4710dbcdaa",
+      "url": "https://github.com/vllm-project/vllm/pull/55771"
+    }
+  ]
+}
