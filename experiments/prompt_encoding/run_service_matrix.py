@@ -54,6 +54,9 @@ def main():
             "40960",
             "--renderer-num-workers",
             "8",
+            "--enable-auto-tool-choice",
+            "--tool-call-parser",
+            "hermes",
             "--disable-uvicorn-access-log",
         ]
         with stem.with_suffix(".log").open("w") as log:
