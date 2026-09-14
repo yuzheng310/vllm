@@ -64,3 +64,13 @@ HTTP 期望值；首个 native 请求在缓存关闭时已不匹配，比较当�
 通过 SIGUSR1 在回放完全结束后写出原始计时，再只终止自建服务进程。
 若 5s 内未退出则停止该 PID，记录 -9；清理在计时之外，两组完全一致。
 未修改 vLLM 的原生渲染或关闭实现来改善计时，也不让关闭失败丢失数据。
+
+最终源码还需把 cache_salt 提前带入分词：原生 extras 在 tokenize 之后才
+注入，不能只给字典键加 salt 就声称 HTTP 已隔离。四条同步/异步 Chat 与
+Completion 入口均在分词前传入该字段，原有后置 extras 保留；只对启用
+缓存的 decoder-only renderer 生效。首次 HF HTTP 组移入 pre-salt-fix，
+主回放的 salt 虽均为 None，也使用修复后的源码重新确认最终两组结果。
+
+补充非目标短输入回退控制：冻结首请求的前 256 字符，每组 1000 次，
+native/cache/cache/native，HF 和 fastokens 各一次。这是人为裁出的边界
+控制，只报告启用开关的微秒级额外成本，不混入 233 请求主指标或简历收益。
