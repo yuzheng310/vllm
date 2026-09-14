@@ -372,3 +372,22 @@
   不能将两者替代原生 vLLM 实际部署证据或假定后端并发相同。
 - 新增 ADMISSION_NECESSITY_AUDIT.md，结论为当前不立项；同步更正 README
   和 CACHE_RESULTS 中过早的简历推荐，保留历史数字、文字与决定的可审计性。
+
+## 继续沿实际 rollout 探测（2026-09-14）
+
+- 沿 generator、LLM 请求、工具执行、返回 token、后台归档与权重暂停路径
+  阅读实际源码，未更改这些运行时路径。
+- 同题八采样曾作为潜在重复 prefill 候选；进一步查到原版 vLLM 的分配
+  阶段完整块缓存与 same-batch reuse，及时排除“原生每个样本都从头算”假设。
+- 排除将现成 pause wait/keep、packed weight transfer、ngram/suffix
+  投机当成新增功能。HTTP token IDs 回传可达，但暂无墙钟占比。
+- 读取公共轨迹原始 parquet，确认 494 个任务、2395 请求及输入/输出分布；
+  原始请求均有匹配延迟，但没有工具、到达、GPU 与排队分解。记录的缓存
+  读取全为 0，缺少字段传递证据，不能解释为引擎没用缓存。
+- 发现 636 个请求超过此前评分实验 16K 上限，17 个超过当前训练 40960
+  配置；公开评估与当前训练不能不加区分地直接回放或截断。
+- 本机现有 qwen3-runtime venv 缺 pyarrow，初次只读探针 import 失败；
+  改用 uv 隔离的 pyarrow 环境读取，不修改现有项目依赖。一次 glob 搜索
+  因 zsh 无匹配停止，后续使用 rg --files 定位。未启动 GPU 任务。
+- 新增 experiments/rollout_audit 的复核脚本、数据摘要与候选审查记录。
+  下一层应使用原生观测能力确认耗时来源，当前没有获准立项的新功能。
