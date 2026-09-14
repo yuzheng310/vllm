@@ -1,5 +1,10 @@
 # 多轮 Agent 的动作位置稀疏 Prefill 打分
 
+定位更正：本实验未建立与 RepoCompass 当前训练配方的必要联系，撤回将其
+直接作为该项目核心优化成果的推荐。性能数据保留为特定负载的实验结果。
+后续显存准入课题也未通过开发前必要性审查，详见
+[必要性审查](ADMISSION_NECESSITY_AUDIT.md)。
+
 这是个人 fork 中的 vLLM 二次开发与教学实验，不是已合并的上游功能。
 目标是把调用者已经知道的动作位置传到 GPU runner，在 LM head 之前
 筛选需要的 hidden-state 行，保持完整因果上下文及原来的概率定义。
@@ -14,7 +19,7 @@
    `vllm/v1/worker/gpu/sample/prompt_logprob.py` →
    `vllm/v1/engine/logprobs.py`。
 4. [当前实验结论](CACHE_RESULTS.md)：53%–60% 的轨迹耗时下降、
-   强对照和简历措辞；[第一阶段结果](RESULTS.md)保留为历史记录。
+   强对照和历史措辞；[第一阶段结果](RESULTS.md)保留为历史记录。
 5. [教学与复现](TEACHING.md)：代码阅读问题、命令和学习路线。
 
 ## 当前状态
