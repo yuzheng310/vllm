@@ -54,7 +54,6 @@ def main():
             "65536",
             "--renderer-num-workers",
             "8",
-            "--disable-log-requests",
             "--disable-uvicorn-access-log",
         ]
         with stem.with_suffix(".log").open("w") as log:
