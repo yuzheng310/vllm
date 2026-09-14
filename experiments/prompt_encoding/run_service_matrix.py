@@ -51,7 +51,7 @@ def main():
             "--port",
             "18193",
             "--max-model-len",
-            "65536",
+            "40960",
             "--renderer-num-workers",
             "8",
             "--disable-uvicorn-access-log",
