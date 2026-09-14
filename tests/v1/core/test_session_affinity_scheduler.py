@@ -220,3 +220,20 @@ def test_token_budget_stall_restores_fcfs_order(
 
     assert second_output.num_scheduled_tokens == {requests[0].request_id: 4}
     assert waiting_ids(scheduler) == ["1", "2", "3"]
+
+
+def test_full_running_set_does_not_probe_waiting_cache(monkeypatch):
+    scheduler = make_scheduler(max_num_seqs=1)
+    add_requests(scheduler, ["running", "cold", "warm"])
+    scheduler.schedule()
+    now = time.time()
+    scheduler._session_last_scheduled_at["warm"] = now
+
+    def unexpected_probe(request):
+        pytest.fail("No waiting request can be admitted while the running set is full")
+
+    monkeypatch.setattr(
+        scheduler.kv_cache_manager, "peek_num_cached_tokens", unexpected_probe
+    )
+    assert scheduler._promote_session_continuation(now) is None
+    assert waiting_ids(scheduler) == ["1", "2"]

@@ -50,6 +50,12 @@ class SessionAffinityScheduler(AsyncScheduler):
     ) -> tuple[Request, Request | None] | None:
         if not self.cache_config.enable_prefix_caching or len(self.waiting) < 2:
             return None
+        # A full running set cannot admit a continuation in this schedule call.
+        if (
+            len(self.running) + self.num_waiting_for_streaming_input
+            >= self.max_num_running_reqs
+        ):
+            return None
 
         candidates = list(islice(self.waiting, self._affinity_window))
         head = candidates[0]
