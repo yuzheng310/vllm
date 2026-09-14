@@ -70,7 +70,14 @@ def test_thread_pool_tokenizer_pickle(model_id: str):
 @pytest.fixture
 def chatml_tokenizer():
     """A local ByteLevel BPE with a genuine non-normalized ChatML boundary."""
-    from tokenizers import AddedToken, Tokenizer, decoders, models, normalizers
+    from tokenizers import (
+        AddedToken,
+        Tokenizer,
+        decoders,
+        models,
+        normalizers,
+        processors,
+    )
     from tokenizers.pre_tokenizers import ByteLevel
     from transformers import TokenizersBackend
 
@@ -79,6 +86,7 @@ def chatml_tokenizer():
     backend.pre_tokenizer = ByteLevel(add_prefix_space=False)
     backend.normalizer = normalizers.NFC()
     backend.decoder = decoders.ByteLevel()
+    backend.post_processor = processors.ByteLevel(trim_offsets=False)
     backend.add_special_tokens(
         [AddedToken("<|im_end|>", special=True, normalized=False)]
     )
