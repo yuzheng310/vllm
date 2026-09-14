@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, Any, Generic, overload
 
 from typing_extensions import TypeVar
 
+from vllm import envs
 from vllm.inputs import (
     EmbedsInput,
     EmbedsPrompt,
@@ -41,6 +42,7 @@ from vllm.multimodal.processing import BaseMultiModalProcessor
 from vllm.multimodal.processing import ProcessorInputs as MMProcessorInputs
 from vllm.multimodal.registry import MultiModalTimingRegistry
 from vllm.tokenizers import TokenizerLike
+from vllm.tokenizers.chatml_encoding_cache import ChatMLEncodingCache
 from vllm.utils.async_utils import make_async
 from vllm.utils.counter import AtomicCounter
 from vllm.utils.torch_utils import set_default_torch_num_threads
@@ -72,6 +74,8 @@ _T = TypeVar("_T", bound=TokenizerLike, default=TokenizerLike)
 
 
 class BaseRenderer(ABC, Generic[_T]):
+    _chatml_encoding_cache: ChatMLEncodingCache | None = None
+
     def __init__(self, config: "VllmConfig", tokenizer: _T | None) -> None:
         super().__init__()
 
@@ -84,6 +88,12 @@ class BaseRenderer(ABC, Generic[_T]):
         self._finalizer = weakref.finalize(self, self._resources.close)
 
         self.tokenizer = tokenizer
+        cache_mb = envs.VLLM_CHATML_ENCODING_CACHE_MB
+        self._chatml_encoding_cache = (
+            ChatMLEncodingCache.create(tokenizer, max_bytes=cache_mb * 1024 * 1024)
+            if cache_mb > 0 and tokenizer is not None
+            else None
+        )
 
         # Thread pool executor for blocking tokenizer operations.  The
         # multimodal processor receives a deep-copied tokenizer (see #36557)
@@ -476,6 +486,12 @@ class BaseRenderer(ABC, Generic[_T]):
         tokenizer = self.get_tokenizer()
         want_offsets = self._wants_offsets(prompt, params)
         kwargs = params.get_encode_kwargs()
+        if self._chatml_encoding_cache is not None and not want_offsets:
+            token_ids = self._chatml_encoding_cache.encode(
+                prompt["prompt"], cache_salt=prompt.get("cache_salt"), **kwargs
+            )
+            if token_ids is not None:
+                return self._build_tokens_prompt(token_ids, prompt)
         if want_offsets:
             kwargs = {**kwargs, "return_offsets_mapping": True}
         encoding = tokenizer(prompt["prompt"], **kwargs)
