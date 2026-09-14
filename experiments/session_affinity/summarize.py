@@ -66,6 +66,8 @@ def main():
     ):
         if baseline[key] != candidate[key]:
             raise ValueError(f"Incomparable artifacts: {key}")
+    if baseline.get("omp_num_threads") != candidate.get("omp_num_threads"):
+        raise ValueError("Incomparable CPU thread settings")
     if baseline["status"] != "complete" or candidate["status"] != "complete":
         raise ValueError("Incomplete replay cannot count as performance evidence")
     a, b = describe(baseline), describe(candidate)

@@ -123,6 +123,7 @@ async def main(args):
             text=True,
         ).strip(),
         "batch_invariant": os.environ.get("VLLM_BATCH_INVARIANT", "0"),
+        "omp_num_threads": os.environ.get("OMP_NUM_THREADS"),
         "runs": [],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -192,6 +193,7 @@ async def main(args):
                                 "ttft_s": first - begin,
                                 "input_tokens": len(request["input_ids"]),
                                 "output_tokens": len(ids),
+                                "output_token_ids": list(ids),
                                 "cached_tokens": output.num_cached_tokens,
                                 "output_sha256": hashlib.sha256(
                                     np.asarray(ids, dtype="<i4").tobytes()
