@@ -8,6 +8,7 @@ import importlib.metadata
 import json
 import os
 import platform
+import signal
 import subprocess
 import time
 from contextlib import asynccontextmanager
@@ -99,6 +100,7 @@ def save():
 
 BaseRenderer._tokenize_prompt = measured
 atexit.register(save)
+signal.signal(signal.SIGUSR1, lambda *_: save())
 
 
 def instrumented_app(*args, **kwargs):

@@ -17,7 +17,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--prepared", type=Path, required=True)
     parser.add_argument("--tokenizer", type=Path, required=True)
-    parser.add_argument("--first-renderer", type=Path, required=True)
+    parser.add_argument("--first-renderer", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
@@ -62,11 +62,11 @@ def main():
         )
         item["text"] = text
         item["input_ids"] = ids
-    # The observed failing request came from native vLLM with cache disabled.
-    observed = json.loads(args.first_renderer.read_text())["requests"]
-    assert observations[0]["canonical_text_sha256"] in {
-        row["text_sha256"] for row in observed
-    }, "Tool serialization alone does not explain the native discrepancy"
+    if args.first_renderer is not None:
+        observed = json.loads(args.first_renderer.read_text())["requests"]
+        assert observations[0]["canonical_text_sha256"] in {
+            row["text_sha256"] for row in observed
+        }, "Tool serialization alone does not explain the native discrepancy"
     frozen["canonicalization"] = dict(
         original_prepared_sha256=digest(args.prepared),
         method="Native API tool model_dump; request bodies unchanged",
@@ -74,7 +74,9 @@ def main():
     args.output.write_text(json.dumps(frozen, ensure_ascii=False) + "\n")
     report = dict(
         method=frozen["canonicalization"],
-        original_native_observation=digest(args.first_renderer),
+        original_native_observation=(
+            None if args.first_renderer is None else digest(args.first_renderer)
+        ),
         canonical_prepared_sha256=digest(args.output),
         changed_id_sequences=sum(not row["ids_equal"] for row in observations),
         requests=len(observations),

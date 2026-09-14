@@ -5,6 +5,7 @@
 import argparse
 import json
 import os
+import signal
 import subprocess
 import sys
 import time
@@ -85,7 +86,7 @@ def main():
                         sys.executable,
                         str(scripts / "bench_service.py"),
                         "--prepared",
-                        str(exp / "input/repocompass-chat-workload.json"),
+                        str(exp / "input/repocompass-chat-workload-native.json"),
                         "--url",
                         "http://127.0.0.1:18193",
                         "--output",
@@ -96,16 +97,33 @@ def main():
                     check=True,
                 )
             finally:
+                if server.poll() is None:
+                    server.send_signal(signal.SIGUSR1)
+                    deadline = time.monotonic() + 5
+                    while not stem.with_suffix(".renderer.json").exists():
+                        if time.monotonic() > deadline or server.poll() is not None:
+                            break
+                        time.sleep(0.1)
                 server.terminate()
                 try:
-                    server.wait(timeout=30)
+                    server.wait(timeout=5)
                 except subprocess.TimeoutExpired:
+                    # Native render shutdown assumes a non-None engine client;
+                    # on this base it hangs. Snapshot before stopping our process.
                     server.kill()
                     server.wait()
-            if server.returncode not in (0, -15):
+            if server.returncode not in (0, -15, -9):
                 raise RuntimeError(f"Unexpected exit {server.returncode}")
+            assert stem.with_suffix(".renderer.json").exists()
         print(
-            json.dumps(dict(backend=args.backend, round=label, status="complete")),
+            json.dumps(
+                dict(
+                    backend=args.backend,
+                    round=label,
+                    status="complete",
+                    shutdown_returncode=server.returncode,
+                )
+            ),
             flush=True,
         )
 
