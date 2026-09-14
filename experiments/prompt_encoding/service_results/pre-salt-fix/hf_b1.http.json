@@ -1,0 +1,1882 @@
+{
+  "scope": "Loopback HTTP chat rendering only; sequential fixed interleave",
+  "prepared_sha256": "95898186a1c1d2ca535e446524db07ada74f5e84b2804a862628eff8bea2916f",
+  "summary": {
+    "total_http_ms": 1924.96032,
+    "p50_http_ms": 5.505083,
+    "p95_http_ms": 20.039089999999963,
+    "exact_requests": 233,
+    "offsets": "PASS",
+    "truncations": [
+      "left",
+      "right"
+    ],
+    "concurrent_exact_requests": 8
+  },
+  "requests": [
+    {
+      "task_id": "sympy__sympy-13798",
+      "turn_id": 0,
+      "start_ns": 2933069324268109,
+      "elapsed_ns": 9380483,
+      "text_sha256": "9a447e3e9af37419e8287f5a4120babec8fec9ede59fc4838bfb57485fe99e69",
+      "prompt_tokens": 3563
+    },
+    {
+      "task_id": "pytest-dev__pytest-5631",
+      "turn_id": 0,
+      "start_ns": 2933069333904126,
+      "elapsed_ns": 4244627,
+      "text_sha256": "ffed079ff5ed5379f73d1c32f72d4387e6d7cd5fd66a9036e57e5415a901065f",
+      "prompt_tokens": 3980
+    },
+    {
+      "task_id": "sympy__sympy-17318",
+      "turn_id": 0,
+      "start_ns": 2933069338451642,
+      "elapsed_ns": 4012270,
+      "text_sha256": "3464267219bc1518a61b3f33b5191cc1f81193fbd9c050e26f665d62f594b120",
+      "prompt_tokens": 4244
+    },
+    {
+      "task_id": "django__django-16100",
+      "turn_id": 0,
+      "start_ns": 2933069342758993,
+      "elapsed_ns": 2988864,
+      "text_sha256": "7332e76e1c2b82d133045b9095713255f7bb39df611f0cdb98754b443bd47f42",
+      "prompt_tokens": 3378
+    },
+    {
+      "task_id": "sympy__sympy-18211",
+      "turn_id": 0,
+      "start_ns": 2933069345991241,
+      "elapsed_ns": 3278859,
+      "text_sha256": "c4bfbbb2e6f0740d028b2dd176d916e7f0eb637e135fc30cd423a60ad2ab1fa4",
+      "prompt_tokens": 3533
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9230",
+      "turn_id": 0,
+      "start_ns": 2933069349507998,
+      "elapsed_ns": 3588746,
+      "text_sha256": "f947daeaf364748151e651c0eea8c65416c2302205b3fe140a200f9ed2bfb747",
+      "prompt_tokens": 3755
+    },
+    {
+      "task_id": "django__django-11880",
+      "turn_id": 0,
+      "start_ns": 2933069353348236,
+      "elapsed_ns": 3382937,
+      "text_sha256": "e0bfb4ccfbca435200e4733ff745ad43a3dccf99d802e7dd1f3836dbe0ebba76",
+      "prompt_tokens": 3614
+    },
+    {
+      "task_id": "django__django-13809",
+      "turn_id": 0,
+      "start_ns": 2933069356976821,
+      "elapsed_ns": 3163436,
+      "text_sha256": "b6128b72ab5c2d6b9c05aa61ed163216b5bc31fa914146997629c4db485916aa",
+      "prompt_tokens": 3433
+    },
+    {
+      "task_id": "sympy__sympy-13798",
+      "turn_id": 1,
+      "start_ns": 2933069360376168,
+      "elapsed_ns": 4955813,
+      "text_sha256": "831c55ce2946ccc8c4ae194d2911f111980b317b4eed1f163ce0a068c92cb143",
+      "prompt_tokens": 5113
+    },
+    {
+      "task_id": "pytest-dev__pytest-5631",
+      "turn_id": 1,
+      "start_ns": 2933069365673158,
+      "elapsed_ns": 3168424,
+      "text_sha256": "eb8ecc05dc9b180f9931c909368ce54d258036e324af85fcfd5419f91f1835cf",
+      "prompt_tokens": 4472
+    },
+    {
+      "task_id": "sympy__sympy-17318",
+      "turn_id": 1,
+      "start_ns": 2933069369163370,
+      "elapsed_ns": 3146858,
+      "text_sha256": "da3b1d33fccd5a0b9de8f5ab55c90be462cfad7b36a1f00bbbc16a629a9ea102",
+      "prompt_tokens": 4890
+    },
+    {
+      "task_id": "django__django-16100",
+      "turn_id": 1,
+      "start_ns": 2933069372636472,
+      "elapsed_ns": 2902525,
+      "text_sha256": "47531fbb30fe76f6de5616a9be617c4b2cc95e91ac6287f2538956a1407f93a5",
+      "prompt_tokens": 3897
+    },
+    {
+      "task_id": "sympy__sympy-18211",
+      "turn_id": 1,
+      "start_ns": 2933069375807088,
+      "elapsed_ns": 7547961,
+      "text_sha256": "07b98dfc98e9bd52dad48a4e5150722e2cd747cfa7389e11d2b5c5b9fcc8ff39",
+      "prompt_tokens": 7983
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9230",
+      "turn_id": 1,
+      "start_ns": 2933069383858242,
+      "elapsed_ns": 5654355,
+      "text_sha256": "98a5afa5eb5c077f16c02527457e72cf53346a7e1fcbfbefb678e497325d772e",
+      "prompt_tokens": 6943
+    },
+    {
+      "task_id": "django__django-11880",
+      "turn_id": 1,
+      "start_ns": 2933069389988044,
+      "elapsed_ns": 4071839,
+      "text_sha256": "9990dd246afc89c50bc865b9fd540cb4f50ea17f2ba966487545bd502f73d267",
+      "prompt_tokens": 4834
+    },
+    {
+      "task_id": "django__django-13809",
+      "turn_id": 1,
+      "start_ns": 2933069394380540,
+      "elapsed_ns": 3029557,
+      "text_sha256": "f8f9bf4ab78c25011d378f7c926c42e1cbe3e30446c26c5270bc73209d405432",
+      "prompt_tokens": 4012
+    },
+    {
+      "task_id": "sympy__sympy-13798",
+      "turn_id": 2,
+      "start_ns": 2933069397683345,
+      "elapsed_ns": 17304528,
+      "text_sha256": "b1a492295570e26e2cf80fb0d99518c3b17080b629544c6f6d0f367a5e5a8282",
+      "prompt_tokens": 14677
+    },
+    {
+      "task_id": "pytest-dev__pytest-5631",
+      "turn_id": 2,
+      "start_ns": 2933069415887030,
+      "elapsed_ns": 4128251,
+      "text_sha256": "492659133ca98bf51a1ce69796c9472ce4564134a2fc1323a59cc0fb0ed4bd1f",
+      "prompt_tokens": 5193
+    },
+    {
+      "task_id": "sympy__sympy-17318",
+      "turn_id": 2,
+      "start_ns": 2933069420423739,
+      "elapsed_ns": 9992272,
+      "text_sha256": "fcbcff88401e4e505cae90bcc63d1357803a3f18c0a6e42cacce9af333dbedbc",
+      "prompt_tokens": 10193
+    },
+    {
+      "task_id": "django__django-16100",
+      "turn_id": 2,
+      "start_ns": 2933069431046971,
+      "elapsed_ns": 17468712,
+      "text_sha256": "85c85097985c6b9a723aac49d9342ec9f0134629853db3944fb1bba204dc1a0b",
+      "prompt_tokens": 11940
+    },
+    {
+      "task_id": "sympy__sympy-18211",
+      "turn_id": 2,
+      "start_ns": 2933069449297785,
+      "elapsed_ns": 14680480,
+      "text_sha256": "7ffa9fcbdf092a7a393c66d76721d33cf778bb3bad55f5756bb293698e0c3937",
+      "prompt_tokens": 15218
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9230",
+      "turn_id": 2,
+      "start_ns": 2933069464976309,
+      "elapsed_ns": 13449532,
+      "text_sha256": "dc63bd59d2e22c5234ba404713ac930eecf62e1d9e338c48ab079a5102705b34",
+      "prompt_tokens": 13218
+    },
+    {
+      "task_id": "django__django-11880",
+      "turn_id": 2,
+      "start_ns": 2933069479269731,
+      "elapsed_ns": 17238740,
+      "text_sha256": "42b62e4759e9ef22aed9b83d5b40955e61bd2a5012903bbe444e0c9b2adcaade",
+      "prompt_tokens": 12828
+    },
+    {
+      "task_id": "django__django-13809",
+      "turn_id": 2,
+      "start_ns": 2933069497334481,
+      "elapsed_ns": 7343332,
+      "text_sha256": "eecdfb2a17098a7fec86c43f9ce68e58cd82242c49d68d3a3fbbac4899dd5023",
+      "prompt_tokens": 6269
+    },
+    {
+      "task_id": "sympy__sympy-13798",
+      "turn_id": 3,
+      "start_ns": 2933069505128914,
+      "elapsed_ns": 17618946,
+      "text_sha256": "3f35517a64921ea7925f3fa1d1044c6ec36906bc1f21f92680309243deba5b45",
+      "prompt_tokens": 23373
+    },
+    {
+      "task_id": "pytest-dev__pytest-5631",
+      "turn_id": 3,
+      "start_ns": 2933069524202906,
+      "elapsed_ns": 4077588,
+      "text_sha256": "395a233ce0557dabf86181e2219cc1a0a8dbc94151e6c60be96a107f10d40dac",
+      "prompt_tokens": 5590
+    },
+    {
+      "task_id": "sympy__sympy-17318",
+      "turn_id": 3,
+      "start_ns": 2933069528755459,
+      "elapsed_ns": 5698780,
+      "text_sha256": "1c597786d5d3dd749c6b5ff21a3d658ced879589280d22fda6f0c67cbe6ffb0f",
+      "prompt_tokens": 11338
+    },
+    {
+      "task_id": "django__django-16100",
+      "turn_id": 3,
+      "start_ns": 2933069535142877,
+      "elapsed_ns": 5106258,
+      "text_sha256": "5709c7643155e6221e7ccdc68bd9a20f5dbdbbfb5ea7124849b353fccc820d11",
+      "prompt_tokens": 12255
+    },
+    {
+      "task_id": "sympy__sympy-18211",
+      "turn_id": 3,
+      "start_ns": 2933069541056556,
+      "elapsed_ns": 13707062,
+      "text_sha256": "404b8fb43b5902e26a9d0299c8981fb457cbd167fe796a61f75e78f2116d9587",
+      "prompt_tokens": 20863
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9230",
+      "turn_id": 3,
+      "start_ns": 2933069556104548,
+      "elapsed_ns": 11707353,
+      "text_sha256": "59a8ceb8f8c5bb1ced8c2c28ff6d53f15c1530b59df2c58834f1641aae9b815b",
+      "prompt_tokens": 17491
+    },
+    {
+      "task_id": "django__django-11880",
+      "turn_id": 3,
+      "start_ns": 2933069568996295,
+      "elapsed_ns": 19381542,
+      "text_sha256": "4249e3b5ce5099ad526bc23623cd25e6ffe432da89820fdd37ca2089ed113c0a",
+      "prompt_tokens": 23148
+    },
+    {
+      "task_id": "django__django-13809",
+      "turn_id": 3,
+      "start_ns": 2933069589801892,
+      "elapsed_ns": 4335750,
+      "text_sha256": "c8e0923ba15cdfb6855533cc98a43d69ecda5831f8b3fec8afab1f38da48ae92",
+      "prompt_tokens": 6592
+    },
+    {
+      "task_id": "django__django-16100",
+      "turn_id": 4,
+      "start_ns": 2933069594652373,
+      "elapsed_ns": 4809291,
+      "text_sha256": "dedb9d73fce0419687110e2d4444c9ee3afd0b4bbfdaa97704888bca4f9054fb",
+      "prompt_tokens": 12423
+    },
+    {
+      "task_id": "sympy__sympy-18211",
+      "turn_id": 4,
+      "start_ns": 2933069600225822,
+      "elapsed_ns": 9678136,
+      "text_sha256": "2ad7b4d0854d29165ff8c3cff72c9754d36b154982bbc2a20aa563b81163a14b",
+      "prompt_tokens": 23346
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9230",
+      "turn_id": 4,
+      "start_ns": 2933069611361416,
+      "elapsed_ns": 5504374,
+      "text_sha256": "5e4c37919938fde38f66a0d950491da55d26c7cac7eef52707ed8ad6df203918",
+      "prompt_tokens": 17624
+    },
+    {
+      "task_id": "django__django-15315",
+      "turn_id": 0,
+      "start_ns": 2933069618033350,
+      "elapsed_ns": 3456654,
+      "text_sha256": "3ffb884e71ecd19eed3bfbac87ae162ce7a027594205c8f0fb0ebe09aa3ffdb8",
+      "prompt_tokens": 3520
+    },
+    {
+      "task_id": "astropy__astropy-13453",
+      "turn_id": 0,
+      "start_ns": 2933069621807573,
+      "elapsed_ns": 6121137,
+      "text_sha256": "699580f87c65b069d4b4059e02aa1d6b3947d14620b4b325bb682c7ff5079c71",
+      "prompt_tokens": 5592
+    },
+    {
+      "task_id": "django__django-15731",
+      "turn_id": 0,
+      "start_ns": 2933069628285250,
+      "elapsed_ns": 3235912,
+      "text_sha256": "f319da149617f513fc08cdb2ee9b91a09a757c556b88a9e98b8e851d4d2fcf50",
+      "prompt_tokens": 3605
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9230",
+      "turn_id": 5,
+      "start_ns": 2933069631772318,
+      "elapsed_ns": 9211526,
+      "text_sha256": "2aab7d3dab49fbfb74c3a05a8eef68083d936e347c0ceebc88bf65b4d67a9267",
+      "prompt_tokens": 20305
+    },
+    {
+      "task_id": "django__django-16454",
+      "turn_id": 0,
+      "start_ns": 2933069642145130,
+      "elapsed_ns": 3531297,
+      "text_sha256": "c9a8bf49e637ddcf457ba8607e607cd84ac9039077b35409364ba916c71c80fe",
+      "prompt_tokens": 3803
+    },
+    {
+      "task_id": "django__django-14787",
+      "turn_id": 0,
+      "start_ns": 2933069646027414,
+      "elapsed_ns": 2834657,
+      "text_sha256": "7671915439d2adbe287a5f3e944723afca15c53bf869df2909892a1f9670f63c",
+      "prompt_tokens": 3500
+    },
+    {
+      "task_id": "django__django-15315",
+      "turn_id": 1,
+      "start_ns": 2933069649103226,
+      "elapsed_ns": 3796212,
+      "text_sha256": "c6deafa7dd6edaca8fb70ff3bedb202e70f235079371e5153d17c8ad79d12294",
+      "prompt_tokens": 4494
+    },
+    {
+      "task_id": "astropy__astropy-13453",
+      "turn_id": 1,
+      "start_ns": 2933069653200347,
+      "elapsed_ns": 4510988,
+      "text_sha256": "db6832afc8d5cc39cf26a01ea412b435515d08db02a92e3f8e7fe83e447b03e7",
+      "prompt_tokens": 7018
+    },
+    {
+      "task_id": "django__django-15731",
+      "turn_id": 1,
+      "start_ns": 2933069658156531,
+      "elapsed_ns": 6513098,
+      "text_sha256": "e91a2ef0aa25a3f8bdbd47f7fcb7fad33cd510adea29ce8019f5dfd5748abe18",
+      "prompt_tokens": 6630
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9711",
+      "turn_id": 0,
+      "start_ns": 2933069665112631,
+      "elapsed_ns": 3193835,
+      "text_sha256": "a5601ee40eb2c847053168e5b9759b816f133d7226b3158a839ab58337786aa1",
+      "prompt_tokens": 3730
+    },
+    {
+      "task_id": "astropy__astropy-8707",
+      "turn_id": 0,
+      "start_ns": 2933069668574323,
+      "elapsed_ns": 2838167,
+      "text_sha256": "71f8ed9fc59cac42f80d6550c9638fde34def20974018a0af2786027248c05d5",
+      "prompt_tokens": 3518
+    },
+    {
+      "task_id": "django__django-16454",
+      "turn_id": 1,
+      "start_ns": 2933069671654574,
+      "elapsed_ns": 2977509,
+      "text_sha256": "12e5e99a143b433f61091c2f6cf29ba79029a59e5eef8c8f30a6c32b7c317fd5",
+      "prompt_tokens": 4312
+    },
+    {
+      "task_id": "django__django-14787",
+      "turn_id": 1,
+      "start_ns": 2933069674919169,
+      "elapsed_ns": 6678640,
+      "text_sha256": "66e92d4fe14ad2e5b84cb4b0a78d9316dc1e1b8b354a995b5277986149e0cae3",
+      "prompt_tokens": 6724
+    },
+    {
+      "task_id": "django__django-15315",
+      "turn_id": 2,
+      "start_ns": 2933069682025176,
+      "elapsed_ns": 18773240,
+      "text_sha256": "8b60bad7312e18b6bd4cd85527bb79ca2cc61c14aab03a5906bcf2ba593c78fd",
+      "prompt_tokens": 15836
+    },
+    {
+      "task_id": "astropy__astropy-13453",
+      "turn_id": 2,
+      "start_ns": 2933069701720669,
+      "elapsed_ns": 16707333,
+      "text_sha256": "2906930058f6dd8ebeabcdd4156c3390f8ac69cc3373e5df4e2281da1dd2517b",
+      "prompt_tokens": 15419
+    },
+    {
+      "task_id": "django__django-15731",
+      "turn_id": 2,
+      "start_ns": 2933069719409806,
+      "elapsed_ns": 12927701,
+      "text_sha256": "a0a50d782d7c52e02849308cfa5318490a54dd0df4419a7bd5c2de4a57c8e9b6",
+      "prompt_tokens": 11994
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9711",
+      "turn_id": 1,
+      "start_ns": 2933069733125342,
+      "elapsed_ns": 14422449,
+      "text_sha256": "1a30fb5f3bedb9ce0ac15d64783b205b10601bbb2476285feee69ef17b249860",
+      "prompt_tokens": 12516
+    },
+    {
+      "task_id": "astropy__astropy-8707",
+      "turn_id": 1,
+      "start_ns": 2933069748321124,
+      "elapsed_ns": 5258039,
+      "text_sha256": "37ff4ca7f17e0d5acb39ad8042c112fd27a39c4165de6e539bfff1111f2774c7",
+      "prompt_tokens": 5231
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-25747",
+      "turn_id": 0,
+      "start_ns": 2933069753961528,
+      "elapsed_ns": 6021531,
+      "text_sha256": "3221c6094473c140f752496fe01e12a63cf25d971a4dd605041b0dfad1d37381",
+      "prompt_tokens": 5144
+    },
+    {
+      "task_id": "django__django-16454",
+      "turn_id": 2,
+      "start_ns": 2933069760328681,
+      "elapsed_ns": 10520887,
+      "text_sha256": "2eb8e9faef3e4be9bcca85fd0905c43cfa5fa3b88c6c89bc9e60e180e4ffc260",
+      "prompt_tokens": 8223
+    },
+    {
+      "task_id": "django__django-14787",
+      "turn_id": 2,
+      "start_ns": 2933069771378473,
+      "elapsed_ns": 6971491,
+      "text_sha256": "43b92f9d75cf129435a53d1d98ff40d014f1684844c5217535a8b6f692e3f34f",
+      "prompt_tokens": 8945
+    },
+    {
+      "task_id": "django__django-15315",
+      "turn_id": 3,
+      "start_ns": 2933069778922394,
+      "elapsed_ns": 9330025,
+      "text_sha256": "31ca8a44b529149a8a584907a2315fec069b79f64c1787c2a08629c056510252",
+      "prompt_tokens": 18216
+    },
+    {
+      "task_id": "astropy__astropy-13453",
+      "turn_id": 3,
+      "start_ns": 2933069789329853,
+      "elapsed_ns": 11500230,
+      "text_sha256": "869d570dd1c9d680a2f040ffb8605849a9bef4342bbd6f142a254bd2cbee1495",
+      "prompt_tokens": 19088
+    },
+    {
+      "task_id": "django__django-15731",
+      "turn_id": 3,
+      "start_ns": 2933069802009925,
+      "elapsed_ns": 4652015,
+      "text_sha256": "9aa46bd47b3cc067943fbb0ba1108879e68074a601700b28295e5efe02378ff9",
+      "prompt_tokens": 12245
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9711",
+      "turn_id": 2,
+      "start_ns": 2933069807482694,
+      "elapsed_ns": 5610960,
+      "text_sha256": "cdaefc11fb0df163aad4cff3b7874f9f4c66cd54f2bb6911d91fdf587a3472db",
+      "prompt_tokens": 13209
+    },
+    {
+      "task_id": "astropy__astropy-8707",
+      "turn_id": 2,
+      "start_ns": 2933069813896992,
+      "elapsed_ns": 16229973,
+      "text_sha256": "a50b59c2e9ea0d96117baab140a8d601789b03a41522586121d7db9ae8f7f1b0",
+      "prompt_tokens": 12469
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-25747",
+      "turn_id": 1,
+      "start_ns": 2933069830921769,
+      "elapsed_ns": 4052477,
+      "text_sha256": "d9fcfbe371c4599d74460f2076a337e27aa01f951bf4dd55f90f59122e65ac47",
+      "prompt_tokens": 5679
+    },
+    {
+      "task_id": "django__django-16454",
+      "turn_id": 3,
+      "start_ns": 2933069835395672,
+      "elapsed_ns": 6882721,
+      "text_sha256": "a7157de06149fe087f930451336d126eea301946ec5a41aa5b16ac71183db44a",
+      "prompt_tokens": 9691
+    },
+    {
+      "task_id": "django__django-14787",
+      "turn_id": 3,
+      "start_ns": 2933069842883790,
+      "elapsed_ns": 5100188,
+      "text_sha256": "9292b9848e4a67780cba704c5363166f7e4e53ec91224f30913deb19d6ac587a",
+      "prompt_tokens": 9604
+    },
+    {
+      "task_id": "astropy__astropy-13453",
+      "turn_id": 4,
+      "start_ns": 2933069848602011,
+      "elapsed_ns": 5985247,
+      "text_sha256": "d2c4ff4f22dbaee010c5af5b8016f3b840efabb35df15d6f9c9426794f75128e",
+      "prompt_tokens": 19471
+    },
+    {
+      "task_id": "astropy__astropy-8707",
+      "turn_id": 3,
+      "start_ns": 2933069855758436,
+      "elapsed_ns": 11776181,
+      "text_sha256": "26fdfbe9096bd9cd2a2e903c9400ace2f423407e14db86c19ab0712cd797a7b0",
+      "prompt_tokens": 17005
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-25747",
+      "turn_id": 2,
+      "start_ns": 2933069868630257,
+      "elapsed_ns": 7259502,
+      "text_sha256": "8584c2aaa30e6dab01d44cc067b5e17f362234a8577d180d9097680647c846f1",
+      "prompt_tokens": 7983
+    },
+    {
+      "task_id": "django__django-16454",
+      "turn_id": 4,
+      "start_ns": 2933069876466994,
+      "elapsed_ns": 4242672,
+      "text_sha256": "d826b26a23831a1e4c9e2f548ab0b3d450c0dfc3234ab40ca8a503a3a937e037",
+      "prompt_tokens": 9810
+    },
+    {
+      "task_id": "sympy__sympy-13031",
+      "turn_id": 0,
+      "start_ns": 2933069881339152,
+      "elapsed_ns": 3122534,
+      "text_sha256": "f17f3602231ddc4080586ab3e24e9c7b40a80b28d9ccbc0f06fca98434241155",
+      "prompt_tokens": 3626
+    },
+    {
+      "task_id": "astropy__astropy-13453",
+      "turn_id": 5,
+      "start_ns": 2933069884745809,
+      "elapsed_ns": 5433096,
+      "text_sha256": "9c92377018d2974eb79be0a6623f734ddcb5c89515a0ee72024bf0047237775e",
+      "prompt_tokens": 19595
+    },
+    {
+      "task_id": "astropy__astropy-7671",
+      "turn_id": 0,
+      "start_ns": 2933069891311497,
+      "elapsed_ns": 3666290,
+      "text_sha256": "8c651607d258f630551b25b1b737679489c786696d979d79d5da6ab3bc7373ee",
+      "prompt_tokens": 3871
+    },
+    {
+      "task_id": "django__django-15695",
+      "turn_id": 0,
+      "start_ns": 2933069895331493,
+      "elapsed_ns": 3071928,
+      "text_sha256": "2fb1e391c4775dd23f3819ed33bde690dd7c9944465a5efb13b297100241c80e",
+      "prompt_tokens": 3681
+    },
+    {
+      "task_id": "astropy__astropy-8707",
+      "turn_id": 4,
+      "start_ns": 2933069898658732,
+      "elapsed_ns": 5105049,
+      "text_sha256": "76bee8773598bd5b420992eb8ce378e253cfab4a09d3d34f47bdde614b65906d",
+      "prompt_tokens": 17292
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-25747",
+      "turn_id": 3,
+      "start_ns": 2933069904779815,
+      "elapsed_ns": 3654069,
+      "text_sha256": "09a999492451dd22ea8cf3fb32162ec9ae1fbadbc98e82c4b241cde599d32bee",
+      "prompt_tokens": 8258
+    },
+    {
+      "task_id": "django__django-15563",
+      "turn_id": 0,
+      "start_ns": 2933069909019661,
+      "elapsed_ns": 3074701,
+      "text_sha256": "624080637aac742887d7d2e06065653a1a949396402cd2874f0fe3bcf5722e61",
+      "prompt_tokens": 3785
+    },
+    {
+      "task_id": "sympy__sympy-13031",
+      "turn_id": 1,
+      "start_ns": 2933069912380043,
+      "elapsed_ns": 3081542,
+      "text_sha256": "1dadc5b90e96bf74108914e82385ecccbb5978a64a8fa1e1c3415414ef0d31df",
+      "prompt_tokens": 4247
+    },
+    {
+      "task_id": "astropy__astropy-7671",
+      "turn_id": 1,
+      "start_ns": 2933069915748335,
+      "elapsed_ns": 3255489,
+      "text_sha256": "48e70423cfcc86312c70d964c108e206d9dae0a37920e2a519891d8aec07317d",
+      "prompt_tokens": 4648
+    },
+    {
+      "task_id": "django__django-15695",
+      "turn_id": 1,
+      "start_ns": 2933069919316654,
+      "elapsed_ns": 2706078,
+      "text_sha256": "a29150d628e9c00b6a93095d9ad24d3ae91091bedca59a8baa6a76ebaeaaa202",
+      "prompt_tokens": 4196
+    },
+    {
+      "task_id": "astropy__astropy-8707",
+      "turn_id": 5,
+      "start_ns": 2933069922310544,
+      "elapsed_ns": 4746943,
+      "text_sha256": "e3f406d5ce3c03b2d74ad3e4c1228a0499be95897ee5e76640f260d3f11fd923",
+      "prompt_tokens": 17446
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-25747",
+      "turn_id": 4,
+      "start_ns": 2933069928089621,
+      "elapsed_ns": 3173216,
+      "text_sha256": "9d65a2c83cb2e664c43245898df717c4540e05b2b907f88c70c3392ae49b087a",
+      "prompt_tokens": 8387
+    },
+    {
+      "task_id": "django__django-16502",
+      "turn_id": 0,
+      "start_ns": 2933069931852573,
+      "elapsed_ns": 3077020,
+      "text_sha256": "2e741297f1ff5ca7f235663579d1783f5278ebaaec1ef2d31ced610114a41547",
+      "prompt_tokens": 3857
+    },
+    {
+      "task_id": "django__django-15563",
+      "turn_id": 1,
+      "start_ns": 2933069935219652,
+      "elapsed_ns": 6169607,
+      "text_sha256": "d63f08a785a02b4b9c1ae714795e210bf6e222896b126d2f943dfe25f86949ff",
+      "prompt_tokens": 6793
+    },
+    {
+      "task_id": "sympy__sympy-13031",
+      "turn_id": 2,
+      "start_ns": 2933069941814977,
+      "elapsed_ns": 15379104,
+      "text_sha256": "933c2f280c5271370f08c68e9cfbdc433dda56f9a4d2883ab156be893836be2a",
+      "prompt_tokens": 12416
+    },
+    {
+      "task_id": "django__django-12774",
+      "turn_id": 0,
+      "start_ns": 2933069957956130,
+      "elapsed_ns": 3206406,
+      "text_sha256": "21d103ec417b8c16955e9742c9e8278c56af166bfe51bea47de02a8edfa1b76b",
+      "prompt_tokens": 3606
+    },
+    {
+      "task_id": "astropy__astropy-7671",
+      "turn_id": 2,
+      "start_ns": 2933069961460660,
+      "elapsed_ns": 10071389,
+      "text_sha256": "f3ede81a4bb5a90366b837b45fe320d24e978687ba6d84a91959b543a8af1486",
+      "prompt_tokens": 9490
+    },
+    {
+      "task_id": "django__django-15695",
+      "turn_id": 2,
+      "start_ns": 2933069972118875,
+      "elapsed_ns": 18148668,
+      "text_sha256": "9457c90ee1abf9716aa40912eeb7a854c58a94ec97b59ce3c0f175b5e996bdf9",
+      "prompt_tokens": 14399
+    },
+    {
+      "task_id": "django__django-16502",
+      "turn_id": 1,
+      "start_ns": 2933069991160721,
+      "elapsed_ns": 4303404,
+      "text_sha256": "02ac046a8bf18612216ff55063a7f4f94b9e971fee9f621c2289902fb50c489b",
+      "prompt_tokens": 4647
+    },
+    {
+      "task_id": "django__django-15563",
+      "turn_id": 2,
+      "start_ns": 2933069995834318,
+      "elapsed_ns": 21252114,
+      "text_sha256": "a7d6fa24fc3488ceebf0b05502469e457e81a6f6d1fadd3df5eaf7e3bf960cd3",
+      "prompt_tokens": 17515
+    },
+    {
+      "task_id": "sympy__sympy-13031",
+      "turn_id": 3,
+      "start_ns": 2933070018133908,
+      "elapsed_ns": 12873101,
+      "text_sha256": "fb7145b4a630f916b8ca9cf94d5cca25626e118830f4356da31227d3d8a0cea5",
+      "prompt_tokens": 18876
+    },
+    {
+      "task_id": "django__django-12774",
+      "turn_id": 1,
+      "start_ns": 2933070032172307,
+      "elapsed_ns": 4582707,
+      "text_sha256": "a163647970d873a739fc7f29c2d2b260686c149e6db69880c241b4c158bbaf7c",
+      "prompt_tokens": 4477
+    },
+    {
+      "task_id": "astropy__astropy-7671",
+      "turn_id": 3,
+      "start_ns": 2933070037134688,
+      "elapsed_ns": 4139604,
+      "text_sha256": "285342b63665e2c3e200403c9623844826c1573a4e120f3688817c52b5017233",
+      "prompt_tokens": 9620
+    },
+    {
+      "task_id": "django__django-15695",
+      "turn_id": 3,
+      "start_ns": 2933070041866095,
+      "elapsed_ns": 6513654,
+      "text_sha256": "1c7f9b6d992e76f98fa41eeeb27f5892efdb0b229894f031f6b80c63e6e5e796",
+      "prompt_tokens": 15486
+    },
+    {
+      "task_id": "sympy__sympy-14711",
+      "turn_id": 0,
+      "start_ns": 2933070049331938,
+      "elapsed_ns": 3374657,
+      "text_sha256": "afd8233ccb6a4ac936c81401eb91179e457ee89b30a7f2b8433c9fa5fe7d9249",
+      "prompt_tokens": 3619
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24026",
+      "turn_id": 0,
+      "start_ns": 2933070053024251,
+      "elapsed_ns": 3603613,
+      "text_sha256": "5fdf0386a813a4553ffdb0c09d4370ebf240fb303b0f89c0b9c3d004e7f48a79",
+      "prompt_tokens": 3951
+    },
+    {
+      "task_id": "django__django-16502",
+      "turn_id": 2,
+      "start_ns": 2933070056898137,
+      "elapsed_ns": 14241482,
+      "text_sha256": "43ae48cfbe1286b24500bf6775a466dc57aade981f3d17c0b1787595470ba8bd",
+      "prompt_tokens": 11370
+    },
+    {
+      "task_id": "django__django-15563",
+      "turn_id": 3,
+      "start_ns": 2933070071823731,
+      "elapsed_ns": 18653134,
+      "text_sha256": "209775b81ec27c8faf89ce9a3f6deed9e6811e5b0dd09ebacf27825701977a60",
+      "prompt_tokens": 25066
+    },
+    {
+      "task_id": "sympy__sympy-13031",
+      "turn_id": 4,
+      "start_ns": 2933070092018757,
+      "elapsed_ns": 5730435,
+      "text_sha256": "a705ea11572e76456878833b86931e5770dfca7c0263970bf3ede717c0a5222a",
+      "prompt_tokens": 19114
+    },
+    {
+      "task_id": "django__django-12774",
+      "turn_id": 2,
+      "start_ns": 2933070099031755,
+      "elapsed_ns": 21349277,
+      "text_sha256": "112442df2f238c9c39c1650cb690faad91d41df7b3666e0f1ef64fd81acd6e0e",
+      "prompt_tokens": 15232
+    },
+    {
+      "task_id": "django__django-15695",
+      "turn_id": 4,
+      "start_ns": 2933070121366544,
+      "elapsed_ns": 5315909,
+      "text_sha256": "c8eaaf53a94a5f0b56f07f5571646041a1f2f1211aef8706f2908c78ba3b5eea",
+      "prompt_tokens": 15617
+    },
+    {
+      "task_id": "sympy__sympy-14711",
+      "turn_id": 1,
+      "start_ns": 2933070127696168,
+      "elapsed_ns": 3837948,
+      "text_sha256": "af0d6117a4ea9709065e8cee9aa819e645c524cc7beb361b19e09ecb8b3547a2",
+      "prompt_tokens": 4183
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24026",
+      "turn_id": 1,
+      "start_ns": 2933070131883693,
+      "elapsed_ns": 10496450,
+      "text_sha256": "e698897bc8f86edb1118c0a80cfc2da5f1464c958fe44f148ec2a8ebf3fae095",
+      "prompt_tokens": 9405
+    },
+    {
+      "task_id": "django__django-16502",
+      "turn_id": 3,
+      "start_ns": 2933070142967974,
+      "elapsed_ns": 4894620,
+      "text_sha256": "d16d78fcf07cc106889ea4e301be541a63f9e502d19a7bd7df5790233c52ecde",
+      "prompt_tokens": 11613
+    },
+    {
+      "task_id": "django__django-15563",
+      "turn_id": 4,
+      "start_ns": 2933070148596756,
+      "elapsed_ns": 7318752,
+      "text_sha256": "72364a43eb3dcb58999adddf18041b66778705715935267909cbd5c0834ae352",
+      "prompt_tokens": 25564
+    },
+    {
+      "task_id": "sympy__sympy-13031",
+      "turn_id": 5,
+      "start_ns": 2933070157452983,
+      "elapsed_ns": 7445754,
+      "text_sha256": "4f02d88f5c457fc962b5b6ffe360994a264ca7ae033f4d5495426dd3e4ecc26b",
+      "prompt_tokens": 20174
+    },
+    {
+      "task_id": "django__django-12774",
+      "turn_id": 3,
+      "start_ns": 2933070166195670,
+      "elapsed_ns": 11529154,
+      "text_sha256": "a8b4ec114bfc262d7250e7212845d3bdbd3f6c8d8ce717a5c5a75d4d8859445b",
+      "prompt_tokens": 19169
+    },
+    {
+      "task_id": "sympy__sympy-13877",
+      "turn_id": 0,
+      "start_ns": 2933070178934947,
+      "elapsed_ns": 4559352,
+      "text_sha256": "33ae8c79b282c4be38a36aec27bac91a08860b2ffbdaea2ccf52285db7a3f8e7",
+      "prompt_tokens": 4712
+    },
+    {
+      "task_id": "sympy__sympy-14711",
+      "turn_id": 2,
+      "start_ns": 2933070183891554,
+      "elapsed_ns": 22081940,
+      "text_sha256": "bc75a8e39e42d17e3b73ac0b338c551142e12c091af718d55cfe531a199aface",
+      "prompt_tokens": 17018
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24026",
+      "turn_id": 2,
+      "start_ns": 2933070206986192,
+      "elapsed_ns": 26285588,
+      "text_sha256": "490f09fc651a485683065fcd4f0fa8849ff32241dec8607e9b0d3a489c930ad0",
+      "prompt_tokens": 22453
+    },
+    {
+      "task_id": "django__django-16502",
+      "turn_id": 4,
+      "start_ns": 2933070234671381,
+      "elapsed_ns": 9856688,
+      "text_sha256": "b67471c1c81cec745080a0d6005ad2ca065b0d571652f63215d0721f129163cb",
+      "prompt_tokens": 14394
+    },
+    {
+      "task_id": "django__django-15563",
+      "turn_id": 5,
+      "start_ns": 2933070245505381,
+      "elapsed_ns": 7085201,
+      "text_sha256": "3156a673c580b9a0791ce1c855d380c04f6e7637feede600aa1a3637eb47146b",
+      "prompt_tokens": 25780
+    },
+    {
+      "task_id": "django__django-12774",
+      "turn_id": 4,
+      "start_ns": 2933070254163909,
+      "elapsed_ns": 5556341,
+      "text_sha256": "36ac29ca4834c353994623c8427b25898a977df1026fd97caae9ddb4d0c2294e",
+      "prompt_tokens": 19305
+    },
+    {
+      "task_id": "sympy__sympy-13877",
+      "turn_id": 1,
+      "start_ns": 2933070261035522,
+      "elapsed_ns": 3746507,
+      "text_sha256": "2cdcc0ea8928457fef6ae24ac2b4c2fc0e90ee10d977f91604cb5b0bc9e141d4",
+      "prompt_tokens": 5262
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8056",
+      "turn_id": 0,
+      "start_ns": 2933070265214884,
+      "elapsed_ns": 3530031,
+      "text_sha256": "d4a7d27b575bae787839d78e7de2f75c950c201937e36038ee6155282c320916",
+      "prompt_tokens": 3802
+    },
+    {
+      "task_id": "sympy__sympy-14711",
+      "turn_id": 3,
+      "start_ns": 2933070269023320,
+      "elapsed_ns": 5279041,
+      "text_sha256": "f2814ecffe9afe8aa6b42daecec288ba9b051e29c5325d951c207c3014f70085",
+      "prompt_tokens": 17401
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24026",
+      "turn_id": 3,
+      "start_ns": 2933070275325582,
+      "elapsed_ns": 6885620,
+      "text_sha256": "576a0c6a46fcac93cda3fa51f8eccc570ce7fc86af25ff419e4717e7e9d01737",
+      "prompt_tokens": 23257
+    },
+    {
+      "task_id": "django__django-16502",
+      "turn_id": 5,
+      "start_ns": 2933070283730566,
+      "elapsed_ns": 4568847,
+      "text_sha256": "804ec1c90949a67577df942c2e48bbd47acd9aa1e6a9e04959a8ccd59729b239",
+      "prompt_tokens": 14521
+    },
+    {
+      "task_id": "django__django-13512",
+      "turn_id": 0,
+      "start_ns": 2933070289300216,
+      "elapsed_ns": 2874583,
+      "text_sha256": "863411f0ee9734cad1e645170f46209cd2aed62a1df2f522d8997cfeffae773f",
+      "prompt_tokens": 3435
+    },
+    {
+      "task_id": "sympy__sympy-13877",
+      "turn_id": 2,
+      "start_ns": 2933070292475244,
+      "elapsed_ns": 16961450,
+      "text_sha256": "2514c3133c789dd8801ae21c225519f270fedff91f343ed32e4539318ae83aa2",
+      "prompt_tokens": 14038
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8056",
+      "turn_id": 1,
+      "start_ns": 2933070310288448,
+      "elapsed_ns": 7834342,
+      "text_sha256": "2b7d52633cf40e7e55bd900a16e88262c00cc6b6639f9e20ac963166eb98afda",
+      "prompt_tokens": 7087
+    },
+    {
+      "task_id": "sympy__sympy-14711",
+      "turn_id": 4,
+      "start_ns": 2933070318626746,
+      "elapsed_ns": 5328488,
+      "text_sha256": "73dd95f51f8fed266d05b2ed84f7ae66781b69cb8d826be9abe177830094782f",
+      "prompt_tokens": 17697
+    },
+    {
+      "task_id": "django__django-15957",
+      "turn_id": 0,
+      "start_ns": 2933070325056618,
+      "elapsed_ns": 3046716,
+      "text_sha256": "9a525174fef32fbd86ce7686b01dced418afc837dc001b572d6a9d7e77be9565",
+      "prompt_tokens": 3508
+    },
+    {
+      "task_id": "django__django-13512",
+      "turn_id": 1,
+      "start_ns": 2933070328425174,
+      "elapsed_ns": 4408427,
+      "text_sha256": "bae28e331826f765b7ab31b3da03f62cca5a6e1cfdb19bc9cf62ae7750a67e12",
+      "prompt_tokens": 4817
+    },
+    {
+      "task_id": "django__django-13279",
+      "turn_id": 0,
+      "start_ns": 2933070333151872,
+      "elapsed_ns": 2923260,
+      "text_sha256": "825a553b1bea6d199909f4bd4a0d70b03b1eaed73a717b1aa45e2746928cbae3",
+      "prompt_tokens": 3451
+    },
+    {
+      "task_id": "sympy__sympy-13877",
+      "turn_id": 3,
+      "start_ns": 2933070336322013,
+      "elapsed_ns": 15897322,
+      "text_sha256": "a95673652cc8713b942051cd8512c8bf3b6f794591c5a63631bfeedd38a85c71",
+      "prompt_tokens": 21147
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8056",
+      "turn_id": 2,
+      "start_ns": 2933070353470573,
+      "elapsed_ns": 13425479,
+      "text_sha256": "5901d65486be9c7a5ebd6096380b43364fde99c71dc5e988cdd92042e5d3e782",
+      "prompt_tokens": 13115
+    },
+    {
+      "task_id": "pylint-dev__pylint-7080",
+      "turn_id": 0,
+      "start_ns": 2933070367786606,
+      "elapsed_ns": 12544704,
+      "text_sha256": "3459821fd269d197e406907f8da251c69d6233db592c369f489d1a66f859c663",
+      "prompt_tokens": 11052
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-11578",
+      "turn_id": 0,
+      "start_ns": 2933070381025374,
+      "elapsed_ns": 5789631,
+      "text_sha256": "c968b0537e14c8a56c13ffa21225b621c73d36174af6ace20e0672d3488cc0ab",
+      "prompt_tokens": 5158
+    },
+    {
+      "task_id": "django__django-15957",
+      "turn_id": 1,
+      "start_ns": 2933070387186090,
+      "elapsed_ns": 5161724,
+      "text_sha256": "a2ae23b5ec61b0bd38064c49c8bd88d65b98e63bba326265c5d7ec0cad7aaccb",
+      "prompt_tokens": 4708
+    },
+    {
+      "task_id": "django__django-13512",
+      "turn_id": 2,
+      "start_ns": 2933070392668255,
+      "elapsed_ns": 18206810,
+      "text_sha256": "1219b10139c76ea8d5c3e7416e829bb4e547fbdbd46d9ce7cf869470b2b7fff7",
+      "prompt_tokens": 13591
+    },
+    {
+      "task_id": "django__django-13279",
+      "turn_id": 1,
+      "start_ns": 2933070411711630,
+      "elapsed_ns": 3947657,
+      "text_sha256": "1d10a8f39fab489d76a927cec7a0a23e8ba92c580c79eda695b6b64762c5495b",
+      "prompt_tokens": 4010
+    },
+    {
+      "task_id": "sympy__sympy-13877",
+      "turn_id": 4,
+      "start_ns": 2933070415990281,
+      "elapsed_ns": 6258003,
+      "text_sha256": "e2305dfc7815c7cccf4a6e72eddb984f3cb087f58e6979431f687715ae5fcc27",
+      "prompt_tokens": 21294
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8056",
+      "turn_id": 3,
+      "start_ns": 2933070423493078,
+      "elapsed_ns": 12388830,
+      "text_sha256": "e8760f2e894db95491c7c8ada58e4172a6f3887781921a1ffc22cce4c88498b6",
+      "prompt_tokens": 17503
+    },
+    {
+      "task_id": "django__django-11964",
+      "turn_id": 0,
+      "start_ns": 2933070437025972,
+      "elapsed_ns": 4089668,
+      "text_sha256": "a9f0886778bb228e806540d1792f60d8baa890e186afd3d205cebfdc1927c85c",
+      "prompt_tokens": 3832
+    },
+    {
+      "task_id": "pylint-dev__pylint-7080",
+      "turn_id": 1,
+      "start_ns": 2933070441458135,
+      "elapsed_ns": 4611659,
+      "text_sha256": "06d51fdb0fba22872b3f38fb4d281840285e0da93897719723163e0a4ad8bd14",
+      "prompt_tokens": 11554
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-11578",
+      "turn_id": 1,
+      "start_ns": 2933070446715774,
+      "elapsed_ns": 5062610,
+      "text_sha256": "20ae33c8c66e23f5b5576315ccb7111efc90b766ad568dc33de2adbf252de7d2",
+      "prompt_tokens": 6232
+    },
+    {
+      "task_id": "django__django-15957",
+      "turn_id": 2,
+      "start_ns": 2933070452213378,
+      "elapsed_ns": 21555976,
+      "text_sha256": "745628a63bce45d8c219a6a70d8554c01f3dc8f135b2d9309f944b2d4ccf9fe8",
+      "prompt_tokens": 15404
+    },
+    {
+      "task_id": "django__django-13512",
+      "turn_id": 3,
+      "start_ns": 2933070474692127,
+      "elapsed_ns": 8390521,
+      "text_sha256": "bb8381fd27468a854750c554ad65071c0045c39e6bd43194cccb8a7bd91488a3",
+      "prompt_tokens": 15741
+    },
+    {
+      "task_id": "django__django-13279",
+      "turn_id": 2,
+      "start_ns": 2933070484095376,
+      "elapsed_ns": 15557888,
+      "text_sha256": "7a63b2bdd876c2bbdbee9f705bcc8b5e0efd8cdd55eadbebb09e7eb3d5390506",
+      "prompt_tokens": 11409
+    },
+    {
+      "task_id": "sympy__sympy-13877",
+      "turn_id": 5,
+      "start_ns": 2933070500409889,
+      "elapsed_ns": 18050764,
+      "text_sha256": "858da5d2545ea8b6a19255d2e8d6ec4fcb823220503b2fb77c19e75f22f33a32",
+      "prompt_tokens": 28211
+    },
+    {
+      "task_id": "django__django-11964",
+      "turn_id": 1,
+      "start_ns": 2933070520245223,
+      "elapsed_ns": 3718529,
+      "text_sha256": "b56d43b9f9c0a86435f56fcff99b3e4973d0e2dfe3b8e3ad95d291869c80e246",
+      "prompt_tokens": 4374
+    },
+    {
+      "task_id": "pylint-dev__pylint-7080",
+      "turn_id": 2,
+      "start_ns": 2933070524398701,
+      "elapsed_ns": 4678606,
+      "text_sha256": "1129df1103b6615cd061ed3f270f6fc153c3f8a5c7bc8cf121cc24a8a2275505",
+      "prompt_tokens": 11921
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-11578",
+      "turn_id": 2,
+      "start_ns": 2933070529757639,
+      "elapsed_ns": 17729489,
+      "text_sha256": "d6786b7d2408da64182dacbdc63d1d349af2b384a1178a0c5e066e3ce4d0be72",
+      "prompt_tokens": 15471
+    },
+    {
+      "task_id": "django__django-15957",
+      "turn_id": 3,
+      "start_ns": 2933070548439890,
+      "elapsed_ns": 15555763,
+      "text_sha256": "f227b95c2a1973541ea77063e2914c89f7998d70569c0a5f0edba466d3d3425b",
+      "prompt_tokens": 21574
+    },
+    {
+      "task_id": "django__django-13279",
+      "turn_id": 3,
+      "start_ns": 2933070565417199,
+      "elapsed_ns": 4907158,
+      "text_sha256": "6a4466756344a8dc240fcebc834110f697928b0fceca0a977218e0436789b444",
+      "prompt_tokens": 11717
+    },
+    {
+      "task_id": "sympy__sympy-13877",
+      "turn_id": 6,
+      "start_ns": 2933070571128551,
+      "elapsed_ns": 7813009,
+      "text_sha256": "505eb873a3f3fb69da5dbaf14ac7cbd59cc74769d6c9b3dae3acd92fcf17ac73",
+      "prompt_tokens": 28374
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8595",
+      "turn_id": 0,
+      "start_ns": 2933070580704642,
+      "elapsed_ns": 3417918,
+      "text_sha256": "0efd974924e3a4af034eddb970e4a8d2d7ec8146c5df57d96d8b53bfc924fc42",
+      "prompt_tokens": 3515
+    },
+    {
+      "task_id": "django__django-11964",
+      "turn_id": 2,
+      "start_ns": 2933070584509315,
+      "elapsed_ns": 4594527,
+      "text_sha256": "3092041e7302e1a0ca6cc2c3bea544219380911ccb9ba07db6c6401e1b786b14",
+      "prompt_tokens": 5264
+    },
+    {
+      "task_id": "pylint-dev__pylint-7080",
+      "turn_id": 3,
+      "start_ns": 2933070589453060,
+      "elapsed_ns": 5166718,
+      "text_sha256": "58d77adefec17d5a42a65416c31212390a770862d7d1fb3700db59ad6e3abca3",
+      "prompt_tokens": 12546
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-11578",
+      "turn_id": 3,
+      "start_ns": 2933070595353640,
+      "elapsed_ns": 15888454,
+      "text_sha256": "4f1a5548b46cf87dca070a8884c6dbe97675707fc2cfbd505faa949b1b042790",
+      "prompt_tokens": 22237
+    },
+    {
+      "task_id": "django__django-15957",
+      "turn_id": 4,
+      "start_ns": 2933070612584720,
+      "elapsed_ns": 6365516,
+      "text_sha256": "445f4807dc35b93672a855b76989a7e26271dbf5e25c6b0a40e9e9ef2ee0adf3",
+      "prompt_tokens": 21781
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24570",
+      "turn_id": 0,
+      "start_ns": 2933070620366250,
+      "elapsed_ns": 3885818,
+      "text_sha256": "6d3cb20e8e702ace57b4b94e6a8420b6baf9ab53bdf22327d57ecc9347be4e93",
+      "prompt_tokens": 3760
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8595",
+      "turn_id": 1,
+      "start_ns": 2933070624611876,
+      "elapsed_ns": 4923370,
+      "text_sha256": "2a3118e6644b3505b78a9936381bac319fc57768ca758d11bc2345b667d716e1",
+      "prompt_tokens": 4734
+    },
+    {
+      "task_id": "django__django-11964",
+      "turn_id": 3,
+      "start_ns": 2933070629853042,
+      "elapsed_ns": 14633793,
+      "text_sha256": "96255d2ba6fb76777ded11640e4db96d08f9c23eba11127669dfc4581a533c1e",
+      "prompt_tokens": 11480
+    },
+    {
+      "task_id": "pylint-dev__pylint-7080",
+      "turn_id": 4,
+      "start_ns": 2933070645209360,
+      "elapsed_ns": 22314603,
+      "text_sha256": "04259a02b618e827734192737d53d12933a839801ab211c1f3de3fce9e584df2",
+      "prompt_tokens": 23007
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-11578",
+      "turn_id": 4,
+      "start_ns": 2933070668901561,
+      "elapsed_ns": 6384847,
+      "text_sha256": "985ee0b7f85783403d1dbc5819d971f82d153b4cc105aa4b3beffeaa9b3bcfb0",
+      "prompt_tokens": 22379
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24570",
+      "turn_id": 1,
+      "start_ns": 2933070676732616,
+      "elapsed_ns": 3744145,
+      "text_sha256": "a6826b16b3147bcf0f95b13d0369d1923fe0e9de4a8791fdb70e8ba00dc42656",
+      "prompt_tokens": 4452
+    },
+    {
+      "task_id": "sympy__sympy-15875",
+      "turn_id": 0,
+      "start_ns": 2933070680884973,
+      "elapsed_ns": 3105686,
+      "text_sha256": "c3783dff88dd653af54a893006f504a92250b7d6aa23fd255393c593062be761",
+      "prompt_tokens": 3484
+    },
+    {
+      "task_id": "django__django-11790",
+      "turn_id": 0,
+      "start_ns": 2933070684245585,
+      "elapsed_ns": 2860900,
+      "text_sha256": "fb0a2dbe4617b142e52767a11677e93abd3f4a69fb9e5984bc013eaa2c46b396",
+      "prompt_tokens": 3450
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8595",
+      "turn_id": 2,
+      "start_ns": 2933070687351187,
+      "elapsed_ns": 7617754,
+      "text_sha256": "f38b85e4ec1040808e6c594493502dfc904cc01fc22cc9f0a66646e8e8cdc7fb",
+      "prompt_tokens": 7424
+    },
+    {
+      "task_id": "django__django-11964",
+      "turn_id": 4,
+      "start_ns": 2933070695441411,
+      "elapsed_ns": 4617444,
+      "text_sha256": "2694a662f61e988f8dec328ae89fe18729c361cc6672b6919e89f5636611bf7c",
+      "prompt_tokens": 11613
+    },
+    {
+      "task_id": "pylint-dev__pylint-7080",
+      "turn_id": 5,
+      "start_ns": 2933070700789866,
+      "elapsed_ns": 5809949,
+      "text_sha256": "9a0d59487b727fec5e0df0168287e41ac5443e58085463ea36a486afaa59be82",
+      "prompt_tokens": 23140
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-11578",
+      "turn_id": 5,
+      "start_ns": 2933070707952936,
+      "elapsed_ns": 5505083,
+      "text_sha256": "3e70429854e6b478c98d1677e440a9b96bad9e8af9bb047e502ab532655d905f",
+      "prompt_tokens": 22527
+    },
+    {
+      "task_id": "django__django-12754",
+      "turn_id": 0,
+      "start_ns": 2933070714872855,
+      "elapsed_ns": 3047833,
+      "text_sha256": "ed6888aae9a7445e54aaeb89dfa67c2ea28b409218de4e9bd4b75c01abee0d0d",
+      "prompt_tokens": 3517
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24570",
+      "turn_id": 2,
+      "start_ns": 2933070718278567,
+      "elapsed_ns": 6567705,
+      "text_sha256": "19382cc32367dcd8aef12c9f95ba9bf521cc2e4ed5e24fc41a87cf264b1982ca",
+      "prompt_tokens": 6472
+    },
+    {
+      "task_id": "sympy__sympy-15875",
+      "turn_id": 1,
+      "start_ns": 2933070725265266,
+      "elapsed_ns": 15912176,
+      "text_sha256": "18758facdd36f7aba6bc89894be719f61848222b00c1fd78ef1d296c93db0a59",
+      "prompt_tokens": 15489
+    },
+    {
+      "task_id": "django__django-11790",
+      "turn_id": 1,
+      "start_ns": 2933070742101546,
+      "elapsed_ns": 3463622,
+      "text_sha256": "a004e71d386d7365f0ed9e11d075d794703c7f257ad5db73ab5f82dd904c2859",
+      "prompt_tokens": 3924
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8595",
+      "turn_id": 3,
+      "start_ns": 2933070745900622,
+      "elapsed_ns": 7145508,
+      "text_sha256": "af30398f75afa948a8b54fec675037ff9bebc6c011bbadcd1b53f7b5385ade7d",
+      "prompt_tokens": 9274
+    },
+    {
+      "task_id": "django__django-11964",
+      "turn_id": 5,
+      "start_ns": 2933070753619159,
+      "elapsed_ns": 5048052,
+      "text_sha256": "c9db41a70d094d844dbaa52645276c8c8c708af8412087b2d96f207751c25453",
+      "prompt_tokens": 11869
+    },
+    {
+      "task_id": "pylint-dev__pylint-7080",
+      "turn_id": 6,
+      "start_ns": 2933070759437906,
+      "elapsed_ns": 6510784,
+      "text_sha256": "d14a067baa38a4161903e5757961ca0e53caefc3e51b58894bd60111e64adef0",
+      "prompt_tokens": 23274
+    },
+    {
+      "task_id": "django__django-12754",
+      "turn_id": 1,
+      "start_ns": 2933070767312418,
+      "elapsed_ns": 16293584,
+      "text_sha256": "81162ba91b29d04f860f1b7c8afc60269b8fd8594aef5be58621b52360f32f8d",
+      "prompt_tokens": 13317
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24570",
+      "turn_id": 3,
+      "start_ns": 2933070784497297,
+      "elapsed_ns": 6939899,
+      "text_sha256": "637c5f6e86bfb7c419036a97c985b0d25e2b73728d7abadb9634bd087b208ed2",
+      "prompt_tokens": 8172
+    },
+    {
+      "task_id": "sympy__sympy-15875",
+      "turn_id": 2,
+      "start_ns": 2933070792003550,
+      "elapsed_ns": 25530647,
+      "text_sha256": "c3ea1ece663640f04409813857f68363bbfa6356b4e19483331a3e6f528888c1",
+      "prompt_tokens": 28511
+    },
+    {
+      "task_id": "django__django-11790",
+      "turn_id": 2,
+      "start_ns": 2933070819234499,
+      "elapsed_ns": 9996465,
+      "text_sha256": "2636defeee078b4bb79cdfb2ff244280821e5737b3334405b335f58205a96b73",
+      "prompt_tokens": 7600
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-8595",
+      "turn_id": 4,
+      "start_ns": 2933070829852904,
+      "elapsed_ns": 6638994,
+      "text_sha256": "6666ad3719a93a63c085c61f022bb8d9a62c6e3c5e6d521fd048e91fca6c26d8",
+      "prompt_tokens": 10810
+    },
+    {
+      "task_id": "django__django-11964",
+      "turn_id": 6,
+      "start_ns": 2933070837177526,
+      "elapsed_ns": 13553686,
+      "text_sha256": "fa7dfae009336c2b64f2120f2b03d95e34dc1c418001a2b4e4d88d920a5143fc",
+      "prompt_tokens": 16336
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9673",
+      "turn_id": 0,
+      "start_ns": 2933070851760432,
+      "elapsed_ns": 3599049,
+      "text_sha256": "439024ccdbb9c74b3f768ae8b307517f2d8f81b80eaa0fc445eb3d933d7b5b05",
+      "prompt_tokens": 3681
+    },
+    {
+      "task_id": "django__django-12754",
+      "turn_id": 2,
+      "start_ns": 2933070855686286,
+      "elapsed_ns": 29582864,
+      "text_sha256": "84e9057307017782a15abd31261cd05ce99e5b298f967bbf2083df9cdfd885e5",
+      "prompt_tokens": 27747
+    },
+    {
+      "task_id": "matplotlib__matplotlib-24570",
+      "turn_id": 4,
+      "start_ns": 2933070886980203,
+      "elapsed_ns": 4300594,
+      "text_sha256": "585afa3e5619dd20b1375aaa2d1dd607f5733f28b319b5c43eb1c171bb327520",
+      "prompt_tokens": 8389
+    },
+    {
+      "task_id": "sympy__sympy-15875",
+      "turn_id": 3,
+      "start_ns": 2933070891942168,
+      "elapsed_ns": 7396998,
+      "text_sha256": "1536f22d692d3af8dd9b0d86b86f34cc07760ab96b067c4403600d513f516ad0",
+      "prompt_tokens": 29079
+    },
+    {
+      "task_id": "django__django-11790",
+      "turn_id": 3,
+      "start_ns": 2933070901036185,
+      "elapsed_ns": 3729056,
+      "text_sha256": "efbde8abaa883bceb34bb7d1686c5ea51feb2449b605a3c4e2b2b5d37a7bbe16",
+      "prompt_tokens": 7716
+    },
+    {
+      "task_id": "django__django-11964",
+      "turn_id": 7,
+      "start_ns": 2933070905398114,
+      "elapsed_ns": 5285066,
+      "text_sha256": "305a971d85a11eb0e09592831e25ba137d4bb8545fa1104d772b6a1e49e8dc9b",
+      "prompt_tokens": 16479
+    },
+    {
+      "task_id": "sympy__sympy-16792",
+      "turn_id": 0,
+      "start_ns": 2933070911695397,
+      "elapsed_ns": 3761505,
+      "text_sha256": "8b9199bcbe7817ef671efdb852d66dd0ef57d5af010667f00a897adafd14738d",
+      "prompt_tokens": 3809
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9673",
+      "turn_id": 1,
+      "start_ns": 2933070915797260,
+      "elapsed_ns": 3769361,
+      "text_sha256": "e02b898ef6eb41309d414200464368046cdf35cf0cc518e82d7363d478e17d55",
+      "prompt_tokens": 4399
+    },
+    {
+      "task_id": "django__django-12754",
+      "turn_id": 3,
+      "start_ns": 2933070919868657,
+      "elapsed_ns": 6656866,
+      "text_sha256": "4d975b7fb53fb0addbb3541d1f4b61d3b06d6e1449bb4ac57bae3afe2f93c7e7",
+      "prompt_tokens": 27900
+    },
+    {
+      "task_id": "sympy__sympy-15875",
+      "turn_id": 4,
+      "start_ns": 2933070928187989,
+      "elapsed_ns": 13546230,
+      "text_sha256": "f0bd28e74729fad2ed9f4e878bd7ae0de1d292d61017f93e397f213d8c3babaf",
+      "prompt_tokens": 33270
+    },
+    {
+      "task_id": "django__django-15280",
+      "turn_id": 0,
+      "start_ns": 2933070943975164,
+      "elapsed_ns": 4205394,
+      "text_sha256": "4261acc743afa7d6fb09ba5c24018c97765a02b99f879b245fc7eae75386b032",
+      "prompt_tokens": 3922
+    },
+    {
+      "task_id": "sympy__sympy-16792",
+      "turn_id": 1,
+      "start_ns": 2933070948629538,
+      "elapsed_ns": 3436432,
+      "text_sha256": "ab2363bf4957069f034e1507901506a7d2a7c98750ce3ba5581e4755b4cef89c",
+      "prompt_tokens": 4409
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9673",
+      "turn_id": 2,
+      "start_ns": 2933070952369446,
+      "elapsed_ns": 18649616,
+      "text_sha256": "d14767b958ad732e110ee916fb9c13ddb96d93c7fa11949ab86def07f5c1bebe",
+      "prompt_tokens": 14730
+    },
+    {
+      "task_id": "django__django-12754",
+      "turn_id": 4,
+      "start_ns": 2933070971909743,
+      "elapsed_ns": 16870600,
+      "text_sha256": "78afd234223d678b3fed28711cb57c863492ed5be0d1d8f90b3f3020113866f1",
+      "prompt_tokens": 33551
+    },
+    {
+      "task_id": "django__django-14373",
+      "turn_id": 0,
+      "start_ns": 2933070990811425,
+      "elapsed_ns": 3087985,
+      "text_sha256": "c0ecb8752226fae8d3ca5616bbf0f82a069d30131b8bc0472e9e8fc2e1d3e2c1",
+      "prompt_tokens": 3373
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-10323",
+      "turn_id": 0,
+      "start_ns": 2933070994311529,
+      "elapsed_ns": 4499176,
+      "text_sha256": "5b2d106b2ead509de9f77ee189b9fa94b3009073f4d5ed0e1d19e777921a278b",
+      "prompt_tokens": 4115
+    },
+    {
+      "task_id": "django__django-15280",
+      "turn_id": 1,
+      "start_ns": 2933070999097754,
+      "elapsed_ns": 3809245,
+      "text_sha256": "a67f0e47718cecc9e1eacfd2812738148d95b6ba3b76e9dfa3f7f2731e3abd39",
+      "prompt_tokens": 4638
+    },
+    {
+      "task_id": "django__django-13121",
+      "turn_id": 0,
+      "start_ns": 2933071003223755,
+      "elapsed_ns": 3461117,
+      "text_sha256": "c5b3c6f79c373ee236397752381432e580254cdf3708ca20cc198a05273145e9",
+      "prompt_tokens": 3630
+    },
+    {
+      "task_id": "sympy__sympy-16792",
+      "turn_id": 2,
+      "start_ns": 2933071006949691,
+      "elapsed_ns": 21025412,
+      "text_sha256": "e36dc9f19d07c3589a65325dbbadf50736d5828f2f7635bdd64772137a44d01b",
+      "prompt_tokens": 15254
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-9673",
+      "turn_id": 3,
+      "start_ns": 2933071028926412,
+      "elapsed_ns": 5264527,
+      "text_sha256": "f1f55289b98ae66d9a8906f4e3d95cbde446f554b9a0e0a864601de80f94c92b",
+      "prompt_tokens": 15222
+    },
+    {
+      "task_id": "django__django-14373",
+      "turn_id": 1,
+      "start_ns": 2933071035177555,
+      "elapsed_ns": 28556259,
+      "text_sha256": "eb6511f9535bc8c427366f68b191a19b43d5b8e3901cd965bb93ed05b2d9c547",
+      "prompt_tokens": 21362
+    },
+    {
+      "task_id": "sympy__sympy-24443",
+      "turn_id": 0,
+      "start_ns": 2933071065045697,
+      "elapsed_ns": 3627235,
+      "text_sha256": "75180d4066e172fb320d3e7e266aab42cc132d0e9576c887637be896ac01206c",
+      "prompt_tokens": 3564
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-10323",
+      "turn_id": 1,
+      "start_ns": 2933071069026853,
+      "elapsed_ns": 3823886,
+      "text_sha256": "5f4c2a5fdc60ed8e5dfabaf62df5c76bf069a8e41b0a40e77e24409f6b8339f1",
+      "prompt_tokens": 4612
+    },
+    {
+      "task_id": "django__django-15280",
+      "turn_id": 2,
+      "start_ns": 2933071073167008,
+      "elapsed_ns": 24788071,
+      "text_sha256": "2324f23a9a14bc7715d44c325867d516a84c240755141c904bbe832b9a91b19c",
+      "prompt_tokens": 17481
+    },
+    {
+      "task_id": "django__django-13121",
+      "turn_id": 1,
+      "start_ns": 2933071099027676,
+      "elapsed_ns": 5140501,
+      "text_sha256": "8008a6c0baf4569931caab9634000740f011fd834652be8658c40221ad58a1c7",
+      "prompt_tokens": 5046
+    },
+    {
+      "task_id": "sympy__sympy-16792",
+      "turn_id": 3,
+      "start_ns": 2933071104582917,
+      "elapsed_ns": 5178185,
+      "text_sha256": "43b85220ea0f850bbe5c07b6dc3ca2b3d92df5f02e8dc73741ec06c3777fa546",
+      "prompt_tokens": 15504
+    },
+    {
+      "task_id": "sympy__sympy-19346",
+      "turn_id": 0,
+      "start_ns": 2933071110694314,
+      "elapsed_ns": 3316300,
+      "text_sha256": "66e471ee15a0784fdb0057971a808e606a67d9319e8e1d702364ceafca6c8a5b",
+      "prompt_tokens": 3483
+    },
+    {
+      "task_id": "django__django-14373",
+      "turn_id": 2,
+      "start_ns": 2933071114320891,
+      "elapsed_ns": 13780550,
+      "text_sha256": "75ed64e9c89b7eeb43520d3bdc31653472b161407f947e407eb5131b78ecf026",
+      "prompt_tokens": 27191
+    },
+    {
+      "task_id": "sympy__sympy-24443",
+      "turn_id": 1,
+      "start_ns": 2933071129657167,
+      "elapsed_ns": 3936013,
+      "text_sha256": "ac354942914874093bb3de208535675e67b2e6968d1cf43100ce54c9d2244017",
+      "prompt_tokens": 4602
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-10323",
+      "turn_id": 2,
+      "start_ns": 2933071134031114,
+      "elapsed_ns": 10208494,
+      "text_sha256": "9eaaa194e1b0a9517f3ada109f1ffb9cc0a8c9f75194ca4e2937a27326332ddc",
+      "prompt_tokens": 8982
+    },
+    {
+      "task_id": "django__django-15280",
+      "turn_id": 3,
+      "start_ns": 2933071144805715,
+      "elapsed_ns": 6903705,
+      "text_sha256": "e56c22243034d36985b9889dfc9ea5afe2bd78c184d87f2bdd82428a4e044e8d",
+      "prompt_tokens": 18683
+    },
+    {
+      "task_id": "django__django-13121",
+      "turn_id": 2,
+      "start_ns": 2933071152844845,
+      "elapsed_ns": 23492499,
+      "text_sha256": "1d1152f9be46ed9a18f108853f54506f9aab7a8973f11d0a6f892315a69ead23",
+      "prompt_tokens": 16256
+    },
+    {
+      "task_id": "sympy__sympy-16792",
+      "turn_id": 4,
+      "start_ns": 2933071177463846,
+      "elapsed_ns": 12313613,
+      "text_sha256": "24a7ee5947bddd5a5b0216d1ae6cfb90f277ba67c466a436f6fb9ef91faffd39",
+      "prompt_tokens": 19497
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-13779",
+      "turn_id": 0,
+      "start_ns": 2933071190991689,
+      "elapsed_ns": 3654382,
+      "text_sha256": "6a5d8425b8299099ed5f897576297aa3f5a22a443a3ca2db87006e757a4d846d",
+      "prompt_tokens": 3485
+    },
+    {
+      "task_id": "sympy__sympy-19346",
+      "turn_id": 1,
+      "start_ns": 2933071194985997,
+      "elapsed_ns": 4054032,
+      "text_sha256": "d4e390cad790c80e793035eeced2a250861fe9b3b7a239c1a8fce71866418831",
+      "prompt_tokens": 4197
+    },
+    {
+      "task_id": "sympy__sympy-24443",
+      "turn_id": 2,
+      "start_ns": 2933071199329600,
+      "elapsed_ns": 16922710,
+      "text_sha256": "c1809e682d4cbb834c22ac2156cf43bda3aa12640cf4f0612fa4ff37aad7f451",
+      "prompt_tokens": 13547
+    },
+    {
+      "task_id": "sphinx-doc__sphinx-10323",
+      "turn_id": 3,
+      "start_ns": 2933071217067298,
+      "elapsed_ns": 4839778,
+      "text_sha256": "6a7704e2daf7451def2c7564360c95e012764e1566736d983563e680cbaf4313",
+      "prompt_tokens": 9350
+    },
+    {
+      "task_id": "django__django-15280",
+      "turn_id": 4,
+      "start_ns": 2933071222539997,
+      "elapsed_ns": 18624272,
+      "text_sha256": "45f737d4b810faa68198d11ec5a39c49e128fc3232e29e0f08429b09b932b828",
+      "prompt_tokens": 26002
+    },
+    {
+      "task_id": "django__django-13121",
+      "turn_id": 3,
+      "start_ns": 2933071242716385,
+      "elapsed_ns": 12441122,
+      "text_sha256": "c428b34487c9f8edd5933eced54affcb045ff176b280be7276cb332f39bb64e8",
+      "prompt_tokens": 20268
+    },
+    {
+      "task_id": "sympy__sympy-16792",
+      "turn_id": 5,
+      "start_ns": 2933071256508203,
+      "elapsed_ns": 6108664,
+      "text_sha256": "94f090e672a45130d8264fa0c93421f261d206552a64975fcb4b54932324c3f3",
+      "prompt_tokens": 19642
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-13779",
+      "turn_id": 1,
+      "start_ns": 2933071263868635,
+      "elapsed_ns": 5347422,
+      "text_sha256": "0254f262d3481ce302fb224b6cddf8a481c9388c2df4388e35940d5d27951940",
+      "prompt_tokens": 4912
+    },
+    {
+      "task_id": "sympy__sympy-19346",
+      "turn_id": 2,
+      "start_ns": 2933071269628440,
+      "elapsed_ns": 10234425,
+      "text_sha256": "5faf4e69eb37679f9b4a9e2a343ae46fd65b2076190aa41f60ef66ae6b4e95b4",
+      "prompt_tokens": 8371
+    },
+    {
+      "task_id": "pylint-dev__pylint-6386",
+      "turn_id": 0,
+      "start_ns": 2933071280408972,
+      "elapsed_ns": 3805150,
+      "text_sha256": "ca50e11cf96a43207d03579e32f7dcabd254bc4644affedbc1e6556c6b044359",
+      "prompt_tokens": 3569
+    },
+    {
+      "task_id": "sympy__sympy-24443",
+      "turn_id": 3,
+      "start_ns": 2933071284492214,
+      "elapsed_ns": 5703784,
+      "text_sha256": "be6e354a2bfe63fe9bf74c3aa08fb566564a9ea2334267b027e605de265b65f1",
+      "prompt_tokens": 13966
+    },
+    {
+      "task_id": "django__django-13121",
+      "turn_id": 4,
+      "start_ns": 2933071291029144,
+      "elapsed_ns": 8519189,
+      "text_sha256": "4700ce5fcbd8fe639d8338de7e84ba1933da6fa42971a5bf8c1972025dc51452",
+      "prompt_tokens": 21449
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-13779",
+      "turn_id": 2,
+      "start_ns": 2933071300897766,
+      "elapsed_ns": 11506127,
+      "text_sha256": "021b28b05a08f40c38f4140d88a36f2e9a3b7fa056c3319d53de179b37c1d57b",
+      "prompt_tokens": 9464
+    },
+    {
+      "task_id": "sympy__sympy-19346",
+      "turn_id": 3,
+      "start_ns": 2933071313101744,
+      "elapsed_ns": 4691981,
+      "text_sha256": "538186857053edaa90c9a9a445c77bf2bb2fac2b9c4874aa46b7ffc8a1d347cd",
+      "prompt_tokens": 8643
+    },
+    {
+      "task_id": "pylint-dev__pylint-6386",
+      "turn_id": 1,
+      "start_ns": 2933071318358488,
+      "elapsed_ns": 4103613,
+      "text_sha256": "5cef92d5f6fbf2ca4162e8cb79fc85b1fafb2b3b816308aad741617ff0a5cffb",
+      "prompt_tokens": 4197
+    },
+    {
+      "task_id": "django__django-14122",
+      "turn_id": 0,
+      "start_ns": 2933071322779089,
+      "elapsed_ns": 3675642,
+      "text_sha256": "65fd790568b7c7cf0fd47643fdf62bcc5b654103226bb1515511d1e62063e7d5",
+      "prompt_tokens": 3453
+    },
+    {
+      "task_id": "scikit-learn__scikit-learn-13779",
+      "turn_id": 3,
+      "start_ns": 2933071326705807,
+      "elapsed_ns": 4440777,
+      "text_sha256": "c5076424d300df7e67515e6f7d99e40e5b1f1f57b5eaa9c77e755561d9cf9a34",
+      "prompt_tokens": 9602
+    },
+    {
+      "task_id": "sympy__sympy-19346",
+      "turn_id": 4,
+      "start_ns": 2933071331732033,
+      "elapsed_ns": 4292162,
+      "text_sha256": "ceae905f71daed82dbfb4bde4716aea60a14a4cc36dcd044fc5a84b4a988daf5",
+      "prompt_tokens": 8769
+    },
+    {
+      "task_id": "pylint-dev__pylint-6386",
+      "turn_id": 2,
+      "start_ns": 2933071336596742,
+      "elapsed_ns": 16881859,
+      "text_sha256": "5ab7be1f13eaec37d4833f423cbcc562fdd65ddd581afa95df2447eaea163c70",
+      "prompt_tokens": 11987
+    },
+    {
+      "task_id": "django__django-14122",
+      "turn_id": 1,
+      "start_ns": 2933071354238586,
+      "elapsed_ns": 3952812,
+      "text_sha256": "3ca7d82886b49b9681b7df37fba12eaec6352abc567347b51cb5cbd969d02b20",
+      "prompt_tokens": 3978
+    },
+    {
+      "task_id": "sympy__sympy-19346",
+      "turn_id": 5,
+      "start_ns": 2933071358514161,
+      "elapsed_ns": 4157786,
+      "text_sha256": "640c223a7ebe4873bc57d00b57584920ad2f05515e32548f11d443b6124c96da",
+      "prompt_tokens": 8896
+    },
+    {
+      "task_id": "pylint-dev__pylint-6386",
+      "turn_id": 3,
+      "start_ns": 2933071363223350,
+      "elapsed_ns": 9664449,
+      "text_sha256": "181e5e384d98bb903acfc901a4e1dd4a0373356ff14753ebf80e90fc3e768bd7",
+      "prompt_tokens": 15040
+    },
+    {
+      "task_id": "django__django-14122",
+      "turn_id": 2,
+      "start_ns": 2933071373814760,
+      "elapsed_ns": 17478595,
+      "text_sha256": "c4f0da8b39fc022bd22b9eb410d7ecc20ea05bb0d3d7eccfcc01d0d540587b13",
+      "prompt_tokens": 13333
+    },
+    {
+      "task_id": "django__django-14122",
+      "turn_id": 3,
+      "start_ns": 2933071392156141,
+      "elapsed_ns": 19125147,
+      "text_sha256": "afba3e08d9bcbe64bc839348f3e72c163430b0d5fccea7e7b093df0e2c260b57",
+      "prompt_tokens": 21985
+    },
+    {
+      "task_id": "django__django-14122",
+      "turn_id": 4,
+      "start_ns": 2933071412619675,
+      "elapsed_ns": 7620461,
+      "text_sha256": "0a3feadf298e8018a333f34a8386e6bb844cf294d888bd8998ca8f209f73bb77",
+      "prompt_tokens": 22902
+    }
+  ]
+}

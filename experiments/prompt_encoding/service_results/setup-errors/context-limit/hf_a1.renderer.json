@@ -1,0 +1,27 @@
+{
+  "scope": "Real vLLM launch render; no model inference",
+  "commit": "98dff2a81d747d1dba01a47f939f48c3526d4206",
+  "diff_sha256": "2afdc5d66985e3c622a288e7c21c9fc8046ef189ad133b7b7d48503dedf2842b",
+  "code_sha256": {
+    "vllm/envs.py": "908a807a1beb5814c7a5b0f4eec818524e2e4c1296d140aa6f848c074e4820d0",
+    "vllm/renderers/base.py": "19b02bec2bddec4ce4db50b35376ea593315829121fb687b2acf10e4cfc0c0d8",
+    "vllm/tokenizers/chatml_encoding_cache.py": "5fb88dc230a20c3c154e770445974c99128104f7d6728a799e88e405bbcaffe8"
+  },
+  "platform": "Linux-6.8.0-136-generic-x86_64-with-glibc2.35",
+  "python": "3.12.14",
+  "versions": {
+    "transformers": "5.17.0",
+    "tokenizers": "0.23.2",
+    "vllm": "0.29.1.dev2+g5f7b949fa.precompiled"
+  },
+  "backend": null,
+  "environment": {
+    "VLLM_CHATML_ENCODING_CACHE_MB": "0",
+    "VLLM_USE_FASTOKENS": "0",
+    "TOKENIZERS_PARALLELISM": "true",
+    "RAYON_NUM_THREADS": "4",
+    "CUDA_VISIBLE_DEVICES": ""
+  },
+  "cache": null,
+  "requests": []
+}
