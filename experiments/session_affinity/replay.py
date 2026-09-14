@@ -92,7 +92,11 @@ async def main(args):
             if args.policy == "affinity"
             else None
         ),
-        session_affinity_max_wait_s=args.max_wait,
+        **(
+            {"session_affinity_max_wait_s": args.max_wait}
+            if args.policy == "affinity"
+            else {}
+        ),
         seed=42,
     )
     started = time.perf_counter()
