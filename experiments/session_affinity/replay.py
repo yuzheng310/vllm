@@ -83,7 +83,7 @@ async def main(args):
         enable_prefix_caching=True,
         enable_chunked_prefill=True,
         async_scheduling=True,
-        disable_cascade_attn=True,
+        disable_cascade_attn=not args.allow_cascade,
         skip_tokenizer_init=True,
         enforce_eager=args.eager,
         disable_log_stats=False,
@@ -119,6 +119,7 @@ async def main(args):
             "async": True,
             "apc": True,
             "eager": args.eager,
+            "disable_cascade_attn": not args.allow_cascade,
         },
         "engine_startup_s": time.perf_counter() - started,
         "scope": "historical prompt replay; fixed decode lengths; simulated tool delay",
@@ -265,4 +266,5 @@ if __name__ == "__main__":
     parser.add_argument("--runs", type=int, default=2)
     parser.add_argument("--limit-tasks", type=int, default=0)
     parser.add_argument("--eager", action="store_true")
+    parser.add_argument("--allow-cascade", action="store_true")
     asyncio.run(main(parser.parse_args()))
