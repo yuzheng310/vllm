@@ -1,0 +1,21 @@
+{
+  "observed_at_utc": "2026-09-14 08:57:27 UTC",
+  "local_backend": "Running",
+  "local_health": [],
+  "target": [
+    {
+      "online": false,
+      "last_seen": "2026-09-14T08:40:00.1Z",
+      "last_handshake": "2026-09-14T16:49:59.182679+08:00"
+    }
+  ],
+  "ssh_independent_attempt": "port 22 operation timed out",
+  "tailscale_ping": "5-second probe timed out; no reply",
+  "gpu_experiment_started": false,
+  "recovery": {
+    "remote_timestamp_utc": "2026-09-14 08:59:20 UTC",
+    "fresh_ssh_exit_code": 0,
+    "gpu_compute_processes": [],
+    "note": "Fresh non-multiplexed SSH succeeded after the timeout period. Old preflight output arrived when its control process was closed; do not treat the old timestamps as current resource evidence."
+  }
+}
