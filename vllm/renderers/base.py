@@ -91,7 +91,9 @@ class BaseRenderer(ABC, Generic[_T]):
         cache_mb = envs.VLLM_CHATML_ENCODING_CACHE_MB
         self._chatml_encoding_cache = (
             ChatMLEncodingCache.create(tokenizer, max_bytes=cache_mb * 1024 * 1024)
-            if cache_mb > 0 and tokenizer is not None
+            if cache_mb > 0
+            and tokenizer is not None
+            and not config.model_config.is_encoder_decoder
             else None
         )
 
@@ -992,6 +994,23 @@ class BaseRenderer(ABC, Generic[_T]):
         return engine_input
 
     # Top-level methods
+    def _apply_encoding_cache_salt(
+        self,
+        prompts: Sequence[DictPrompt],
+        extras: dict[str, Any] | None,
+    ) -> None:
+        if (
+            self._chatml_encoding_cache is None
+            or not extras
+            or "cache_salt" not in extras
+        ):
+            return
+        # Native prompt extras normally arrive after tokenization. The text
+        # cache needs the same isolation boundary before it looks up a segment.
+        for prompt in prompts:
+            target = extract_target_prompt(self.model_config, prompt)
+            target["cache_salt"] = extras["cache_salt"]
+
     def render_cmpl(
         self,
         prompts: Sequence[DictPrompt | bytes],
@@ -1006,6 +1025,7 @@ class BaseRenderer(ABC, Generic[_T]):
             tok_params = self.default_cmpl_tok_params
 
         dict_prompts = self.render_prompts(prompts)
+        self._apply_encoding_cache_salt(dict_prompts, prompt_extras)
         tok_prompts = self.tokenize_prompts(dict_prompts, tok_params)
 
         self._apply_prompt_extras(tok_prompts, prompt_extras)
@@ -1029,6 +1049,7 @@ class BaseRenderer(ABC, Generic[_T]):
             tok_params = self.default_cmpl_tok_params
 
         dict_prompts = await self.render_prompts_async(prompts)
+        self._apply_encoding_cache_salt(dict_prompts, prompt_extras)
         tok_prompts = await self.tokenize_prompts_async(dict_prompts, tok_params)
 
         self._apply_prompt_extras(tok_prompts, prompt_extras)
@@ -1067,6 +1088,7 @@ class BaseRenderer(ABC, Generic[_T]):
             out_conversations.append(conv)
             dict_prompts.append(prompt)
 
+        self._apply_encoding_cache_salt(dict_prompts, prompt_extras)
         tok_prompts = self.tokenize_prompts(dict_prompts, tok_params)
 
         self._apply_prompt_extras(tok_prompts, prompt_extras)
@@ -1103,6 +1125,7 @@ class BaseRenderer(ABC, Generic[_T]):
             out_conversations.append(conv)
             dict_prompts.append(prompt)
 
+        self._apply_encoding_cache_salt(dict_prompts, prompt_extras)
         tok_prompts = await self.tokenize_prompts_async(dict_prompts, tok_params)
 
         self._apply_prompt_extras(tok_prompts, prompt_extras)

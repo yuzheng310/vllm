@@ -72,6 +72,9 @@ def summarize(directory, backend, label):
     assert http["summary"]["concurrent_exact_requests"] == 8
     assert http["summary"]["offsets"] == "PASS"
     assert http["summary"]["truncations"] == ["left", "right"]
+    assert sum(
+        call["cache_salt"] == "thread-check" for call in renderer["requests"]
+    ) == (8 if label.startswith("b") else 0)
     return dict(summary=summary, requests=rows)
 
 

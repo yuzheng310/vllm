@@ -37,6 +37,7 @@ def measured(self, prompt, params):
             text_sha256=hashlib.sha256(prompt["prompt"].encode()).hexdigest(),
             tokens=len(result["prompt_token_ids"]),
             offsets=params.return_token_offsets,
+            cache_salt=prompt.get("cache_salt"),
         )
     )
     if not renderers:

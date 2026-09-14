@@ -126,6 +126,48 @@ def _preprocess_prompt(
     ]
 
 
+@pytest.mark.parametrize("chat", [False, True])
+@pytest.mark.parametrize("asynchronous", [False, True])
+def test_encoding_cache_receives_salt_before_lookup(chat, asynchronous):
+    """Tenant extras must reach text caching before native post-tokenization extras."""
+    import asyncio
+    from unittest.mock import AsyncMock, Mock
+
+    renderer = _build_renderer(MockModelConfig())
+    cache = Mock()
+    cache.encode.return_value = None
+    renderer._chatml_encoding_cache = cache
+    text = "old<|im_end|>new"
+    params = TokenizeParams(max_total_tokens=None)
+    extras = {"cache_salt": "tenant-a"}
+    if chat:
+        renderer.render_messages = Mock(return_value=([], {"prompt": text}))
+        renderer.render_messages_async = AsyncMock(return_value=([], {"prompt": text}))
+        if asynchronous:
+            _, result = asyncio.run(
+                renderer.render_chat_async(
+                    [[]],
+                    None,
+                    params,
+                    prompt_extras=extras,
+                )
+            )
+        else:
+            _, result = renderer.render_chat([[]], None, params, prompt_extras=extras)
+    elif asynchronous:
+        result = asyncio.run(
+            renderer.render_cmpl_async(
+                [{"prompt": text}],
+                params,
+                prompt_extras=extras,
+            )
+        )
+    else:
+        result = renderer.render_cmpl([{"prompt": text}], params, prompt_extras=extras)
+    assert cache.encode.call_args.kwargs["cache_salt"] == "tenant-a"
+    assert result[0]["cache_salt"] == "tenant-a"
+
+
 class TestValidatePrompt:
     def test_empty_input(self):
         renderer = _build_renderer(MockModelConfig())
