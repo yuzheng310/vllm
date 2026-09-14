@@ -14,6 +14,7 @@ from pathlib import Path
 
 import numpy as np
 
+import vllm
 from vllm import SamplingParams
 from vllm.engine.arg_utils import AsyncEngineArgs
 from vllm.v1.engine.async_llm import AsyncLLM
@@ -51,7 +52,8 @@ class ReplayStats(StatLoggerBase):
 
 
 def digest(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    with path.open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
 
 
 async def main(args):
@@ -63,6 +65,13 @@ async def main(args):
     if gpu:
         raise RuntimeError("GPU already has a compute process; refusing to contend")
     workload = json.loads(args.workload.read_text())
+    index = args.model / "model.safetensors.index.json"
+    weight_names = (
+        sorted(set(json.loads(index.read_text())["weight_map"].values()))
+        if index.exists()
+        else ["model.safetensors"]
+    )
+    weights = {name: digest(args.model / name) for name in weight_names}
     tasks = workload["tasks"][: args.limit_tasks or None]
     engine_args = AsyncEngineArgs(
         model=str(args.model),
@@ -92,6 +101,7 @@ async def main(args):
         "status": "running",
         "policy": args.policy,
         "model": args.model.name,
+        "weights_sha256": weights,
         "workload_sha256": digest(args.workload),
         "script_sha256": digest(Path(__file__)),
         "concurrency": args.concurrency,
@@ -109,7 +119,8 @@ async def main(args):
         "engine_startup_s": time.perf_counter() - started,
         "scope": "historical prompt replay; fixed decode lengths; simulated tool delay",
         "source_commit": subprocess.check_output(
-            ["git", "rev-parse", "HEAD"], text=True
+            ["git", "-C", str(Path(vllm.__file__).parents[1]), "rev-parse", "HEAD"],
+            text=True,
         ).strip(),
         "batch_invariant": os.environ.get("VLLM_BATCH_INVARIANT", "0"),
         "runs": [],
