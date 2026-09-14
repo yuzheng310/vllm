@@ -65,3 +65,73 @@ def test_thread_pool_tokenizer_pickle(model_id: str):
 
     # Idempotence: wrapping an already-pooled tokenizer returns it unchanged.
     assert maybe_make_thread_pool(pooled_tokenizer) is pooled_tokenizer
+
+
+@pytest.fixture
+def chatml_tokenizer():
+    """A local ByteLevel BPE with a genuine non-normalized ChatML boundary."""
+    from tokenizers import AddedToken, Tokenizer, decoders, models, normalizers
+    from tokenizers.pre_tokenizers import ByteLevel
+    from transformers import TokenizersBackend
+
+    alphabet = sorted(ByteLevel.alphabet())
+    backend = Tokenizer(models.BPE({s: i for i, s in enumerate(alphabet)}, []))
+    backend.pre_tokenizer = ByteLevel(add_prefix_space=False)
+    backend.normalizer = normalizers.NFC()
+    backend.decoder = decoders.ByteLevel()
+    backend.add_special_tokens(
+        [AddedToken("<|im_end|>", special=True, normalized=False)]
+    )
+    return TokenizersBackend(tokenizer_object=backend)
+
+
+def test_chatml_cache_preserves_ids_and_owns_returned_lists(chatml_tokenizer):
+    from vllm.tokenizers.chatml_encoding_cache import ChatMLEncodingCache
+
+    tok = chatml_tokenizer
+    cache = ChatMLEncodingCache.create(tok, max_bytes=2048, max_entries=2, min_chars=0)
+    assert cache is not None
+    text = "e\u0301<|im_end|>\u0301 中文👩🏽‍💻\n<|im_end|><|im_end|>"
+    expected = tok(text)["input_ids"]
+    assert cache.encode(text) == expected
+    cache.encode(text).clear()
+    assert cache.encode(text) == expected
+    for side in ("left", "right"):
+        tok.truncation_side = side
+        kwargs = dict(truncation=True, max_length=8)
+        assert cache.encode(text, **kwargs) == tok(text, **kwargs)["input_ids"]
+    assert cache.snapshot()["evictions"] > 0
+    assert cache.snapshot()["accounted_bytes"] <= 2048
+    assert cache.encode(text, return_offsets_mapping=True) is None
+
+
+def test_chatml_cache_rejects_ambiguous_tokens_and_invalidates(chatml_tokenizer):
+    from tokenizers import AddedToken
+
+    from vllm.tokenizers.chatml_encoding_cache import ChatMLEncodingCache
+
+    tok = chatml_tokenizer
+    cache = ChatMLEncodingCache.create(tok, max_bytes=2048, min_chars=0)
+    assert cache.encode("a<|im_end|>b") == tok("a<|im_end|>b")["input_ids"]
+    tok.add_tokens([AddedToken("competing<|im_", special=True)])
+    assert cache.encode("a<|im_end|>b") is None
+    assert cache.snapshot()["entries"] == 0
+    assert ChatMLEncodingCache.create(tok, max_bytes=2048) is None
+
+
+def test_chatml_cache_with_native_pool_and_isolated_salts(chatml_tokenizer):
+    from concurrent.futures import ThreadPoolExecutor
+
+    from vllm.tokenizers.chatml_encoding_cache import ChatMLEncodingCache
+
+    tok = chatml_tokenizer
+    expected = tok("old<|im_end|>new")["input_ids"]
+    cache = ChatMLEncodingCache.create(tok, max_bytes=16384, min_chars=0)
+    maybe_make_thread_pool(tok, copies=8)
+    cache.encode("old<|im_end|>new", cache_salt="first")
+    before = cache.snapshot()["hits"]
+    cache.encode("old<|im_end|>new", cache_salt="second")
+    assert cache.snapshot()["hits"] == before
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        results = list(pool.map(cache.encode, ["old<|im_end|>new"] * 16))
+    assert all(ids == expected for ids in results)
