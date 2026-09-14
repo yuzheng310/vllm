@@ -6,6 +6,7 @@ import argparse
 import concurrent.futures
 import hashlib
 import json
+import os
 import statistics
 import time
 from pathlib import Path
@@ -67,10 +68,18 @@ def main():
         offsets = client.post(
             "/v1/chat/completions/render", json={**body, "return_token_offsets": True}
         )
-        assert offsets.status_code == 200, offsets.text[:1000]
-        data = offsets.json()
-        assert data["token_ids"] == request["input_ids"]
-        assert len(data["token_offsets"]) == len(data["token_ids"])
+        if os.environ.get("VLLM_USE_FASTOKENS") == "1":
+            assert offsets.status_code == 501, offsets.text[:1000]
+            assert offsets.json()["error"]["message"] == (
+                "fastokens does not track character offsets"
+            )
+            offset_status = "native-unsupported-501"
+        else:
+            assert offsets.status_code == 200, offsets.text[:1000]
+            data = offsets.json()
+            assert data["token_ids"] == request["input_ids"]
+            assert len(data["token_offsets"]) == len(data["token_ids"])
+            offset_status = "PASS"
         truncations = []
         for side in ("left", "right"):
             result = client.post(
@@ -111,7 +120,7 @@ def main():
         p50_http_ms=statistics.median(values),
         p95_http_ms=percentile(values, 0.95),
         exact_requests=len(records),
-        offsets="PASS",
+        offsets=offset_status,
         truncations=truncations,
         concurrent_exact_requests=sum(concurrent_checks),
     )

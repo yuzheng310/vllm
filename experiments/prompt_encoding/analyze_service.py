@@ -70,7 +70,9 @@ def summarize(directory, backend, label):
         prepared_sha=http["prepared_sha256"],
     )
     assert http["summary"]["concurrent_exact_requests"] == 8
-    assert http["summary"]["offsets"] == "PASS"
+    assert http["summary"]["offsets"] == (
+        "PASS" if backend == "hf" else "native-unsupported-501"
+    )
     assert http["summary"]["truncations"] == ["left", "right"]
     assert sum(
         call["cache_salt"] == "thread-check" for call in renderer["requests"]
@@ -92,11 +94,12 @@ def main():
     ]
     reference = rounds[0]["summary"]
     for result in rounds:
-        for key in ("base_sha", "diff_sha", "code_sha", "versions", "prepared_sha"):
+        for key in ("base_sha", "code_sha", "versions", "prepared_sha"):
             assert result["summary"][key] == reference[key], key
     comparisons = {}
     for backend in ("hf", "fastokens"):
         group = [r["summary"] for r in rounds if r["summary"]["backend"] == backend]
+        assert len({r["diff_sha"] for r in group}) == 1
         native = [r for r in group if r["round"].startswith("a")]
         candidate = [r for r in group if r["round"].startswith("b")]
         comparisons[backend] = {}
