@@ -33,7 +33,7 @@ def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def prepare(workload_path, source, output):
+def prepare(workload_path, source, output, include_messages=False):
     import pyarrow.parquet as pq
     from transformers import AutoTokenizer
 
@@ -80,6 +80,9 @@ def prepare(workload_path, source, output):
                     input_ids=request["input_ids"],
                 )
             )
+            if include_messages:
+                requests[-1]["messages"] = prefix
+                requests[-1]["tools"] = module._as_list(chat.get("tools")) or None
         tasks.append(requests)
     # Eight active trajectories, one request per slot per sweep. Refill a slot
     # on the next sweep. This is a deterministic interleave, not tool timing.
@@ -229,6 +232,7 @@ def measure(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--prepare", action="store_true")
+    parser.add_argument("--include-messages", action="store_true")
     parser.add_argument("--workload", type=Path)
     parser.add_argument("--source", type=Path)
     parser.add_argument("--prepared", type=Path)
@@ -239,7 +243,7 @@ def main():
     if args.output.exists():
         raise FileExistsError(args.output)
     if args.prepare:
-        prepare(args.workload, args.source, args.output)
+        prepare(args.workload, args.source, args.output, args.include_messages)
     else:
         measure(args)
 

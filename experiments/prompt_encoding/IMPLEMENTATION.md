@@ -36,3 +36,18 @@ fastokens 0.3.1 shim 的 added-token getter 和 to_str 都会解析整个词表�
 词表大小、postprocessor 和特殊 token 开关；依赖该已核对的兼容接口，
 接口不可用时不启用缓存。原生 HF 检查 added-token 属性，覆盖同大小的标记
 属性修改；任何同大小 BPE 模型的任意原地改写仍要求重建 renderer。
+
+## 真实服务接入协议（CPU 门槛通过后、HTTP 计时之前）
+
+选择 vLLM 原生 `launch render` 和 `/v1/chat/completions/render`，它仅需
+模型配置/tokenizer，不加载权重或启动推理 worker。远端源码从干净的
+v0.29.0 新建工作树，仅应用本次三文件补丁，避免夹带此前 scheduler 实验。
+比较相同源码下开关关闭/开启，按 native/cache/cache/native 固定顺序，
+每轮重启服务清空缓存。原生 HF 和 fastokens 各做这一组，不做参数扫描。
+
+使用同一冻结的 233 份原始 messages/tools，客户端运行在同机回环网络；
+按 CPU 协议的固定轨迹交错顺序顺序发送。主指标是实际 renderer 分词阶段
+总耗时；HTTP 请求总耗时单列，包含模板、校验、序列化、HTTP 框架等成本。
+包装原方法只计时并记录，不能替换实际渲染逻辑；输出在服务退出时写入。
+计时主回放结束后再检查 offsets、左右截断、8 请求并发的精确输入一致性。
+这一步不验证模型生成/训练 reward，不把渲染 HTTP 性能当作 RL 吞吐。
